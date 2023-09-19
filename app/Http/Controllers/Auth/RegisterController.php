@@ -62,7 +62,7 @@ class RegisterController extends Controller
             'bank_id' => ['required', 'max:255'],
             'phone' => ['required', 'max:255'],
             'tpin' => ['required', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'password' => ['required', 'string', 'min:8', 'same:retype_password'],
             'password' => ['required', 'string', 'min:8', 'same:retype_password'],
