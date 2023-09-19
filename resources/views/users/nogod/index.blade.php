@@ -1,15 +1,18 @@
 @extends('layouts.user_backend.app')
 
 @section('content')
+@php
+    $setting= App\Models\Setting::first();
+@endphp
     <div class="row text-center" style="margin-top: 85px;">
 
 
         <div class="col-6 mb-n2">
             <div class="card card-style me-0" style="height:110px">
                 <div class="card-top">
-                    <img type="button" class="bank_class" data-bid="2" data-acid="1" data-ac="01923813381" data-acn="1"
-                        data-img="https://www.oceanezzy.life/assets/media/nagad_logo.png" id="nagad_img"
-                        src="https://www.oceanezzy.life/assets/media/nagad_logo.png" style="width: 150px;padding: 15px;">
+                    <img type="button" class="bank_class" data-bid="2" data-acid="1" data-ac="{{$setting->nogodPhoneNumber}}" data-acn="1"
+                        data-img="{{asset('backend/images/nagad_logo.png')}}" id="nagad_img"
+                        src="{{asset('backend/images/nagad_logo.png')}}" style="width: 150px;padding: 15px;">
                     <span style="position: absolute;top: 2px;left: 0;right: 0;color: #f69417;">Nagad 1 </span>
                 </div>
             </div>

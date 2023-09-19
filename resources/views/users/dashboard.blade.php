@@ -341,13 +341,26 @@
 
     <!--box -->
     <div class="row text-center" style="margin-top: -15px;">
-        <div class="col-6 mb-n2">
+        {{-- <div class="col-6 mb-n2">
             <div class="card card-style me-0" style="height:110px">
                 <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
                     <span>
                         <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Booking Wallet</h4>
                     </span>
                     <h1 class="font-24 pt-0.2">৳ {{ $wallet->booking_wallet ?? 0.0 }}</h1>
+                </div>
+            </div>
+        </div> --}}
+        <div class="col-6 mb-n2">
+            <div class="card card-style me-0" style="height:110px">
+                <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
+                    <span>
+                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Ezzy Return</h4>
+                    </span>
+                    <h1 class="font-24 pt-0.2">৳ {{ $wallet->booking_wallet ?? 0.0 }} </h1>
+                </div>
+                <div class="convert">
+                    <a href="{{ route('users.convert.booking_wallet') }}" class="con_btn">convert</a>
                 </div>
             </div>
         </div>

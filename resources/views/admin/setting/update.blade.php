@@ -298,6 +298,27 @@
                             </div>
                         </div>
 
+                        
+                        <div class="kt-portlet__body">
+                            <div class="kt-section" style="margin: 0 0 0rem 0;">
+                                <!-- <h3 class="kt-section__title">
+                                                    text
+                                                </h3> -->
+                                <div class="kt-section__content">
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label">Nogod Phone Number </label>
+                                            <!--<input type="text" id="value" name="value" class="form-control" value="Well come to OCEAN TOUCH." placeholder="Enter  value">-->
+                                            <input id="value" name="nogodPhoneNumber" class="form-control"  value="{{$settings->nogodPhoneNumber}}">
+                                            <span class="form-text text-muted kt_hide msg_text value"> </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="kt-portlet__foot">
                             <div class="kt-form__actions">
                                 <div class="row">

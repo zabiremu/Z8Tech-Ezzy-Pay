@@ -44,12 +44,7 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        //dd($user);
-        if ($user->is_admin == 1) {
-            return redirect()->route('admin.dashboard.index'); // Replace 'admin.dashboard' with your admin dashboard route name
-        } else {
-            return redirect()->route('users.dashboard'); // Replace 'user.dashboard' with your user dashboard route name
-        }
+        return redirect()->route('login');
     }
 
     /**

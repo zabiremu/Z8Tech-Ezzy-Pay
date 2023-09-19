@@ -21,13 +21,31 @@ class PaymentController extends Controller
         return view('users.nogod.index');
     }
 
+    public function bookingWallet()
+    {
+        // dd('1');
+
+        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+        if ($wallet->booking_wallet > 0) {
+            //dd($wallet->ezzy_return);
+            $convert= new Convert();
+            $convert->user_id= Auth::user()->id;
+            $convert->from= 'Booking Wallet';
+            $convert->to= 'Ezzy Wallet';
+            $convert->Amount= $wallet->booking_wallet;
+            $convert->save();
+            $wallet->my_wallet =  $wallet->my_wallet + $wallet->booking_wallet;
+            $wallet->booking_wallet = $wallet->booking_wallet - $wallet->booking_wallet;
+            $wallet->save();
+        }
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function ezzyreturn()
     {
-        // dd('1');
-
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->ezzy_return > 0) {
             //dd($wallet->ezzy_return);
@@ -40,9 +58,7 @@ class PaymentController extends Controller
             $wallet->my_wallet = $wallet->ezzy_return + $wallet->my_wallet;
             $wallet->ezzy_return = $wallet->ezzy_return - $wallet->ezzy_return;
             $wallet->save();
-
         }
-
         return back();
     }
     public function levelbonus()

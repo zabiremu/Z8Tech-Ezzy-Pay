@@ -46,6 +46,7 @@ class SettingController extends Controller
             'maximum_withdraw'=>  $request->maximum_withdraw,
             'minimum_withdraw'=>  $request->minimum_withdraw,
             'registration'=>  $request->registration,
+            'nogodPhoneNumber'=>  $request->nogodPhoneNumber,
             'ezzy_member'=>  500,
             'ezzy_leader'=> 2000 ,
             'manager'=> '10000',

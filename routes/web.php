@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/users', [UserController::class, 'affilateIndex'])->name('affilate.index');
             Route::get('/create', [UserController::class, 'create'])->name('affilate.create');
             Route::get('/ezzy-return', [PaymentController::class, 'ezzyreturn'])->name('convert.ezzy_return');
+            Route::get('/ezzy-booking_wallet', [PaymentController::class, 'bookingWallet'])->name('convert.booking_wallet');
             Route::get('/level_bonus', [PaymentController::class, 'levelbonus'])->name('convert.level_bonus');
             Route::get('/affiliate_income', [PaymentController::class, 'affiliateIncome'])->name('convert.affiliate_income');
             Route::get('/ezzy_reward', [PaymentController::class, 'ezzyReward'])->name('convert.ezzy_reward');

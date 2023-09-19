@@ -139,6 +139,13 @@
                             <td>{{ $settings->registration }}</td>
 							<td><a href="{{route('admin.update.setting')}}" class="btn btn-sm form-group">update</a></td>
                         </tr>
+
+                        <tr>
+                            <th>Nogod Phone Number</th>
+                            <td>{{ $settings->nogodPhoneNumber }}</td>
+							<td><a href="{{route('admin.update.setting')}}" class="btn btn-sm form-group">update</a></td>
+                        </tr>
+                        
                     </x-u-i.data-table>
                 </div>
             </div>

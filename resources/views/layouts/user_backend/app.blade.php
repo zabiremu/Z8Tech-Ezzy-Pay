@@ -1,5 +1,10 @@
+@php
+        $user= Auth::user();
+        $getUser= App\Models\User::where('id',$user->id)->first();
+@endphp
 <!DOCTYPE HTML>
 <html lang="en">
+
 
 @include('layouts.user_backend.partials.head')
 
@@ -107,8 +112,9 @@
                             </a> -->
                     <a href="{{route('users.profile')}}" class="icon shadow-xl"
                         style=" position: absolute;left: 0px;right: 0;margin: auto;width: 100%;top: 27px;">
-                        <img src="https://www.oceanezzy.life/assets/static/front/img/logo.png" class="user_pic" alt="img"
-                            style="width: 120px;margin-top: -28px;">
+                        <img src="{{ asset('backend/images/LOGO-PNG-FILE-.png')}}" class="user_pic" alt="img"
+                        style="width: 80px;margin-top: -28px;">
+                       
                         <!--	<h3>EXPRESS WORLD</h3> -->
                     </a>
                     <a href="{{route('users.profile')}}" class="icon shadow-xl" style="margin-right: -10px;">

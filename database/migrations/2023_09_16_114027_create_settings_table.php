@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('COE')->nullable();
             $table->string('CEO')->nullable();
             $table->integer('registration')->nullable();
+            $table->string('nogodPhoneNumber')->nullable();
             $table->timestamps();
         });
     }

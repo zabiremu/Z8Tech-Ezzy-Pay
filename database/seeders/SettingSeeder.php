@@ -35,6 +35,7 @@ class SettingSeeder extends Seeder
             'COE'=> '150000',
             'CEO'=> '300000',
             'registration'=> '1400',
+            'nogodPhoneNumber'=> '01923813381',
         ]);
     }
 }
