@@ -33,11 +33,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $wallet = Wallet::where('is_approved', 1)->get();
-        foreach ($wallet as $item) {
-            $item->ezzy_return = 10 + $item->ezzy_return;
-            $item->save();
-        }
+        // $wallet = Wallet::where('is_approved', 1)->get();
+        // foreach ($wallet as $item) {
+        //     $item->ezzy_return = 10 + $item->ezzy_return;
+        //     $item->save();
+        // }
         $totalUser= User::latest()->count();
         $totalActiveUser= User::where('is_approved',1)->latest()->count();
         $totalActiveWallet= Wallet::where('is_approved',1)->latest()->sum('my_wallet');

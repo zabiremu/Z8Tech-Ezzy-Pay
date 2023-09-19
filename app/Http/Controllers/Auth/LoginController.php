@@ -45,8 +45,8 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard.index')
                     ->withSuccess('You have Successfully loggedin');
             } elseif (Auth::user()->is_users == 1) {
-                return redirect()->route('users.dashboard.index')
-                    ->withSuccess('You have Successfully loggedin');
+                return redirect()->route('users.dashboard')
+                    ->withSuccess('You have Successfully logged in');
             } else {
                 return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
             }

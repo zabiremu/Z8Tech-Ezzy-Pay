@@ -1,15 +1,7 @@
 @extends('layouts.admin_backend.app')
 
 @section('content')
-    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-
-        <div class="kt-subheader  kt-grid__item" id="kt_subheader">
-            <div class="kt-container  kt-container--fluid ">
-                <div class="kt-subheader__main">
-                    <span class="kt-subheader__desc page_data-subheader_title">User Update </span>
-                </div>
-            </div>
-        </div>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
 
         <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid container-div">
 
@@ -23,11 +15,9 @@
                             </div>
                         </div>
 
-                        <form class="kt-form kt-form--label-right" id="form">
-
-                            <input type="hidden" name="csrf_name"
-                                value="d43dc0e4328fb604ce47a2a8efbef6f6c1c3e25744783857829557f19df41567686211501299ddb453293520ee6a6ee6842b4b24fbd2dff2b8ac8d65c0c36159">
-                            <input type="hidden" name="id" value="48381">
+                        <form class="kt-form kt-form--label-right" id="form" method="POST" action="{{ route('users.edit', ['id'=>$user->id]) }}" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
                             <div class="kt-portlet__body">
                                 <div class="kt-section" style="margin: 0 0 0rem 0;">
@@ -35,19 +25,32 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12">
                                             <label class="form-control-labe ">First Name</label>
-                                            <input type="text" id="first_name" name="first_name" class="form-control "
-                                                placeholder="" value="Neoton">
-                                            <span class="form-text text-muted kt_hide first_name msg_text "> </span>
+                                            <input type="text" name="first_name" class="form-control "
+                                                placeholder="" value="{{ $user->first_name }}">
+                                            <span class="form-text text-muted text-danger">@error('first_name')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
-
-
                                     <div class="form-group row">
                                         <div class="col-lg-12">
                                             <label class="form-control-label "> Last Name</label>
                                             <input type="text" id="last_name" name="last_name" class="form-control "
-                                                placeholder="" value="Das">
-                                            <span class="form-text text-muted kt_hide last_name msg_text "> </span>
+                                                placeholder="" value="{{ $user->last_name }}">
+                                            <span class="form-text text-muted text-danger">@error('last_name')
+                                                {{ $message }}
+                                            @enderror</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label "> Username</label>
+                                            <input type="text" id="username" name="username" class="form-control "
+                                                placeholder="" value="{{ $user->username }}">
+                                            <span class="form-text text-muted text-danger">@error('username')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
@@ -55,17 +58,21 @@
                                         <div class="col-lg-12">
                                             <label class="form-control-label "> Email</label>
                                             <input type="text" id="email" name="email" class="form-control "
-                                                placeholder="" value="motoplcux01@gmail.com">
-                                            <span class="form-text text-muted kt_hide email msg_text "> </span>
+                                                placeholder="" value="{{ $user->email }}">
+                                            <span class="form-text text-muted text-danger">@error('email')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-lg-12">
                                             <label class="form-control-label ">Phone</label>
-                                            <input type="text" id="phone" name="phone" class="form-control "
-                                                placeholder="" value="01617309070">
-                                            <span class="form-text text-muted kt_hide phone msg_text "> </span>
+                                            <input type="text" id="phone" name="phone_no" class="form-control "
+                                                placeholder="" value="{{ $user->phone_no }}">
+                                            <span class="form-text text-muted text-danger">@error('phone_no')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
@@ -73,46 +80,21 @@
                                         <div class="col-lg-12">
                                             <label class="form-control-label ">Country</label>
                                             <input type="text" id="country" name="country" class="form-control "
-                                                placeholder="" value="">
-                                            <span class="form-text text-muted kt_hide country msg_text "> </span>
+                                                placeholder="" value="{{ $user->country }}">
+                                            <span class="form-text text-muted text-danger">@error('country')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-lg-12">
-                                            <label class="form-control-label ">State</label>
-                                            <input type="text" id="state" name="state" class="form-control "
-                                                placeholder="" value="">
-                                            <span class="form-text text-muted kt_hide state msg_text "> </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-lg-12">
-                                            <label class="form-control-label ">City</label>
-                                            <input type="text" id="city" name="city" class="form-control "
-                                                placeholder="" value="">
-                                            <span class="form-text text-muted kt_hide city msg_text"> </span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group row">
-                                        <div class="col-lg-12">
-                                            <label class="form-control-label ">Zip</label>
-                                            <input type="text" id="zip" name="zip" class="form-control"
-                                                placeholder="" value="">
-                                            <span class="form-text text-muted kt_hide zip msg_text"> </span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group row">
-                                        <div class="col-lg-12">
-                                            <label class="form-control-label ">Password</label>
-                                            <input type="text" id="password" name="password" class="form-control"
-                                                placeholder="" value="Neoton1099128@">
-                                            <span class="form-text text-muted kt_hide password msg_text"> </span>
+                                            <label class="form-control-label ">Address</label>
+                                            <input type="text" id="address" name="address" class="form-control "
+                                                placeholder="" value="{{ $user->address }}">
+                                            <span class="form-text text-muted text-danger">@error('address')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
@@ -120,27 +102,86 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12">
                                             <label class="form-control-label ">TPIN</label>
-                                            <input type="text" id="tpin" name="tpin" class="form-control"
-                                                placeholder="" value="1099">
-                                            <span class="form-text text-muted kt_hide tpin msg_text"> </span>
+                                            <input type="text" id="tpin" name="t_pin" class="form-control"
+                                                placeholder="" value="{{ $user->t_pin }}">
+                                            <span class="form-text text-muted text-danger">@error('t_pin')
+                                                {{ $message }}
+                                            @enderror</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label ">Sponsor</label>
+                                            <input type="text" id="sponsor" name="sponsor" class="form-control"
+                                                placeholder="" value="{{ $user->sponsor }}">
+                                            <span class="form-text text-muted kt_hide sponsor text-danger">@error('sponsor')
+                                                {{ $message }}
+                                            @enderror</span>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label ">RANK</label>
+                                            <input type="text" id="rank" name="rank" class="form-control"
+                                                placeholder="" value="{{ $user->rank }}">
+                                            <span class="form-text text-muted kt_hide rank text-danger">@error('rank')
+                                                {{ $message }}
+                                            @enderror</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label ">Bank</label>
+                                            <input type="text" id="bank" name="bank" class="form-control"
+                                                placeholder="" value="{{ $user->bank }}">
+                                            <span class="form-text text-muted kt_hide bank text-danger">@error('bank')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-lg-12">
-                                            <label class="form-control-label ">Address</label>
-                                            <input type="text" id="address_1" name="address_1" class="form-control "
-                                                placeholder="" value="">
-                                            <span class="form-text text-muted kt_hide address_1 msg_text "> </span>
+                                            <label class="form-control-label ">NID Card Images</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img src="{{ $user->nid1 }}" alt="Front-image" style="height: 280px; weidth: 400px;">                  
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img src="{{ $user->nid1 }}" alt="back-image" style="height: 300px; weidth: 400px;">                  
+                                                </div>
+                                            </div>                
+                                            <span class="form-text text-muted kt_hide rank text-danger">@error('rank')
+                                                {{ $message }}
+                                            @enderror</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label ">Nid Status</label>
+                                            <select class="form-select form-control" name="nid_verified" aria-label="Default select example">
+                                                <option selected value="">Change Status</option>
+                                                <option value="1" @if($user->nid_verified==1) selected @endif>Approve</option>
+                                                <option value="0" @if($user->nid_verified==0) selected @endif>Cancel</option>
+                                              </select>
+                                        </div>
+                                        <span class="form-text text-muted kt_hide rank text-danger">@error('nid_verified')
+                                            {{ $message }}
+                                        @enderror</span>
+                                    </div>
+
+                                    {{-- <div class="form-group row">
                                         <div class="col-lg-12">
                                             <label class="form-control-label ">Express member 1/2/3 or 0</label>
                                             <input type="text" id="em_id" name="em_id" class="form-control"
                                                 placeholder="" value="0">
-                                            <span class="form-text text-muted kt_hide em_id msg_text"> </span>
+                                            <span class="form-text text-muted kt_hide em_id"> </span>
                                         </div>
                                     </div>
 
@@ -187,20 +228,15 @@
                                                 placeholder="" value="0">
                                             <span class="form-text text-muted kt_hide is_tl msg_text"> </span>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-brand"> Update </button>
                                 </div>
                             </div>
-
-                            <div class="kt-portlet__foot">
-                                <div class="kt-form__actions">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <button type="submit" class="btn btn-brand"> Update </button>
-                                            <!-- <button type="reset" class="btn btn-secondary"> Cancel </button> -->
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>
