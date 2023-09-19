@@ -35,11 +35,11 @@ class LoginController extends Controller
     {
 
         $request->validate([
-            'email' => 'required',
+            'username' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::user()->is_admin == 1) {
                 return redirect()->route('admin.dashboard.index')
@@ -51,8 +51,6 @@ class LoginController extends Controller
                 return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
             }
         }
-
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 
     /**

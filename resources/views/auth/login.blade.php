@@ -193,12 +193,12 @@
                 <form method="POST" action="{{ route('login') }}" class="login" id="form">
                     @csrf
                     <h2 style="margin-bottom:-10px;font-size: 14px;color:#fffb00;margin-left: 10px;font-weight: bold;">
-                        Email </h2>
+                        Username </h2>
                     <div class="login__field">
                         <i class="login__icon fas fa-user golden-text" id="login_id__icon"></i>
-                        <input type="text" class="login__input input_bg" form="form" name="email" 
-                            value="" tabindex="1" placeholder="User Email">
-                        @error('email')
+                        <input type="text" class="login__input input_bg" form="form" name="username" 
+                            value="" tabindex="1" placeholder="Username">
+                        @error('username')
                             <span style="color:rgb(180, 0, 0)">
                                 <strong>{{ $message }}</strong>
                             </span>
