@@ -90,7 +90,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('users.edit', ['id'=>$item->id]) }}">Edit</a>
+                                        <a href="{{ route('users.edit', ['id'=>$item->id]) }}" class="btn btn-sm btn-primary">Edit</a>
                                     </td>
                                 </tr>
                             @endforeach

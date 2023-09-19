@@ -85,22 +85,20 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if($user){
-            if ($request->isMethod('post')){
+            if ($request->isMethod('PUT')){
                 $request->validate([
                     'first_name' => 'required',
                     'last_name' => 'required',
                     'username' => 'required',
                     'email' => 'required',
                     'phone_no' => 'required',
-                    't_pin' => 'required',
-                    'sponsor' => 'required',
-                    'rank' => 'required',
                     'country' => 'required',
                     'address' => 'required',
-                    'image' => 'required',
-                    'nid1' => 'required',
-                    'nid2' => 'required',
+                    't_pin' => 'required',
+                    'sponsor' => 'required',
+                    'rank' => 'nullable',
                     'bank' => 'required',
+                    'nid_verified' => 'required',
                 ]);
                 $user->update([
                     'first_name' => $request->first_name,
@@ -113,14 +111,21 @@ class UserController extends Controller
                     'rank' => $request->rank,
                     'country' => $request->country,
                     'address' => $request->address,
-                    'image' => $request->image,
-                    'nid1' => $request->nid1,
-                    'nid2' => $request->nid2,
                     'bank' => $request->bank,
-                    'nid_verified' => 1,
-                ]);            
+                    'nid_verified' => $request->nid_verified,
+                ]); 
+                if($request->nid_verified == 1){
+                    $user->update([
+                        'is_approved' => 1,
+                    ]);
+                }else{
+                    $user->update([
+                        'is_approved' => 0,
+                    ]);
+                }
+                return redirect()->route('admin.unverified_users')->with('success', 'Something went wrong');
             }else{
-                return view('admin.users.edit');
+                return view('admin.users.edit', compact('user'));
             }
         }else{
             return redirect()->back()->with('success', 'Something went wrong');
@@ -180,7 +185,6 @@ class UserController extends Controller
         $pendingWithDraw= WithDraw::where('user_id',Auth::user()->id)->where('status', 0)->select('amount')->sum('amount');
         $accpectWithDraw= WithDraw::where('user_id',Auth::user()->id)->where('status', 1)->select('amount')->sum('amount');
         $user = User::where('id',Auth::user()->id)->where('is_approved',1)->first();
-        //dd($user);
         $referLink= config('app.url') . 'registration/'. Auth::user()->username;
         return view('users.dashboard', compact('wallet','level1','level2','level3','level4','level5','level6','level7','level8','level9','level10','level11','level12','level13','level14','level15','totalSend','totalReceive','addFund','pendingWithDraw','accpectWithDraw','user','referLink'));
     }
