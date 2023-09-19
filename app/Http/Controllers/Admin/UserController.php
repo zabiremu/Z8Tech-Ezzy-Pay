@@ -142,8 +142,6 @@ class UserController extends Controller
         $sendMoney = SendMoney::where('user_id', Auth::user()->id)->first();
         if ($sendMoney) {
             $user = User::where('id', Auth::user()->id)->first();
-            $user->is_approved = 1;
-            $user->save();
             $wallet = Wallet::where('user_id', $user->id)->first();
             $wallet->user_id = $user->id;
             if($wallet->booking_wallet >= $settings->registration) 

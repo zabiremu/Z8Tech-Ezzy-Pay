@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\SendMoneyController;
 use App\Http\Controllers\Admin\UserPasswordController;
 use App\Http\Controllers\Backend\ProcessingController;
 use App\Http\Controllers\Backend\AddFundReportController;
+use App\Http\Controllers\UsersCommissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,5 +100,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/group_bonus', [PaymentController::class, 'groupBonus'])->name('convert.group_bonus');
             Route::get('/ezzy_royality', [PaymentController::class, 'ezzyRoyality'])->name('convert.ezzy_royality');
             // Route::post('/user-password',[UserPasswordController::class,"userPassword"])->name('password');
+            Route::get('/commissions/affiliate',[UsersCommissionController::class,'affiliate'])->name('commissions.index');
+            Route::get('/commissions/levelIncome',[UsersCommissionController::class,'affiliate'])->name('commissions.levelIncome');
+            Route::get('/commissions/ezzyReturn',[UsersCommissionController::class,'ezzyReturn'])->name('commissions.ezzyReturn');
+            Route::get('/commissions/ezzyReward',[UsersCommissionController::class,'ezzyReward'])->name('commissions.ezzyReward');
+            Route::get('/commissions/ezzy-royality',[UsersCommissionController::class,'ezzyRoyality'])->name('commissions.ezzy_royality');
+            Route::get('/commissions/groupBonous',[UsersCommissionController::class,'groupBonous'])->name('commissions.groupBonous');
         });
 });

@@ -133,25 +133,25 @@
             </a>
             <div class="list-submenu" id="income_menu">
 
-                <a href="https://www.oceanezzy.life/user/user_spot_commission_datatable.html" class="list-group-item">
+                <a href="{{route('users.commissions.index')}}" class="list-group-item">
                     <div class="ps-4  ">Affiliate Income</div>
                 </a>
 
-                <a href="https://www.oceanezzy.life/user/user_activation_package_commission_datatable"
+                <a href="{{route('users.commissions.levelIncome')}}"
                     class="list-group-item">
                     <div class="ps-4  ">Level Income</div>
                 </a>
 
-                <a href="https://www.oceanezzy.life/user/user_deposit_package_interest_datatable"
+                <a href="{{route('users.commissions.ezzyReturn')}}"
                     class="list-group-item">
                     <div class="ps-4  ">Ezzy Return</div>
                 </a>
 
-                <a href="https://www.oceanezzy.life/user/user_rank_datatable" class="list-group-item">
+                <a href="{{route('users.commissions.ezzyReward')}}" class="list-group-item">
                     <div class="ps-4  ">Ezzy Reward</div>
                 </a>
 
-                <a href="https://www.oceanezzy.life/user/user_deposit_package_interest_commission_datatable"
+                <a href="{{route('users.commissions.ezzy_royality')}}"
                     class="list-group-item">
                     <div class="ps-4  ">Ezzy Royality</div>
                 </a>
@@ -160,7 +160,7 @@
                     <div class="ps-4  ">Ezzy Member</div>
                 </a>
 
-                <a href="https://www.oceanezzy.life/user/user_rank_royality_commission_datatable"
+                <a href="{{route('users.commissions.groupBonous')}}"
                     class="list-group-item">
                     <div class="ps-4  ">Group Bonus</div>
                 </a>
