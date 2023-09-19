@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title> Mfspay
+</title>
+    <link rel="icon" type="image/png" href="https://www.oceanezzy.life/assets/static/front/img/icon.png" sizes="16x16">
+
+
+
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
+
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgba(29, 29, 29, .05), rgba(29, 29, 29, .05) 17%, rgba(27, 27, 27, .05) 0, rgba(27, 27, 27, .05) 34%, rgba(31, 31, 31, .05) 0, rgba(31, 31, 31, .05) 93%, hsla(0, 0%, 94.9%, .05) 0, hsla(0, 0%, 94.9%, .05)), linear-gradient(135deg, hsla(0, 0%, 50.6%, .05), hsla(0, 0%, 50.6%, .05) 66%, hsla(0, 0%, 45.9%, .05) 0, hsla(0, 0%, 45.9%, .05) 91%, hsla(0, 0%, 78%, .05) 0, hsla(0, 0%, 78%, .05)), linear-gradient(135deg, rgba(31, 31, 31, .07), rgba(31, 31, 31, .07) 15%, hsla(0, 0%, 54.5%, .07) 0, hsla(0, 0%, 54.5%, .07) 23%, hsla(0, 0%, 78.4%, .07) 0, hsla(0, 0%, 78.4%, .07) 29%, hsla(0, 0%, 40%, .07) 0, hsla(0, 0%, 40%, .07)), linear-gradient(100deg, #00b8be, #000000e3);
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .screen {
+            padding: 0px;
+            max-width: 325px;
+            margin: auto;
+            background: #0002;
+            border-radius: 7px;
+            box-shadow: 0px 0px 10px #01c1c8;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .screen__content {
+            z-index: 1;
+            position: relative;
+            height: 100%;
+        }
+
+        .screen__background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            -webkit-clip-path: inset(0 0 0 0);
+            clip-path: inset(0 0 0 0);
+        }
+
+        .login {
+            width: 100%;
+            padding: 40px;
+            padding-top: 60px;
+        }
+
+        .login__field {
+            padding: 20px 0px;
+            position: relative;
+        }
+
+        .login__icon {
+            position: absolute;
+            top: 33px;
+            color: #fffb00;
+            padding-left: 10px;
+        }
+
+        .login__input {
+            padding: 14px;
+            padding-left: 30px;
+            font-weight: 700;
+            width: 100%;
+            transition: .2s;
+            border-radius: 5px;
+            font-size: 14px;
+            letter-spacing: 0.1rem;
+        }
+
+        .login__input:active,
+        .login__input:focus,
+        .login__input:hover {
+            outline: none;
+            border-bottom-color: #0000;
+        }
+
+        .login__submit {
+            background: #F05A41 !important;
+            font-size: 18px;
+            margin-top: 10px;
+            padding: 10px 2px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: .2s;
+            border: none;
+            width: 50%;
+        }
+
+        .login__submit:active,
+        .login__submit:focus,
+        .login__submit:hover {
+            border-color: #F05A41 !important;
+            outline: none;
+            background: #F05A41 !important;
+        }
+
+        .button__icon {
+            font-size: 24px;
+            margin-left: auto;
+            color: #fff;
+        }
+
+        .social-login {
+            position: absolute;
+            height: 120px;
+            width: 100%;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-login__icon {
+            padding: 20px 10px;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0px 0px 8px #7875B5;
+            font-size: 30px;
+        }
+
+        .social-login__icon:hover {
+            transform: scale(1.5);
+        }
+
+        .input_bg {
+            background: #0001 !important;
+            border: 1px solid #01c1c8 !important;
+            box-shadow: 0px 0px 3px #01c1c83d !important;
+            color: #fff !important;
+        }
+
+        .input_bg:focus {
+            border: 1px solid #01c1c8 !important;
+            box-shadow: 0px 0px 3px #01c1c8 !important;
+            color: #fff !important
+        }
+
+
+        @media screen and (max-width: 575px) {
+            .tm-hero-section.tm-style1 {
+                padding-top: 40px;
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="screen" style="">
+            <div class="screen__content" style="padding-bottom: 100px;">
+
+                <div
+                    style="position: relative;width: fit-content;display: block; top: 35px;left: 50%;transform: translate(-50%,0%);padding-bottom: 15px;">
+                    <img src="{{asset('backend/images/logo.png')}}" style="max-width: 160px;" />
+                    <!-- <h2 style="color: #e73830;font-size: 25px;">Ezzy Pay</h2> -->
+                </div>
+
+                <form method="POST" action="{{ route('login') }}" class="login" id="form">
+                    @csrf
+                    <h2 style="margin-bottom:-10px;font-size: 14px;color:#fffb00;margin-left: 10px;font-weight: bold;">
+                        Email </h2>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-user golden-text" id="login_id__icon"></i>
+                        <input type="text" class="login__input input_bg" form="form" name="email" 
+                            value="" tabindex="1" placeholder="User Email">
+                        @error('email')
+                            <span style="color:rgb(180, 0, 0)">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <h2
+                        style="font-size: 14px;color:#fffb00;margin-top: 7px;margin-bottom: -22px;margin-left: 10px;font-weight: bold;">
+                        Password </h2>
+                    <h3 style="margin-left: 140px;margin-bottom: -10px;"><a
+                            href="{{ route('password.request') }}"
+                            style="text-decoration: none;font-size: 12px;color: #ffa700;">Forgot password?</a></h3>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-lock golden-text"></i>
+                        <input type="password" class="login__input input_bg" form="form" name="password"
+                             tabindex="2" placeholder="Password">
+                        @error('password')
+                            <span style="color:rgb(203, 14, 4)">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <button class="button login__submit" form="form" id="login_btn" tabindex="3">
+                        <span class="button__text">Sign In</span>
+                        <i class="button__icon fas "></i>
+                    </button>
+                </form>
+                <div style="float: right;margin-right: 39px;">
+                    <h3 style="background: #01C1C8;padding: 9px 20px;border-radius: 10px;margin-top: -80px;">
+                        <a href="{{route('register')}}"
+                            style="text-decoration: none;color: #fff;">Sign Up</a>
+                    </h3>
+                </div>
+                <div style="border-bottom: 1px solid #cacaca52;margin: 0px 40px;margin-bottom: 35px;"></div>
+                <div class="social-login">
+                    <h3 style="text-align: center;font-size: 15px;margin-bottom: -7px;color: #fffb00;">Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-login__icon fab fa-instagram"></a>
+                        <a href="#" class="social-login__icon fab fa-facebook"></a>
+                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                    </div>
+                </div>
+                <div style="padding-bottom:20px"></div>
+
+                <!--    <div class="">
+                    <h3 style="margin-top: -30px;margin-left: 40px;padding-bottom: 30px;"><a href="https://www.oceanezzy.life/auth/forgot_password" class="golden-text" style="text-decoration: none;border-bottom: 1px dashed #d5b96c;font-size: 14px;font-weight: bold;">Forgot password?</a></h3>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!--<script src="https://www.oceanezzy.life/assets/static/front/js/vendor/jquery-1.12.4.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- <script>
+        function pageBlock() {
+            $.blockUI({
+                message: "processing",
+                css: {
+                    border: 'none',
+                    padding: '10px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .3,
+                    color: '#fff'
+                }
+            });
+        }
+
+        function pageUnBlock() {
+            $.unblockUI();
+        }
+
+        function t_alert(type, title, text = '') {
+
+            Swal.fire({
+                icon: type,
+                title: type,
+                html: text,
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).on('click', '#login_btn', function(e) {
+            e.preventDefault();
+
+            ////////////////////////////////////
+            /*$('#ErrorMsg').addClass('d-none');
+            $('#login_btn').html('Processing');
+            $("#login_btn").attr("disabled","");*/
+            ////////////////////////////////////
+
+            var form = $('#form')[0];
+            var data = new FormData(form);
+
+
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: 'https://www.oceanezzy.life/auth/ajax/login.html',
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                async: false,
+                dataType: 'json',
+                beforeSend: function() {
+                    pageBlock();
+                },
+                complete: function() {
+                    pageUnBlock();
+                },
+                success: function(data) {
+
+                    if (data.type == 'error') {
+                        t_alert(data.type, '', data.data_msg[0].msg);
+                        pageUnBlock();
+                    } else if (data.type == 'warning') {
+                        pageUnBlock();
+                    } else if (data.type == 'success') {
+                        window.location = data.redirect_url;
+                        pageUnBlock();
+                    }
+
+                    pageUnBlock();
+                },
+                error: function(e) {
+                    console.log("ERROR : ", e);
+                    pageUnBlock();
+                }
+            });
+        });
+    </script> --}}
+
+
+</body>
+
+</html>
