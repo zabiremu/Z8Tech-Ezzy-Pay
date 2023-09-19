@@ -77,11 +77,20 @@
                    </li>
 
                    <li class="sidebar_menu-home kt-menu__item" aria-haspopup="true">
+                       <a href="{{ route('admin.unverified_users') }}" class="kt-menu__link ">
+                           <span class="kt-menu__link-icon">
+                               <i class="flaticon-home-2"></i>
+                           </span>
+                           <span class="kt-menu__link-text"> Unverified Users </span>
+                       </a>
+                   </li>
+
+                   <li class="sidebar_menu-home kt-menu__item" aria-haspopup="true">
                        <a href="{{ route('admin.users.index') }}" class="kt-menu__link ">
                            <span class="kt-menu__link-icon">
                                <i class="flaticon-home-2"></i>
                            </span>
-                           <span class="kt-menu__link-text"> User List </span>
+                           <span class="kt-menu__link-text"> Verified Users </span>
                        </a>
                    </li>
 
