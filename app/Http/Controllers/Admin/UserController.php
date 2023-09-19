@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::where('is_users', 1)
+        $data = User::where('is_users', 1)->where('nid_verified', 1)
             ->latest()
             ->get();
         return view('admin.users.index', compact('data'));
@@ -81,9 +81,50 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        if($user){
+            if ($request->isMethod('post')){
+                $request->validate([
+                    'first_name' => 'required',
+                    'last_name' => 'required',
+                    'username' => 'required',
+                    'email' => 'required',
+                    'phone_no' => 'required',
+                    't_pin' => 'required',
+                    'sponsor' => 'required',
+                    'rank' => 'required',
+                    'country' => 'required',
+                    'address' => 'required',
+                    'image' => 'required',
+                    'nid1' => 'required',
+                    'nid2' => 'required',
+                    'bank' => 'required',
+                ]);
+                $user->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'phone_no' => $request->phone_no,
+                    't_pin' => $request->t_pin,
+                    'sponsor' => $request->sponsor,
+                    'rank' => $request->rank,
+                    'country' => $request->country,
+                    'address' => $request->address,
+                    'image' => $request->image,
+                    'nid1' => $request->nid1,
+                    'nid2' => $request->nid2,
+                    'bank' => $request->bank,
+                    'nid_verified' => 1,
+                ]);            
+            }else{
+                return view('admin.users.edit');
+            }
+        }else{
+            return redirect()->back()->with('success', 'Something went wrong');
+        }
     }
 
     /**
@@ -95,6 +136,14 @@ class UserController extends Controller
         return view('auth.referLinkRegister',compact('user'));
     
 
+    }
+
+    // unverified_users
+    public function unverified_users(){
+        $data = User::where('nid_verified', 0)
+            ->latest()
+            ->get();
+        return view('admin.users.unverified-users', compact('data'));
     }
 
     /**

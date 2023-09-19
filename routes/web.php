@@ -47,7 +47,8 @@ Route::middleware('auth')->group(function () {
             Route::resource('/dashboard', DashboardController::class);
             Route::resource('/profile', ProfileController::class);
             Route::resource('/userPassword', UserPasswordController::class);
-            Route::resource('/users', UserController::class);
+            Route::resource('varified/users', UserController::class);
+            Route::get('un-verified/users', [UserController::class, 'unverified_users'])->name('unverified_users');
             Route::resource('/msg', MsgController::class);
             Route::resource('/rank-list', RankController::class);
             Route::resource('/commision', CommissionController::class);
@@ -66,12 +67,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/level/{level}', [LevelController::class, 'store'])->name('level');
             Route::get('/admin-approved/{id}', [AddFundReportController::class, 'store'])->name('approved');
             Route::get('/admin-reject/{id}', [AddFundReportController::class, 'reject'])->name('reject');
-            Route::post('/send-commissions/', [CommissionController::class, 'store'])->name('send.commisons');
+            Route::post('/send-commissions', [CommissionController::class, 'store'])->name('send.commisons');
             Route::get('/take/withdraw', [PaymentController::class, 'PaymentProccessingwithDraw'])->name('send.pending.withdraw');
             Route::get('/payment/approved/{id}', [PaymentController::class, 'PaymentApprovedwithDraw'])->name('withdraw.approved');
             Route::get('/payment/approved', [PaymentController::class, 'PaymentApproved'])->name('competed.index');
             Route::get('/withdraw-reject/{id}', [PaymentController::class, 'withDrawReject'])->name('withdraw.reject');
-            Route::get('/withdraw-reject/', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
+            Route::get('/withdraw-reject', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
         });
 
     Route::prefix('users/')
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/show/profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
             Route::post('/update/profile', [ProfileController::class, 'updateInfo'])->name('update.information');
             Route::get('/users', [UserController::class, 'allUsers'])->name('list');
+            Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
             Route::get('/send', [SendMoneyController::class, 'index'])->name('send');
             Route::post('/send-money-freinds', [SendMoneyController::class, 'sendStore'])->name('send.money.freinds');
             Route::post('/get-ajax-user', [UserController::class, 'getAjaxUser'])->name('get.ajax');

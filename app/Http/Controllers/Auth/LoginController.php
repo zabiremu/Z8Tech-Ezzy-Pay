@@ -42,7 +42,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::user()->is_admin == 1) {
-                return redirect()->route('admin.dashboard')
+                return redirect()->route('admin.dashboard.index')
                     ->withSuccess('You have Successfully loggedin');
             } elseif (Auth::user()->is_users == 1) {
                 return redirect()->route('users.dashboard')
