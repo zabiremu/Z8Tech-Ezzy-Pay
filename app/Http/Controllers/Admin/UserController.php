@@ -73,14 +73,25 @@ class UserController extends Controller
     public function affilateIndex()
     {
         // $users= User::with('InitialStepForRank','InitialStepForEzzyLeader','InitialStepForEzzyManger','InitailStepForEzzyExecutive','InitailStepForEzzyExecutive','IntialEzzyDirectory', 'IntialCOE', 'IntialCEO' ,'COE','CEO' ,'EzzyDirectory','EzzyExecutive','EzzyManager','EzzyManager','EzzyLeader','EzzyMember')->latest()->get();
-        
-        $users= User::get();
-        return view('users.affilate.index',compact('users'));
+        $user = Auth::user()->username;
+        $affilateusers= User::where('sponsor', $user)->get();
+        return view('users.affilate.index',compact('affilateusers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
+
+    
+    //  nestedMember
+    public function nestedMember($id){
+        $user = User::find($id);
+        $username = $user->username;
+        $nested_users = User::where('sponsor', $username)->get();
+        return view('users.affilate.nested', compact('nested_users'));
+    }
+
+
     public function edit(Request $request, $id)
     {
         $user = User::find($id);

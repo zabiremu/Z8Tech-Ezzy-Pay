@@ -41,7 +41,7 @@ Auth::routes();
 Route::get('/registration/{username}', [UserController::class, 'registration'])->name('users.refer.registration');
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('admin/')
+    Route::prefix('/admin')
         ->name('admin.')
         ->group(function () {
             Route::resource('/dashboard', DashboardController::class);
@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/withdraw-reject', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
         });
 
-    Route::prefix('users/')
+    Route::prefix('/users')
         ->name('users.')
         ->group(function () {
             Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/profile', [ProfileController::class, 'userProfile'])->name('profile');
             Route::get('/show/profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
             Route::post('/update/profile', [ProfileController::class, 'updateInfo'])->name('update.information');
-            Route::get('/users', [UserController::class, 'allUsers'])->name('list');
+            Route::get('/app/users', [UserController::class, 'allUsers'])->name('list');
             Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
             Route::get('/send', [SendMoneyController::class, 'index'])->name('send');
             Route::post('/send-money-freinds', [SendMoneyController::class, 'sendStore'])->name('send.money.freinds');
@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/withdraw/ammount', [PaymentController::class, 'withDrawAmmount'])->name('withDraw.ammount');
             Route::post('/nogod-store', [PaymentController::class, 'store'])->name('payment.store');
             Route::get('/users', [UserController::class, 'affilateIndex'])->name('affilate.index');
+            Route::get('/{id}/{username}/members', [UserController::class, 'nestedMember'])->name('affilate.nested');
             Route::get('/create', [UserController::class, 'create'])->name('affilate.create');
             Route::get('/ezzy-return', [PaymentController::class, 'ezzyreturn'])->name('convert.ezzy_return');
             Route::get('/ezzy-booking_wallet', [PaymentController::class, 'bookingWallet'])->name('convert.booking_wallet');
