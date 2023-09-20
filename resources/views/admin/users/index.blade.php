@@ -65,7 +65,7 @@
                                 @endphp
                                 <tr>
                                     <td>{{ ++$key }}</td>
-                                    <td><img src="{{ $item->image ?? '' }}" width="80px"></td>
+                                    <td><img src="{{ $item->image ?? '' }}" height="50px" width="50px"></td>
                                     <td>{{ $item->username }}</td>
                                     <td>
                                         @if ($reference)

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class UserPasswordController extends Controller
 {
@@ -50,7 +52,7 @@ class UserPasswordController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('users.dashboard')->with('success', 'Password updated successfully.');
+        return redirect()->back()->with('success', 'Password updated successfully.');
     }
 
     /**
@@ -91,7 +93,7 @@ class UserPasswordController extends Controller
             't_pin' =>$request->new_tpin,
         ]);
 
-        return redirect()->route('users.dashboard')->with('success', 'TPIN updated successfully.');
+        return redirect()->back('')->with('success', 'TPIN updated successfully.');
     }
 
     /**

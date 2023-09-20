@@ -65,7 +65,7 @@
                                 @endphp
                                 <tr>
                                     <td>{{ ++$key }}</td>
-                                    <td><img src="{{ $item->image ?? '' }}" width="80px"></td>
+                                    <td><img src="{{ $item->image ?? '' }}" height="50px" width="50px"></td>
                                     <td>{{ $item->username }}</td>
                                     <td>
                                         @if ($reference)
@@ -90,7 +90,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('users.edit', ['id'=>$item->id]) }}">Edit</a>
+                                        <a href="{{ route('users.edit', ['id'=>$item->id]) }}" class="btn btn-sm btn-primary">Edit</a>
                                     </td>
                                 </tr>
                             @endforeach

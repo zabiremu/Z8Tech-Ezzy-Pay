@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\InitialStepForEzzyLeader;
 use App\Models\InitialStepForEzzyManger;
 use App\Models\InitailStepForEzzyExecutive;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class UserController extends Controller
 {
