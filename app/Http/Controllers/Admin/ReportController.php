@@ -8,6 +8,8 @@ use App\Models\SendMoneyForFriends;
 use App\Http\Controllers\Controller;
 use App\Models\Convert;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ReportController extends Controller
 {

@@ -150,10 +150,10 @@
                                             <label class="form-control-label ">NID Card Images</label>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <img src="{{ $user->nid1 }}" alt="Front-image" style="height: 280px; weidth: 400px;">                  
+                                                    <img src="{{ $user->nid1 }}" alt="Front-image" style="height: 200px; weidth: 500px;">                  
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <img src="{{ $user->nid1 }}" alt="back-image" style="height: 300px; weidth: 400px;">                  
+                                                    <img src="{{ $user->nid1 }}" alt="back-image" style="height: 200px; weidth: 500px;">                  
                                                 </div>
                                             </div>                
                                             <span class="form-text text-muted kt_hide rank text-danger">@error('rank')

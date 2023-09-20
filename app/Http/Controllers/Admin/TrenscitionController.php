@@ -8,6 +8,8 @@ use App\Models\Transcition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class TrenscitionController extends Controller
 {

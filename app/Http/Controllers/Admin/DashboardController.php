@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Backend\AddFundReportController;
 use App\Models\Transcition;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class DashboardController extends Controller
 {

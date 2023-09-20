@@ -267,9 +267,6 @@
 
     </div>
 
-
-
-
     <div class="card card-style shadow-bg shadow-bg-s card-wallet">
         <div class=" card-center">
             <div class=" py-2">
@@ -341,21 +338,11 @@
 
     <!--box -->
     <div class="row text-center" style="margin-top: -15px;">
-        {{-- <div class="col-6 mb-n2">
-            <div class="card card-style me-0" style="height:110px">
-                <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
-                    <span>
-                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Booking Wallet</h4>
-                    </span>
-                    <h1 class="font-24 pt-0.2">৳ {{ $wallet->booking_wallet ?? 0.0 }}</h1>
-                </div>
-            </div>
-        </div> --}}
         <div class="col-6 mb-n2">
             <div class="card card-style me-0" style="height:110px">
                 <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
                     <span>
-                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Ezzy Return</h4>
+                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Booking wallet</h4>
                     </span>
                     <h1 class="font-24 pt-0.2">৳ {{ $wallet->booking_wallet ?? 0.0 }} </h1>
                 </div>
@@ -364,19 +351,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-6 mb-n2">
-            <div class="card card-style ms-0" style="height:110px">
-                <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
-                    <span>
-                        <h4 class="mb-n1" style="font-size: 13px;color: #8f82a5;">Ezzy Bonus </h4>
-                    </span>
-                    <h1 class="font-24 pt-0.2">৳ </h1>
-                </div>
-                <div type="button" class="convert c_exchange_btn" data-amount="0" data-wid="1008">
-                    <span class="con_btn">convert</span>
-                </div>
-            </div>
-        </div> --}}
     </div>
 
     <div class="row text-center" style="margin-top: -7px;">
@@ -384,7 +358,7 @@
             <div class="card card-style me-0" style="height:110px">
                 <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
                     <span>
-                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">Ezzy Return</h4>
+                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;">MFS Return</h4>
                     </span>
                     <h1 class="font-24 pt-0.2">৳ {{ $wallet->ezzy_return ?? 0.0 }} </h1>
                 </div>
@@ -427,7 +401,7 @@
             <div class="card card-style ms-0" style="height:110px">
                 <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
                     <span>
-                        <h4 class="mb-n1" style="font-size: 13px;color: #8f82a5;">Ezzy Reward</h4>
+                        <h4 class="mb-n1" style="font-size: 13px;color: #8f82a5;">MFS Reward</h4>
                     </span>
                     <h1 class="font-24 pt-0.2"> {{ $wallet->ezzy_reward ?? 0.0 }}</h1>
                 </div>
@@ -443,7 +417,7 @@
             <div class="card card-style me-0" style="height:110px">
                 <div class="card-top" style="padding: 20px 24px 0px;text-align: left;">
                     <span>
-                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;"> Ezzy Royality</h4>
+                        <h4 class=" mb-n1" style="font-size: 13px;color: #8f82a5;"> MFS Royality</h4>
                     </span>
                     <h1 class="font-24 pt-0.2">৳ {{ $wallet->ezzy_royality ?? 0.0 }}</h1>
                 </div>
@@ -609,27 +583,13 @@
                 </div>
                 <div class="align-self-center ps-1">
                     <h5 class="pt-1 mb-n1">Today</h5>
-                    <p class="mb-0 font-12">Ezzy Return</p>
+                    <p class="mb-0 font-12">MFS Return</p>
                 </div>
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1">৳ {{ $wallet->ezzy_return ?? 0.00}}</h4>
                     <p class="mb-0 font-11"></p>
                 </div>
             </a>
-            {{-- <a href="javascript:;" class="d-flex py-1">
-                <div class="align-self-center">
-                    <span class="icon rounded-50 me-2" style="background: #28424b !important;"><i
-                            style="color: #28c76f !important;font-style: normal;">TR</i></span>
-                </div>
-                <div class="align-self-center ps-1">
-                    <h5 class="pt-1 mb-n1">Total</h5>
-                    <p class="mb-0 font-12">Ezzy Return</p>
-                </div>
-                <div class="align-self-center ms-auto text-end">
-                    <h4 class="pt-1 mb-n1"> ৳ 1690.00 </h4>
-                    <p class="mb-0 font-11"></p>
-                </div>
-            </a> --}}
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center">
                     <span class="icon rounded-50 me-2" style="background: rgba(234, 84, 85, 0.12) !important;"><i
@@ -651,7 +611,7 @@
                 </div>
                 <div class="align-self-center ps-1">
                     <h5 class="pt-1 mb-n1">Total</h5>
-                    <p class="mb-0 font-12">Refer Income </p>
+                    <p class="mb-0 font-12">Referral Income </p>
                 </div>
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1"> ৳ {{ $wallet->affiliate_income ?? 0.00}}</h4>
@@ -779,9 +739,6 @@
             </a>
         </div>
     </div>
-
-
-
 
     <div class="card card-style">
         <div class="content">
@@ -986,28 +943,6 @@
             });
     </script>
 
-
-
-
-
-
-
-
-
-    {{-- <div class="card card-style">
-        <div class="content">
-            <h1 class="overview1">Return Complete User</h1>
-
-            <div class="myTicker3">
-                <ul id="ttt4">
-
-                </ul>
-            </div>
-
-            <p></p>
-        </div>
-    </div> --}}
-
     <script>
         fetch('https://www.oceanezzy.life/user/api/roi_complete_user')
             .then(response => response.json())
@@ -1021,17 +956,9 @@
                         template.innerHTML = html.trim();
                         document.getElementById('ttt4').appendChild(template.content.firstChild);
                     });
-
-                    //console.log(res.data);
                 }
             });
     </script>
-
-
-
-
-
-
 
     <script>
         function cpy(slc) {
