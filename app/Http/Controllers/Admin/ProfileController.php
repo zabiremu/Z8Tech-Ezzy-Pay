@@ -103,7 +103,7 @@ class ProfileController extends Controller
         {
             $user->nid2 = saveImage($request->nid2, 'users');
         }
-        // Update other fields as needed
+
         $user->save();
         return redirect()->route('users.profile');
     }

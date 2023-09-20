@@ -131,10 +131,10 @@
                         </tr>
                     </thead>
                     <tbody id="tbody_data">
-                        @foreach ($affilateusers as $item)
+                        @foreach ($nested_users as $item)
                             <tr>
-                                <th scope="col"><a href="{{ route('users.affilate.nested', ['id'=>$item->id,'username'=>$item->username]) }}">{{ $item->first_name . ' ' . $item->last_name }}</a></th>
-                                <th scope="col"><a href="{{ route('users.affilate.nested', ['id'=>$item->id,'username'=>$item->username]) }}">{{ $item->username }}</a></th>
+                                <th scope="col">{{ $item->first_name . ' ' . $item->last_name }}</th>
+                                <th scope="col">{{ $item->username }}</th>
                                 <th>
                                     @if (!$item->rank)
                                         No Rank
