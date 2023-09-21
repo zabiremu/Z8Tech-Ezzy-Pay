@@ -39,9 +39,8 @@ class AddFundReportController extends Controller
 
         if($sendMoney)
         {
-            $wallet= new Wallet();
-            $wallet->user_id= $sendMoney->user_id;
-            $wallet->booking_wallet= $sendMoney->send_amount;
+            $wallet= Wallet::where('user_id', $sendMoney->user_id)->first();
+            $wallet->booking_wallet = (int)$wallet->booking_wallet + (int)$sendMoney->send_amount;
             $wallet->save();
         }
 
