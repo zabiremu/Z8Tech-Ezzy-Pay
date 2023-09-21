@@ -37,7 +37,7 @@
             <div class="content pt-1">
                 <div class="d-flex text-center">
                     <div class="me-auto">
-                        <a class="icon icon-s rounded-s bg-blu shadow-bg shadow-bg-xs" href="#">
+                        <a class="icon icon-s rounded-s bg-blu shadow-bg shadow-bg-xs" href="{{ route('users.payment.index') }}">
                             {{-- <i class="font-16 color-white bi bi-plus" style="font-size: 20px !important;">
                             </i> --}}
                             <i class="font-16 color-white fa-solid fa-money-bill-transfer" style="font-size: 20px !important;"></i>
@@ -54,12 +54,10 @@
                     </div>
                     <div class="ms-auto">
                         <a class="icon icon-s rounded-s bg-blu shadow-bg shadow-bg-xs" href="{{route('users.send')}}">
-                            {{-- <i class="font-16 color-white bi bi-arrow-right">
-                            </i> --}}
                             <i class="font-16 color-white fa-solid fa-right-left"></i>
                         </a>
                         <h6 class="font-11 font-400 opacity-70 mb-n1 pt-2" style="padding-top: 10px !important;">
-                            transfer</h6>
+                            Transfer</h6>
                     </div>
                 </div>
             </div>
@@ -82,10 +80,6 @@
 
                 <a href="{{route('users.affilate.index')}}" class="list-group-item">
                     <div class="ps-4  ">Total Team</div>
-                </a>
-
-                <a href="{{route('users.affilate.create')}}" class="list-group-item">
-                    <div class="ps-4  ">Refer Member</div>
                 </a>
             </div>
 
@@ -165,13 +159,14 @@
             </a>
             <div class="list-submenu" id="transaction_menu">
 
+                <a href="{{ route('users.payment.deposithistory') }}" class="list-group-item">
+                    <div class="ps-4  ">Deposit History</div>
+                </a>
+
                 <a href="{{route('admin.report.create')}}" class="list-group-item">
                     <div class="ps-4  ">Send History</div>
                 </a>
 
-                <a href="{{route('admin.report.show',1)}}" class="list-group-item">
-                    <div class="ps-4  ">Add Fund History</div>
-                </a>
 
                 <a href="{{route('admin.receiver')}}" class="list-group-item">
                     <div class="ps-4  ">Receive History</div>
@@ -201,14 +196,36 @@
                 @csrf
             </form>
 
-
-
             @else
 
                 <a href="{{ route('users.dashboard') }}" id="nav-dash" class="list-group-item">
                     <i class="bg-border50 fa-solid fa-house"></i>
                     <div class="   manu_font">Dashboard</div>
                 </a>
+
+                <a href="#" id="transaction" data-submenu="transaction_menu" class="list-group-item">
+                    <i class="bi bg-border50 manu_font fa-solid fa-money-bill-transfer"></i>
+                    <div class="manu_font">Transaction</div>
+                    <i class="fa-solid fa-plus font-18"></i>
+                </a>
+                <div class="list-submenu" id="transaction_menu">
+
+                    <a href="{{ route('users.payment.deposithistory') }}" class="list-group-item">
+                        <div class="ps-4  ">Deposit History</div>
+                    </a>
+    
+                    <a href="{{route('admin.report.create')}}" class="list-group-item">
+                        <div class="ps-4  ">Send History</div>
+                    </a>
+    
+                    <a href="{{route('admin.receiver')}}" class="list-group-item">
+                        <div class="ps-4  ">Receive History</div>
+                    </a>
+    
+                    <a href="{{route('admin.convert')}}" class="list-group-item">
+                        <div class="ps-4  ">Convert History</div>
+                    </a>
+                </div>
 
                 <a href="{{route('admin.userPassword.create')}}" id="nav-set" class="list-group-item">
                     <i class="bi bg-border50 manu_font fa-solid fa-gear"></i>

@@ -251,7 +251,7 @@
                            <span class="kt-menu__link-icon">
                                <i class="flaticon-download"></i>
                            </span>
-                           <span class="kt-menu__link-text"> Add Fund </span>
+                           <span class="kt-menu__link-text"> Deposit </span>
                            <i class="kt-menu__ver-arrow la la-angle-right"></i>
                        </a>
                        <div class="kt-menu__submenu " style="" kt-hidden-height="40">
@@ -259,7 +259,7 @@
                            <ul class="kt-menu__subnav">
                                <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
                                    <span class="kt-menu__link">
-                                       <span class="kt-menu__link-text"> Add Fund </span>
+                                       <span class="kt-menu__link-text"> Deposit </span>
                                    </span>
                                </li>
 

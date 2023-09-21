@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Ui\Presets\React;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class ProfileController extends Controller
@@ -105,8 +103,7 @@ class ProfileController extends Controller
         {
             $user->nid2 = saveImage($request->nid2, 'users');
         }
-
         $user->save();
-        return redirect()->route('users.profile');
+        return redirect()->route('users.profile')->with('success', "Profile Successfully updated.");
     }
 }

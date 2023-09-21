@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="page-content footer-clear" style="margin-top:70px">
+        @include('alerts.alert')
         <div class="card overflow-visible card-style">
             <div class="content mb-0">
 

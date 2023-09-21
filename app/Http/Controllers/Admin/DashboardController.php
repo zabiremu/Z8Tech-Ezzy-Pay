@@ -25,7 +25,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Backend\AddFundReportController;
 use App\Models\Transcition;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class DashboardController extends Controller
@@ -35,14 +34,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // $wallet = Wallet::where('is_approved', 1)->get();
-        // foreach ($wallet as $item) {
-        //     $item->ezzy_return = 10 + $item->ezzy_return;
-        //     $item->save();
-        // }
         $totalUser= User::latest()->count();
         $totalActiveUser= User::where('is_approved',1)->latest()->count();
         $totalActiveWallet= Wallet::where('is_approved',1)->latest()->sum('my_wallet');
+        
         $totalActivEzzy_reward= Wallet::where('is_approved',1)->latest()->sum('ezzy_reward');
         $totalActivGroup_bonus= Wallet::where('is_approved',1)->latest()->sum('group_bonus');
         $level_bonus= Wallet::where('is_approved',1)->latest()->sum('level_bonus');
@@ -54,7 +49,11 @@ class DashboardController extends Controller
         $WithDrawPending= WithDraw::where('status',0)->latest()->count();
         $WithDrawComplete= WithDraw::where('status',1)->latest()->count();
         $transcition= Transcition::sum('send_amount');
-        return view('admin.dashboard',compact('totalUser','totalActiveUser','totalActiveWallet','totalActivEzzy_reward','totalActivGroup_bonus','level_bonus','ezzy_royality','affiliate_income','ezzy_return','addFundPending','addFundComplete','WithDrawComplete','WithDrawPending','transcition'));
+        return view('admin.dashboard',compact('totalUser','totalActiveUser','totalActiveWallet',
+                'totalActivEzzy_reward','totalActivGroup_bonus','level_bonus','ezzy_royality',
+                'affiliate_income','ezzy_return','addFundPending','addFundComplete','WithDrawComplete',
+                'WithDrawPending','transcition'
+            ));
     }
 
     /**
@@ -67,7 +66,7 @@ class DashboardController extends Controller
             $item->ezzy_return = 10 + $item->ezzy_return;
             $item->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Created');
     }
 
     /**

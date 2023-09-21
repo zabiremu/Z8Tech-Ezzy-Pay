@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class CommissionController extends Controller
@@ -41,7 +40,7 @@ class CommissionController extends Controller
             $wallet->save();
         }
 
-        return view('admin.commision.index');
+        return view('admin.commision.index')->with('success', 'Wallet Bonus Successfully Added');
         
     }
 

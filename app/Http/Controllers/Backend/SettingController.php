@@ -56,7 +56,7 @@ class SettingController extends Controller
             'CEO'=> '300000',
         ]);
 
-        return back();
+        return back()->with('success', 'Successfully updated');
     }
 
     /**

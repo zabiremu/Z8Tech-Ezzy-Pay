@@ -183,11 +183,14 @@
     <div class="container">
         <div class="screen" style="">
             <div class="screen__content" style="padding-bottom: 100px;">
+                
+                <div class="row p-2 bg-primary">
+                    @include('alerts.alert')
+                </div>
 
                 <div
                     style="position: relative;width: fit-content;display: block; top: 35px;left: 50%;transform: translate(-50%,0%);padding-bottom: 15px;">
                     <img src="{{asset('backend/images/logo.png')}}" style="max-width: 160px;" />
-                    <!-- <h2 style="color: #e73830;font-size: 25px;">Ezzy Pay</h2> -->
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="login" id="form">

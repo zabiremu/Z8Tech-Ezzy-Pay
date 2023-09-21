@@ -231,7 +231,7 @@ class LevelController extends Controller
                 }
             }
 
-            return redirect()->route('admin.dashboard.index');
+            return redirect()->route('admin.dashboard.index')->with('success', 'Successfully created');
         }
     }
 
