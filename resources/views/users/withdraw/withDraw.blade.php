@@ -9,7 +9,7 @@
     <div class="card overflow-visible card-style" style="margin-top: 70px;">
         <div class="content mb-0">
             <div style="display: flex;justify-content: space-between;">
-                <h2> Send Your Balance </h2>
+                <h2> Withdraw Balance </h2>
                 <h2> <span id="balance_span"></span>৳ {{ $wallet->my_wallet ?? 0.0 }} </h2>
             </div>
 

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class UserPasswordController extends Controller
@@ -36,8 +35,8 @@ class UserPasswordController extends Controller
 
         $request->validate([
             'password' => 'required',
-            'new_password' => 'required|string|min:8',
-            'confirm_new_password' => 'required|string|min:8|same:new_password',
+            'new_password' => 'required|min:8|same:confirm_new_password',
+            'confirm_new_password' => 'required|min:8',
         ]);
 
         $user = Auth::user();
@@ -78,8 +77,8 @@ class UserPasswordController extends Controller
     {
         $request->validate([
             'tpin' => 'required',
-            'new_tpin' => 'required|string|min:8|unique:users,t_pin',
-            'confirm_tpin' => 'required|string|min:8|same:new_tpin',
+            'new_tpin' => 'required|string|min:4|unique:users,t_pin',
+            'confirm_tpin' => 'required|string|min:4|same:new_tpin',
         ]);
 
         $user = Auth::user();

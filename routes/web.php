@@ -89,13 +89,13 @@ Route::middleware('auth')->group(function () {
             Route::post('/send-money-freinds', [SendMoneyController::class, 'sendStore'])->name('send.money.freinds');
             Route::post('/get-ajax-user', [UserController::class, 'getAjaxUser'])->name('get.ajax');
             Route::post('/send-money', [SendMoneyController::class, 'store'])->name('send.store');
-            Route::get('/nogod', [PaymentController::class, 'index'])->name('payment.index');
+            Route::get('/deposit', [PaymentController::class, 'index'])->name('payment.index');
+            Route::get('/deposit/history', [PaymentController::class, 'deposithistory'])->name('payment.deposithistory');
             Route::get('/withdraw', [PaymentController::class, 'withDraw'])->name('payment.withdraw');
             Route::post('/withdraw/ammount', [PaymentController::class, 'withDrawAmmount'])->name('withDraw.ammount');
-            Route::post('/nogod-store', [PaymentController::class, 'store'])->name('payment.store');
-            Route::get('/users', [UserController::class, 'affilateIndex'])->name('affilate.index');
-            Route::get('/{id}/{username}/members', [UserController::class, 'nestedMember'])->name('affilate.nested');
-            Route::get('/create', [UserController::class, 'create'])->name('affilate.create');
+            Route::post('/deposit-store', [PaymentController::class, 'store'])->name('payment.store');
+            Route::get('/team/members', [UserController::class, 'affilateIndex'])->name('affilate.index');
+            Route::get('/team/members/{id}/{username}', [UserController::class, 'nestedMember'])->name('affilate.nested');
             Route::get('/ezzy-return', [PaymentController::class, 'ezzyreturn'])->name('convert.ezzy_return');
             Route::get('/ezzy-booking_wallet', [PaymentController::class, 'bookingWallet'])->name('convert.booking_wallet');
             Route::get('/level_bonus', [PaymentController::class, 'levelbonus'])->name('convert.level_bonus');

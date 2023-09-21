@@ -18,7 +18,10 @@ class SendMoneyController extends Controller
      */
     public function index()
     {
-        return view('users.send.index');
+        $wallet = Wallet::where('user_id',Auth::user()->id)->first();
+        // return $wallet->booking_wallet;
+        // return $wallet->my_wallet;
+        return view('users.send.index', compact('wallet'));
     }
 
     /**
@@ -49,7 +52,7 @@ class SendMoneyController extends Controller
             {
                 if($request->type == 'Booking Wallet')
                 {
-                    $friendsWallet->booking_wallet=   $friendsWallet->booking_wallet + $request->send_amount;
+                    $friendsWallet->booking_wallet = $friendsWallet->booking_wallet + $request->send_amount;
                     $friendsWallet->save();
 
                     $sendMoney = new SendMoneyForFriends();
@@ -111,7 +114,7 @@ class SendMoneyController extends Controller
             ]);
         }
 
-        return back();
+        return back()->with('success', 'Amount successfully send.');
     }
 
     /**

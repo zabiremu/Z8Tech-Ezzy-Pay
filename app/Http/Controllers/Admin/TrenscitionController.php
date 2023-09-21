@@ -8,7 +8,6 @@ use App\Models\Transcition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class TrenscitionController extends Controller
@@ -35,7 +34,6 @@ class TrenscitionController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
         $request->validate([
             'send_amount' => 'required',
             'receiver' => 'required',
@@ -67,7 +65,7 @@ class TrenscitionController extends Controller
             $sendMoney->save();
         }
        
-        return back();
+        return redirect()->back()->with('success', 'Amount successfully send.');
         
     }
 

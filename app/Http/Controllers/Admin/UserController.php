@@ -23,11 +23,14 @@ use App\Models\InitialStepForRank;
 use App\Models\IntialEzzyDirectory;
 use App\Models\SendMoneyForFriends;
 use App\Http\Controllers\Controller;
+use App\Models\DailyBonusTime;
+use App\Models\DateTime;
 use Illuminate\Support\Facades\Auth;
 use App\Models\InitialStepForEzzyLeader;
 use App\Models\InitialStepForEzzyManger;
 use App\Models\InitailStepForEzzyExecutive;
-use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\ProjectDateTime;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -64,9 +67,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user= Auth::user();
-        $users= User::where('sponsor',$user->username)->get();
-        return view('users.affilate.sponsor',compact('users'));
+        
     }
 
     /**
@@ -100,23 +101,21 @@ class UserController extends Controller
         if($user){
             if ($request->isMethod('PUT')){
                 $request->validate([
-                    'first_name' => 'required',
-                    'last_name' => 'required',
-                    'username' => 'required',
-                    'email' => 'required',
-                    'phone_no' => 'required',
+                    'first_name' => 'required|string',
+                    'last_name' => 'required|string',
+                    'email' => 'required|email',
+                    'phone_no' => 'required|numeric|digits:11',
                     'country' => 'required',
                     'address' => 'required',
                     't_pin' => 'required',
                     'sponsor' => 'required',
                     'rank' => 'nullable',
-                    'bank' => 'required',
+                    'bank' => 'nullable',
                     'nid_verified' => 'required',
                 ]);
                 $user->update([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
-                    'username' => $request->username,
                     'email' => $request->email,
                     'phone_no' => $request->phone_no,
                     't_pin' => $request->t_pin,
@@ -136,12 +135,12 @@ class UserController extends Controller
                         'is_approved' => 0,
                     ]);
                 }
-                return redirect()->route('admin.unverified_users')->with('success', 'Something went wrong');
+                return redirect()->back()->with('success', 'User Details succesfully updated');
             }else{
                 return view('admin.users.edit', compact('user'));
             }
         }else{
-            return redirect()->back()->with('success', 'Something went wrong');
+            return redirect()->back()->with('errors', 'Something went wrong');
         }
     }
 
@@ -199,16 +198,48 @@ class UserController extends Controller
         $accpectWithDraw= WithDraw::where('user_id',Auth::user()->id)->where('status', 1)->select('amount')->sum('amount');
         $user = User::where('id',Auth::user()->id)->where('is_approved',1)->first();
         $referLink= config('app.url') . 'registration/'. Auth::user()->username;
-        return view('users.dashboard', compact('wallet','level1','level2','level3','level4','level5','level6','level7','level8','level9','level10','level11','level12','level13','level14','level15','totalSend','totalReceive','addFund','pendingWithDraw','accpectWithDraw','user','referLink'));
+
+        // Project date duration
+        $project_duration = ProjectDateTime::latest()->first();
+        $project_duration->update([
+            'project_date_begin' => Carbon::now(),
+        ]);
+        $start = Carbon::parse($project_duration->project_date_begin);
+        $end = Carbon::parse($project_duration->project_date_end);        
+        $days = $start->diffInDays($end);
+        // Project date duration
+
+        // Bonus time duration
+        // $bonustime = DailyBonusTime::latest()->first();
+        // $currenttime = Carbon::now();
+        // $yesterday = $currenttime->yesterday();
+        // $bonustime->update([
+        //     'daily_run_begin' => $currenttime,
+        //     // 'daily_run_end' => $yesterday,
+        // ]);
+        // $startTime = Carbon::parse($bonustime->daily_run_begin);
+        // $finishTime = Carbon::parse($bonustime->daily_run_end);
+        // $totalDuration = $finishTime->diff($startTime)->format('%H:%I:%S');
+        // // $dt->toTimeString();
+        // // return $totalDuration;
+        // return Carbon::parse($totalDuration);
+
+        return view('users.dashboard', compact('wallet','level1','level2','level3','level4','level5',
+            'level6','level7','level8','level9','level10','level11','level12','level13','level14',
+            'level15','totalSend','totalReceive','addFund','pendingWithDraw','accpectWithDraw','user',
+            'referLink', 'days'));
     }
 
     public function activate()
-    {
-        $settings= Setting::first();
-        $sendMoney = SendMoney::where('user_id', Auth::user()->id)->first();
-        if ($sendMoney) {
-            $user = User::where('id', Auth::user()->id)->first();
-            $wallet = Wallet::where('user_id', $user->id)->first();
+    {   $user_id = Auth::user()->id;
+        $settings = Setting::first();
+        $wallet = Wallet::where('user_id', $user_id)->first();
+        if ($wallet) {
+            if($wallet->is_approved == 1){
+                return redirect()->route('users.dashboard')->with('errors', 'Your account is already activated');
+            }
+
+            $user = User::where('id', $user_id)->first();
             $wallet->user_id = $user->id;
             if($wallet->booking_wallet >= $settings->registration) 
             {
@@ -216,7 +247,7 @@ class UserController extends Controller
                 $wallet->is_approved = 1;
                 $wallet->save();
             }else{
-                return back();
+                return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
             }
            
             if ($wallet) {
@@ -382,7 +413,6 @@ class UserController extends Controller
                 $sponsor_level_1 = null;
                 if (Auth::user()->sponsor) {
                     $sponsor_level_1 = User::where('username', $user->sponsor)->first();
-                    //dd($sponsor_level_1);
                     if ($sponsor_level_1) {
                         $walletOne = Wallet::where('user_id', $sponsor_level_1->id)->first();
                         if ($walletOne) {
@@ -394,7 +424,6 @@ class UserController extends Controller
                 $sponsor_level_2 = null;
                 if ($sponsor_level_1) {
                     $sponsor_level_2 = User::where('username', $sponsor_level_1->sponsor)->first();
-                    //dd($sponsor_level_2);
                     if ($sponsor_level_2) {
                         $walletTwo = Wallet::where('user_id', $sponsor_level_2->id)->first();
                         if ($walletTwo) {
@@ -583,11 +612,6 @@ class UserController extends Controller
                             $wallet->save();
                         }
 
-                        // == $ezzyMemberId = User::where('id', $item->master_id)->first();
-                        // if ($ezzyMemberId) {
-                        //     $masterEzzyMember = User::where('username', $ezzyMemberId->sponsor)->first();
-                        //     if ($masterEzzyMember) {==
-
                         $sponsorStepTwo = InitialStepForEzzyLeader::where('user_id', $pendingEzzyMember->master_id)->first();
                         if (!$sponsorStepTwo) {
                             $sponsorStepTwo = new InitialStepForEzzyLeader();
@@ -601,7 +625,7 @@ class UserController extends Controller
                         }
 
                         $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();
-                        // foreach ($pendingEzzyLeader as $item) {
+
                         if ($pendingEzzyLeader->status >= 4) {
                             $ezzLeader = new EzzyLeader();
                             $ezzLeader->user_id = $pendingEzzyLeader->user_id;
@@ -626,8 +650,6 @@ class UserController extends Controller
 
                         $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
                         if ($ezzyLeaderId) {
-                            //== $masterEzzyLeader = User::where('username', $ezzyLeaderId->sponsor)->first();
-                            // if (!$masterEzzyLeader) {==
 
                             $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
                             if (!$sponsorStepThree) {
@@ -636,15 +658,13 @@ class UserController extends Controller
                                 $sponsorStepThree->status = $sponsorStepThree->status + 1;
                                 $sponsorStepThree->save();
                             } else {
-                                // dd(2);
+                                
                                 $sponsorStepThree->user_id = $ezzyLeaderId->id;
                                 $sponsorStepThree->status = 1 + $sponsorStepThree->status;
                                 $sponsorStepThree->save();
                             }
-                            // dd(3);
+                            
                             $pendingEzzyManger = InitialStepForEzzyManger::where('user_id', $sponsorStepThree->user_id)->first();
-                            //dd($pendingEzzyManger);
-                            // foreach ($pendingEzzyManger as $item) {
                             if ($pendingEzzyManger->status >= 7) {
                                 $ezzyManger = new EzzyManager();
                                 $ezzyManger->user_id = $pendingEzzyManger->user_id;
@@ -672,10 +692,8 @@ class UserController extends Controller
                             // }
 
                             $ezzyExc = User::where('id', $pendingEzzyManger->user_id)->first();
-                            // dd($ezzyExc);
                             if ($ezzyExc) {
                                 $sponsorStepFour = InitailStepForEzzyExecutive::where('user_id', $ezzyExc->id)->first();
-                                // dd($sponsorStepFour);
                                 if (!$sponsorStepFour) {
                                     //dd(1);
                                     $sponsorStepFour = new InitailStepForEzzyExecutive();
@@ -688,10 +706,7 @@ class UserController extends Controller
                                     $sponsorStepFour->status = 1 + $sponsorStepThree->status;
                                     $sponsorStepFour->save();
                                 }
-                                //dd(3);
                                 $pendingEzzyManger = InitailStepForEzzyExecutive::where('user_id', $sponsorStepFour->user_id)->first();
-                                //dd($pendingEzzyManger);
-                                // foreach ($pendingEzzyManger as $item) {
                                 if ($pendingEzzyManger->status >= 5) {
                                     $ezzyManger = new EzzyExecutive();
                                     $ezzyManger->user_id = $pendingEzzyManger->user_id;
@@ -856,8 +871,8 @@ class UserController extends Controller
                 }
             }
         } else {
-            return redirect()->route('users.dashboard');
+            return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
         }
-        return redirect()->route('users.dashboard');
+        return redirect()->route('users.dashboard')->with('success', 'Your account succesfull activated');
     }
 }

@@ -13,26 +13,20 @@
                     <img type="button" class="bank_class" data-bid="2" data-acid="1" data-ac="{{$setting->nogodPhoneNumber}}" data-acn="1"
                         data-img="{{asset('backend/images/nagad_logo.png')}}" id="nagad_img"
                         src="{{asset('backend/images/nagad_logo.png')}}" style="width: 150px;padding: 15px;">
-                    <span style="position: absolute;top: 2px;left: 0;right: 0;color: #f69417;">Nagad 1 </span>
+                    <span style="position: absolute;top: 2px;left: 0;right: 0;color: #f69417;">Nagad</span>
                 </div>
             </div>
         </div>
-        <!--
-                     <div class="col-6 mb-n2">
-                      <div class="card card-style me-0" style="height:110px">
-                       <div class="card-top" >
-                       <img type="button" class="bank_class" data-bid="2" data-acid="2" data-ac="01323167617" data-acn="2" data-img="https://www.oceanezzy.life/assets/media/nagad_logo.png" id="nagad_img" src="https://www.oceanezzy.life/assets/media/nagad_logo.png" style="width: 150px;padding: 15px;" > <span style="position: absolute;top: 2px;left: 0;right: 0;color: #f69417;">Nagad 2 </span>
-                       </div>
-                      </div>
-                     </div>
-                     
-                     <!--<div class="col-6 mb-n2">
-                      <div class="card card-style ms-0" style="height:110px">
-                       <div class="card-top">
-                        <img type="button" class="bank_class" data-bid="1" data-ac="018xxxxxxxx" data-img="https://www.oceanezzy.life/assets/media/bkash_logo.png" id="bkash_img" src="https://www.oceanezzy.life/assets/media/bkash_logo.png" style="width: 150px;padding: 15px;" >
-                       </div>
-                      </div>
-                     </div>-->
+        <div class="col-6 mb-n2">
+            <div class="card card-style me-0" style="height:110px">
+                <div class="card-top">
+                    <img type="button" class="" data-bid="2" data-acid="1" data-ac="" data-acn="1"
+                        data-img="{{asset('backend/images/bkash-bn-pink.jpg')}}" id="bkash_img"
+                        src="{{asset('backend/images/bkash-bn-pink.jpg')}}" style="width: 150px;padding: 25px;">
+                    <span style="position: absolute;top: 2px;left: 0;right: 0;color: #f69417;">Bkash</span>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -121,7 +115,6 @@
                 });
 
                 $(document).on('click', '.bank_class', function(e) {
-                    //console.log(this.dataset.bid);
                     document.getElementById('wallet_address_text').innerHTML = this.dataset.ac;
                     document.getElementById('agent_bank__id').value = this.dataset.bid;
                     document.getElementById('acid').innerHTML = this.dataset.acid;

@@ -13,9 +13,8 @@
         </div>
 
         <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid container-div">
-
+            @include('alerts.alert')
             <div class="row insert-form-row">
-
                 <div class="col-lg-12">
                     <div class="kt-portlet form-portlet">
                         <div class="kt-portlet__head">
@@ -37,15 +36,9 @@
                                             <input type="text" name="password" class="form-control"
                                                 placeholder="" required>
                                             @error('password')
-                                                <span class="form-text text-muted kt_hide password msg_text text-danger">
+                                                <span class="form-text kt_hide password msg_text text-danger">
                                                     {{ $message }}</span>
                                             @enderror
-
-                                            {{-- @if ($errors->has('password'))
-                                                <div class="text-danger">
-                                                    {{ $errors->first('password') }}
-                                                </div>
-                                            @endif --}}
                                         </div>
                                     </div>
 
@@ -56,7 +49,7 @@
                                                 class="form-control" placeholder="" value="" required>
                                             @error('new_password')
                                                 <span
-                                                    class="form-text text-muted kt_hide password msg_text text-danger">{{ $message }}
+                                                    class="form-text kt_hide password msg_text text-danger">{{ $message }}
                                                 </span>
                                             @enderror
                                         </div>
@@ -69,7 +62,7 @@
                                                 class="form-control" placeholder="" value="" required>
                                             @error('confirm_new_password')
                                                 <span
-                                                    class="form-text text-muted kt_hide password msg_text text-danger">{{ $message }}
+                                                    class="form-text kt_hide password msg_text text-danger">{{ $message }}
                                                 </span>
                                             @enderror
                                             </span>

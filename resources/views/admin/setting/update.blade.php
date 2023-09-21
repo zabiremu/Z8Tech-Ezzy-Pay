@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid container-div">
-
+        @include('alerts.alert')
         <div class="row insert-form-row">
 
             <div class="col-lg-12">

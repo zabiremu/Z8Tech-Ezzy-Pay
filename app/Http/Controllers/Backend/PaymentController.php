@@ -23,11 +23,8 @@ class PaymentController extends Controller
 
     public function bookingWallet()
     {
-        // dd('1');
-
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->booking_wallet > 0) {
-            //dd($wallet->ezzy_return);
             $convert= new Convert();
             $convert->user_id= Auth::user()->id;
             $convert->from= 'Booking Wallet';
@@ -38,7 +35,7 @@ class PaymentController extends Controller
             $wallet->booking_wallet = $wallet->booking_wallet - $wallet->booking_wallet;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
 
     /**
@@ -47,8 +44,7 @@ class PaymentController extends Controller
     public function ezzyreturn()
     {
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
-        if ($wallet->ezzy_return > 0) {
-            //dd($wallet->ezzy_return);
+        if ($wallet->ezzy_return >= 100) {
             $convert= new Convert();
             $convert->user_id= Auth::user()->id;
             $convert->from= 'Ezzy Return';
@@ -58,12 +54,13 @@ class PaymentController extends Controller
             $wallet->my_wallet = $wallet->ezzy_return + $wallet->my_wallet;
             $wallet->ezzy_return = $wallet->ezzy_return - $wallet->ezzy_return;
             $wallet->save();
+            return back()->with('success', 'Successfully Converted');
+        }else{
+            return back()->with('errors', 'Minimum balance will 100.');
         }
-        return back();
     }
     public function levelbonus()
     {
-        // dd('1');
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->level_bonus > 0) {
             $convert= new Convert();
@@ -77,12 +74,11 @@ class PaymentController extends Controller
             $wallet->level_bonus = $wallet->level_bonus - $wallet->level_bonus;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
 
     public function affiliateIncome()
     {
-        // dd('1');
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->affiliate_income > 0) {
             $convert= new Convert();
@@ -95,11 +91,10 @@ class PaymentController extends Controller
             $wallet->affiliate_income = $wallet->affiliate_income - $wallet->affiliate_income;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
     public function ezzyReward()
     {
-        // dd('1');
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->ezzy_reward > 0) {
             $convert= new Convert();
@@ -112,12 +107,11 @@ class PaymentController extends Controller
             $wallet->ezzy_reward = $wallet->ezzy_reward - $wallet->ezzy_reward;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
 
     public function groupBonus()
     {
-        // dd('1');
         $wallet = Wallet::where('user_id', Auth::user()->id)->first();
         if ($wallet->groupBonus > 0) {
             $convert= new Convert();
@@ -130,7 +124,7 @@ class PaymentController extends Controller
             $wallet->groupBonus = $wallet->groupBonus - $wallet->groupBonus;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
     public function ezzyRoyality()
     {
@@ -147,15 +141,18 @@ class PaymentController extends Controller
             $wallet->ezzy_royality = $wallet->ezzy_royality - $wallet->ezzy_royality;
             $wallet->save();
         }
-        return back();
+        return back()->with('success', 'Successfully Converted');
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-
+        $request->validate([
+            'tranx_id' => 'required',
+            'send_amount' => 'required|numeric',
+            'user_number' => 'required|numeric|digits:11',
+        ]);
         $user = Auth::user();
         $transaction = new SendMoney();
         $transaction->user_id = $user->id;
@@ -165,7 +162,7 @@ class PaymentController extends Controller
         $transaction->type = 'Nogod';
         $transaction->save();
 
-        return redirect()->route('users.dashboard');
+        return redirect()->route('users.dashboard')->with('success', 'Deposit request successfully send.');
     }
 
      /**
@@ -174,24 +171,38 @@ class PaymentController extends Controller
     public function withDrawAmmount(Request $request)
     {
         $request->validate([
-            'send_amount'=>'required',
+            'send_amount'=>'required|numeric|min:100|max:30000',
+            'tpin'=>'required',
         ]);
 
         if ($request->send_amount <= 50) {
             throw ValidationException::withMessages([
-                'send_amount' => ['Minimum Withdraw 50tk+'],
+                'send_amount' => ['Minimum Withdraw 1825 tk+'],
             ]);
         }
 
-        $user = Auth::user();
-        $transaction = new WithDraw();
-        $transaction->user_id = Auth::user()->id;
-        $transaction->bank = $request->input('phone_number');
-        $transaction->a_c = $request->input('tpin');
-        $transaction->amount = $request->input('send_amount');
-        $transaction->save();
+        $user_id = Auth::user()->id;
 
-        return back();
+        $mywallet = Wallet::where('user_id', $user_id)->first();
+        $main_balance = $mywallet->my_wallet;
+        $withdraw_balance = $request->send_amount;
+        
+        if($main_balance <= $withdraw_balance){
+            return redirect()->back()->with('fail', 'Insufficient Balance');
+        }else{
+            $current_balance = $main_balance - $withdraw_balance;
+            $mywallet->update([
+                'my_wallet' => $current_balance,
+            ]);
+            $transaction = new WithDraw();
+            $transaction->user_id = Auth::user()->id;
+            $transaction->bank = $request->input('phone_number');
+            $transaction->a_c = $request->input('tpin');
+            $transaction->amount = $request->input('send_amount');
+            $transaction->save();
+
+            return redirect()->back()->with('success', 'Withdraw request successfully send');
+        }
     }
 
     /**
@@ -224,7 +235,7 @@ class PaymentController extends Controller
         $wallet= Wallet::where('user_id',$withDraw->user_id)->first();
         $wallet->my_wallet= $wallet->my_wallet - $withDraw->amount;
         $wallet->save();
-        return back();
+        return back()->with('success', 'Withdraw request successfully approved');
     }
 
     public function withDrawReject($id)
@@ -233,7 +244,7 @@ class PaymentController extends Controller
         $withDraw->status= 2;
         $withDraw->save();
        
-        return back();
+        return back()->with('errors', 'Withdraw request successfully Rejected');
     }
 
     /**
@@ -241,7 +252,7 @@ class PaymentController extends Controller
      */
     public function PaymentApproved()
     {
-        $withDraw= WithDraw::where('status',1)->latest()->get();
+        $withDraw = WithDraw::where('status',1)->latest()->get();
         return view('admin.withdraw.accpect',compact('withDraw'));
     }
 
@@ -252,5 +263,12 @@ class PaymentController extends Controller
     {
         $withDraw= WithDraw::where('status',2)->latest()->get();
         return view('admin.withdraw.reject',compact('withDraw'));
+    }
+
+    // deposithistory
+    public function deposithistory(){
+        $id = Auth::user()->id;
+        $records = SendMoney::where('user_id', $id)->get();
+        return view('users.transcition.deposit', compact('records'));
     }
 }

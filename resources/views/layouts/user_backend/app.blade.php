@@ -125,10 +125,11 @@
             </div>
         </div>
 
-        
         <div class="page-content footer-clear">
 
-
+            <div class="pt-5">
+                @include('alerts.alert')
+            </div>
             @yield('content')
 
 

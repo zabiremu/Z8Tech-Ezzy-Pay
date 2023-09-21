@@ -14,19 +14,13 @@
             margin-bottom: 30px;
         }
     </style>
-
-
-
     <div class="notch-clear"></div>
     <div class="pt-5 mt-4"></div>
     <div class="card card-style overflow-visible mt-5" style="margin-top:100px !important">
-        <div class="mt-n5"></div>
+        <div class="mt-5"></div>
         <img src="{{ Auth::user()->image ?? '' }}" alt="img" width="180" class="mx-auto mt-n5 shadow-l"
             style="border-radius: 10px !important;">
-        <!-- <h1 class="color-theme text-center font-30 mb-0 margin">Fortune01</h1> -->
         <p class="text-center font-11"></p>
-
-
 
         <div class="content mt-0 mb-2">
 
@@ -109,7 +103,7 @@
                         @if (Auth::user()->sponsor)
                             {{ Auth::user()->sponsor }}
                         @else
-                            <span class="text-danger"> no sponsor</span>
+                            <span class="text-danger"> Empty Sponsor</span>
                         @endif
                     </h4>
                 </div>
@@ -143,14 +137,14 @@
 
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
-                    <h5 class="pt-1 mb-n1  ">Nid Image 1</h5>
+                    <h5 class="pt-1 mb-n1  ">NID Front Image</h5>
                 </div>
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1 ">
                         @if (Auth::user()->nid1)
                             <img src="{{Auth::user()->nid1}}" alt="" width="100px">
                         @else
-                            <span class="text-danger"> no nid</span>
+                            <span class="text-danger"> Empty</span>
                         @endif
                     </h4>
                 </div>
@@ -158,14 +152,14 @@
 
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
-                    <h5 class="pt-1 mb-n1  ">Nid Image 2</h5>
+                    <h5 class="pt-1 mb-n1  ">NID Back Image</h5>
                 </div>
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1 ">
                         @if (Auth::user()->nid2)
                             <img src="{{Auth::user()->nid2}}" alt="" width="100px">
                         @else
-                            <span class="text-danger"> no nid</span>
+                            <span class="text-danger"> Empty</span>
                         @endif
                     </h4>
                 </div>

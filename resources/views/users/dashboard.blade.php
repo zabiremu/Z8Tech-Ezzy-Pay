@@ -196,47 +196,23 @@
         <div>
             <div>
                 <span
-                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 85px;">Project
+                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 115px;">Project
                     Remain : </span>
             </div>
 
-            <div style="position: absolute;top: 85px;right: 25px;">
-                <span class="title" id="counter_down" style="font-size: 15px;color: #fdbd23;"></span>
-
-                <script>
-                    var countDownDate = new Date("2025-05-06 23:59:59").getTime();
-
-                    var x = setInterval(function() {
-
-                        var now = new Date().getTime();
-
-                        var distance = countDownDate - now;
-
-                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                        document.getElementById("counter_down").innerHTML = days + "d " + hours + "h " + minutes + "m " +
-                            seconds + "s ";
-
-                        if (distance < 0) {
-                            clearInterval(x);
-                            document.getElementById("counter_down").innerHTML = "EXPIRED";
-                        }
-                    }, 1000);
-                </script>
+            <div style="position: absolute;top: 115px;right: 25px;">
+                <span class="title"  style="font-size: 15px;color: #fdbd23;">{{ $days }} Days Remaining</span>
             </div>
         </div>
 
         <div>
             <div>
                 <span
-                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 110px;">20TK
+                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 140px;">20TK
                     Profit Remain : </span>
             </div>
 
-            <div style="position: absolute;top: 110px;right: 25px;">
+            <div style="position: absolute;top: 140px;right: 25px;">
                 <span class="title" id="counter_down2" style="font-size: 15px;color: #f05a41;"></span>
 
                 <script>
