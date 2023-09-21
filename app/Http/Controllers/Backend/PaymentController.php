@@ -159,7 +159,7 @@ class PaymentController extends Controller
         $transaction->tranx_id = $request->input('tranx_id');
         $transaction->send_amount = $request->input('send_amount');
         $transaction->user_number = $request->input('user_number');
-        $transaction->type = 'Nogod';
+        $transaction->type = 'Nagad';
         $transaction->save();
 
         return redirect()->route('users.dashboard')->with('success', 'Deposit request successfully send.');

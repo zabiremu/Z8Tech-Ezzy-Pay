@@ -21,8 +21,6 @@
 			
 			<div class="kt-portlet__body kt-portlet__body--fit">
 
-				{{-- <div class="kt-datatable" id="ajax_data"></div> --}}
-
 				<x-u-i.data-table>
 					<thead>
 						<tr>
@@ -46,10 +44,12 @@
 							<td>{{$item->tranx_id}}</td>
 							<td>{{$item->type}}</td>
 							<td>
-								@if ($item->status == 1)
-									<span class="badge bg-info rounded-lg">Complete</span>
+								@if ($item->status == 2)
+									<span class="badge bg-danger rounded-lg">Rejected</span>
+								@elseif ($item->status == 1)
+									<span class="badge bg-success rounded-lg">Completed</span>
 								@else
-								<span class=" badge bg-danger rounded-lg">Pending</span>
+									<span class=" badge bg-info rounded-lg">Pending</span>
 								@endif
 							</td>
 							<td>

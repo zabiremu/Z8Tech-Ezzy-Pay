@@ -2,6 +2,7 @@
 
 @section('content')
     @push('customCss')
+    <style>
         body {
         font-family: "Poppins",sans-serif !important;
         line-height: 1.6rem;
@@ -79,14 +80,6 @@
         border-radius: 10px;
         line-height: 0.9;
         }
-        /*
-        .golden-text, h1, h2 {
-        background: linear-gradient(135deg, #b38728, #fcf6ba, #bf953f, #fbf5b7, #aa771c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: auto;
-        }
-        */
         .title_name {
         display: block;
         font-style: normal;
@@ -127,6 +120,7 @@
                             <th>Bank Type</th>
                             <th>Ammount</th>
                             <th>Transection ID</th>
+                            <th>Status</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -145,6 +139,13 @@
                                     $formattedDate = $date->format('d M, Y');
                                 @endphp
                                 <th>{{ $item->tranx_id }}</th>
+                                <th>
+                                    @if ($item->status == 1)
+                                        <span class="text-info">Approved</span>
+                                    @else
+                                        <span class="text-success">Pending</span>
+                                    @endif
+                                </th>
                                 <th>{{ $formattedDate }}</th>
                             </tr>
                         @endforeach

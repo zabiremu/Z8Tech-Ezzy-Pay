@@ -54,7 +54,7 @@ class AddFundReportController extends Controller
     public function reject(Request $request, $id)
     {
         $sendMoney = SendMoney::find($id);
-        $sendMoney->status = 01;
+        $sendMoney->status = 2;
         $sendMoney->save();
         return redirect()->route('admin.add-fund-report.index')->with('fail', 'Add Amount request successfully rejected.');
     }

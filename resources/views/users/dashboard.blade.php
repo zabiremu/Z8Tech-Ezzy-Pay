@@ -322,9 +322,6 @@
                     </span>
                     <h1 class="font-24 pt-0.2">৳ {{ $wallet->booking_wallet ?? 0.0 }} </h1>
                 </div>
-                <div class="convert">
-                    <a href="{{ route('users.convert.booking_wallet') }}" class="con_btn">convert</a>
-                </div>
             </div>
         </div>
     </div>
