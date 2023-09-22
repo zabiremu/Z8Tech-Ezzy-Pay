@@ -25,7 +25,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $sendMoney= SendMoneyForFriends::where('master_id', Auth::user()->id)->get();
+        $sendMoney= SendMoneyForFriends::where('master_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
         return view('users.transcition.sendRecord',compact('sendMoney'));
     }
 
@@ -34,7 +34,7 @@ class ReportController extends Controller
      */
     public function receiver()
     {
-        $sendMoney= SendMoneyForFriends::where('user_id', Auth::user()->id)->get();
+        $sendMoney= SendMoneyForFriends::where('user_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
         return view('users.transcition.rechiver',compact('sendMoney'));
     }
 
@@ -43,7 +43,7 @@ class ReportController extends Controller
      */
     public function convert()
     {
-        $sendMoney= Convert::where('user_id', Auth::user()->id)->get();
+        $sendMoney= Convert::where('user_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
         return view('users.transcition.convert',compact('sendMoney'));
     }
 

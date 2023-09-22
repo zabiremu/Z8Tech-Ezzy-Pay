@@ -2,6 +2,7 @@
 
 @section('content')
     @push('customCss')
+    <style>
         body {
         font-family: "Poppins",sans-serif !important;
         line-height: 1.6rem;
@@ -130,7 +131,6 @@
                         </tr>
                     </thead>
                     <tbody id="tbody_data">
-                        {{-- {{dd($sendMoney)}} --}}
                         @foreach ($sendMoney as $item)
                             <tr>
                                 <th>{{ $item->from }}</th>
