@@ -104,4 +104,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(COE::class,'user_id');
     }
+
+    public function project_date_times(){
+        return $this->hasOne(ProjectDateTime::class);
+    }
 }
