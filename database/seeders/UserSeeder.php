@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'last_name' => 'admin',
             'username' => 'superadmin',
             'email' => 'admin@gmail.com',
+            't_pin' => '1111',
             'password' => Hash::make('password'),
             'is_admin' => 1,
             'is_users' => 0,
@@ -33,7 +34,7 @@ class UserSeeder extends Seeder
             'user_number' => '01833086035',
             'send_amount' => '1400',
             'tranx_id' => '123456789',
-            'type' => 'Nogod',
+            'type' => 'Nagad',
             'status' => '1',
         ]);
 
@@ -43,6 +44,7 @@ class UserSeeder extends Seeder
             'username' => 'jhon-doe',
             'email' => 'user@gmail.com',
             'sponsor' => 'super-admin',
+            't_pin' => '1234',
             'password' => Hash::make('password'),
             'is_users' => 1,
             'is_approved' => 1,
@@ -54,7 +56,7 @@ class UserSeeder extends Seeder
             'user_number' => '01833086035',
             'send_amount' => '1400',
             'tranx_id' => '123456789',
-            'type' => 'Nogod',
+            'type' => 'Nagad',
             'status' => '1',
         ]);
 
@@ -67,7 +69,7 @@ class UserSeeder extends Seeder
 
         Wallet::create([
             'user_id' => '2',
-            'booking_wallet' => 0,
+            'booking_wallet' => 5000,
             'is_approved' => 1,
         ]);
 

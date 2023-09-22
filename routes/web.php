@@ -85,9 +85,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/update/profile', [ProfileController::class, 'updateInfo'])->name('update.information');
             Route::get('/app/users', [UserController::class, 'allUsers'])->name('list');
             Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
-            Route::get('/send', [SendMoneyController::class, 'index'])->name('send');
-            Route::post('/send-money-freinds', [SendMoneyController::class, 'sendStore'])->name('send.money.freinds');
+
+            Route::get('/booking-wallet/fund/transfer', [SendMoneyController::class, 'index'])->name('send');
+            Route::get('/my-wallet/fund/transfer', [SendMoneyController::class, 'myWalletTransferView'])->name('my_wallet_fund_transfer');
+            Route::post('/fund/transfer/store', [SendMoneyController::class, 'sendStore'])->name('send.money.freinds');
             Route::post('/get-ajax-user', [UserController::class, 'getAjaxUser'])->name('get.ajax');
+            
             Route::post('/send-money', [SendMoneyController::class, 'store'])->name('send.store');
             Route::get('/deposit', [PaymentController::class, 'index'])->name('payment.index');
             Route::get('/deposit/history', [PaymentController::class, 'deposithistory'])->name('payment.deposithistory');
