@@ -40,8 +40,13 @@ class AddFundReportController extends Controller
         if($sendMoney)
         {
             $wallet= Wallet::where('user_id', $sendMoney->user_id)->first();
-            $wallet->booking_wallet = (int)$wallet->booking_wallet + (int)$sendMoney->send_amount;
-            $wallet->save();
+            if($wallet){
+                $wallet->booking_wallet = (int)$wallet->booking_wallet + (int)$sendMoney->send_amount;
+                $wallet->save();
+            }else{
+                $wallet->booking_wallet = 0 + (int)$sendMoney->send_amount;
+                $wallet->save();
+            }
         }
 
         return redirect()->route('admin.add-fund-report.index')->with('success', 'Add Amount request successfully Added.');
