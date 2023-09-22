@@ -196,48 +196,24 @@
         <div>
             <div>
                 <span
-                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 115px;">Project
-                    Remain : </span>
+                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 115px;">Total Activation
+                    Duration : </span>
             </div>
 
             <div style="position: absolute;top: 115px;right: 25px;">
-                <span class="title"  style="font-size: 15px;color: #fdbd23;">{{ $days }} Days Remaining</span>
+                <span class="title"  style="font-size: 15px;color: #34f104;">{{ $days }} Days Activation</span>
             </div>
         </div>
 
         <div>
             <div>
                 <span
-                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 140px;">20TK
-                    Profit Remain : </span>
+                    style="color: #3de4ea;font-size: 15px;margin-left: 10px;font-weight: bold;position: absolute;top: 140px;">Activation
+                    Duration Remain : </span>
             </div>
 
             <div style="position: absolute;top: 140px;right: 25px;">
-                <span class="title" id="counter_down2" style="font-size: 15px;color: #f05a41;"></span>
-
-                <script>
-                    var countDownDate2 = new Date("2023-11-13 23:59:59").getTime();
-
-                    var x2 = setInterval(function() {
-
-                        var now2 = new Date().getTime();
-
-                        var distance2 = countDownDate2 - now2;
-
-                        var days2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
-                        var hours2 = Math.floor((distance2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
-
-                        document.getElementById("counter_down2").innerHTML = days2 + "d " + hours2 + "h " + minutes2 + "m " +
-                            seconds2 + "s ";
-
-                        if (distance2 < 0) {
-                            clearInterval(x2);
-                            document.getElementById("counter_down2").innerHTML = "EXPIRED";
-                        }
-                    }, 1000);
-                </script>
+                <span class="title" id="counter_down2" style="font-size: 15px;color: #fdbd23;"> {{ $days_left }} Days Remaining</span>
             </div>
         </div>
 
@@ -251,9 +227,6 @@
                         <span class="title">My Wallet</span>
                         <h6 class="font-13 font-500 mb-0 pt-2 total">৳ {{ $wallet->my_wallet ?? 0.0 }}</h6>
                     </div>
-
-
-
                     @if (isset($wallet->is_approved) == 1)
                         <div class="ms-auto scale-box btn" style="position: relative;top: 0px;right: -10px;">
                             <a href="{{ route('users.account.activate') }}" class="icon icon-xxl rounded-m"
@@ -263,8 +236,8 @@
                     @else
                         <div class="ms-auto scale-box btn" style="position: relative;top: 0px;right: -10px;">
                             <a href="{{ route('users.account.activate') }}" class="icon icon-xxl rounded-m"
-                                style="width: 94px;height: 64px;background: rgb(174, 0, 0) !important;"><i class="font-18"
-                                    style="color:#fff;font-style: normal;">Activated</i></a>
+                                style="width: 94px;height: 64px;background: rgb(174, 0, 0) !important;"><i class="font-16"
+                                    style="color:#fff;font-style: normal;">Active Now</i></a>
                         </div>
                     @endif
 

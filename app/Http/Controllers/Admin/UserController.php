@@ -200,34 +200,27 @@ class UserController extends Controller
         $referLink= config('app.url') . 'registration/'. Auth::user()->username;
 
         // Project date duration
-        $project_duration = ProjectDateTime::latest()->first();
-        $project_duration->update([
-            'project_date_begin' => Carbon::now(),
-        ]);
-        $start = Carbon::parse($project_duration->project_date_begin);
-        $end = Carbon::parse($project_duration->project_date_end);        
-        $days = $start->diffInDays($end);
-        // Project date duration
+        $project_duration = ProjectDateTime::where('user_id', Auth::user()->id)->first();
+        if($project_duration){
+            $start = Carbon::parse($project_duration->project_date_begin);
+            $end = Carbon::parse($project_duration->project_date_end);
+            $project_duration->update([
+                'current_date_time' => Carbon::now(),
+            ]);
+            $current =  Carbon::parse($project_duration->current_date_time);
+            // Total activation date    
+            $days = $start->diffInDays($end);
+            $days_left = $current->diffInDays($end);
 
-        // Bonus time duration
-        // $bonustime = DailyBonusTime::latest()->first();
-        // $currenttime = Carbon::now();
-        // $yesterday = $currenttime->yesterday();
-        // $bonustime->update([
-        //     'daily_run_begin' => $currenttime,
-        //     // 'daily_run_end' => $yesterday,
-        // ]);
-        // $startTime = Carbon::parse($bonustime->daily_run_begin);
-        // $finishTime = Carbon::parse($bonustime->daily_run_end);
-        // $totalDuration = $finishTime->diff($startTime)->format('%H:%I:%S');
-        // // $dt->toTimeString();
-        // // return $totalDuration;
-        // return Carbon::parse($totalDuration);
+        }else{
+            $days = 0;
+            $days_left = 0;
+        }
 
         return view('users.dashboard', compact('wallet','level1','level2','level3','level4','level5',
             'level6','level7','level8','level9','level10','level11','level12','level13','level14',
             'level15','totalSend','totalReceive','addFund','pendingWithDraw','accpectWithDraw','user',
-            'referLink', 'days'));
+            'referLink', 'days', 'days_left'));
     }
 
     public function activate()
@@ -246,6 +239,24 @@ class UserController extends Controller
                 $wallet->booking_wallet = $wallet->booking_wallet - $settings->registration;
                 $wallet->is_approved = 1;
                 $wallet->save();
+                // project date time store
+                $project_date_time = ProjectDateTime::where('user_id', $user_id)->first();
+                if($project_date_time){
+                    $project_date_time->update([
+                        'project_date_begin'=>Carbon::now(),
+                        'current_date_time'=>Carbon::now(),
+                        'project_date_end'=>Carbon::now()->addYears(1),
+                        'status'=>1,
+                    ]);
+                }else{
+                    ProjectDateTime::create([
+                        'user_id' => $user_id,
+                        'project_date_begin'=>Carbon::now(),
+                        'current_date_time'=>Carbon::now(),
+                        'project_date_end'=>Carbon::now()->addYears(1),
+                        'status'=>1,
+                    ]);
+                }
             }else{
                 return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
             }
@@ -687,9 +698,6 @@ class UserController extends Controller
                                     $wallet->save();
                                 }
                             }
-                            // else {
-                            //     return redirect()->route('users.dashboard');
-                            // }
 
                             $ezzyExc = User::where('id', $pendingEzzyManger->user_id)->first();
                             if ($ezzyExc) {
@@ -871,8 +879,8 @@ class UserController extends Controller
                 }
             }
         } else {
-            return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
+            return back()->with('errors', 'Insufficient activation balance. minimum balance will ' .$settings->registration);
         }
-        return redirect()->route('users.dashboard')->with('success', 'Your account succesfull activated');
+        return redirect()->route('users.dashboard')->with('success', 'Your account succesfull activated for 365 days.');
     }
 }
