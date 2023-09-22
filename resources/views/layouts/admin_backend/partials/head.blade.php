@@ -1,7 +1,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title> Admin Panel </title>
+    <title> MFS PAY | Admin Panel </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -21,7 +21,7 @@
     <link href="{{asset('admin/css/oceanezzy.life_assets_static_admin_css_skins_aside_dark.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Layout Skins -->
     
-    <link rel="shortcut icon" href="https://www.oceanezzy.life/assets/media/app_image/favicon.png" />
+    <link rel="shortcut icon" href="../backend/images/logo.png" />
     <script type="text/javascript">
         
     </script>

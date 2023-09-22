@@ -2,6 +2,7 @@
 
 @section('content')
     @push('customCss')
+    <style>
         body {
         font-family: "Poppins",sans-serif !important;
         line-height: 1.6rem;
@@ -123,20 +124,24 @@
                 <x-users-data-table>
                     <thead>
                         <tr>
-                            <th scope="col">Name</th>
+                            <th scope="col">Receiver Name</th>
+                            <th scope="col">Receiver Username</th>
+                            <th scope="col">Sender username</th>
                             <th>Wallet</th>
                             <th>Ammount</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody id="tbody_data">
-                        {{-- {{dd($sendMoney)}} --}}
                         @foreach ($sendMoney as $item)
                             <tr>
                                 @php
                                     $user = App\Models\User::where('id', $item->user_id)->first();
+                                    $sender = App\Models\User::where('id', $item->master_id)->first();
                                 @endphp
                                 <th scope="col">{{ $user->first_name . ' ' . $user->last_name }}</th>
+                                <th scope="col">{{ $user->username }}</th>
+                                <th>{{ $sender->username }}</th>
                                 <th>{{ $item->type }}</th>
                                 <th>{{ $item->send_amount }}</th>
                                 @php

@@ -7,9 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="">
     <meta id="theme-check" name="theme-color" content="#FFFFFF">
-    <title>Ezzy Pay</title>
-    <link rel="icon" type="image/png" href="{{asset('backend/images/icon.png')}}"
-        sizes="16x16">
+    <title>MFS PAY</title>
+    <link rel="icon" type="image/png" href="../backend/images/logo.png"sizes="16x16">
 
     <link rel="stylesheet" type="text/css"
         href="{{asset('backend/css/bootstrap.css')}}">
