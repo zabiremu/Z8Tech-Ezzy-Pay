@@ -8,6 +8,7 @@ use App\Models\Transcition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 
 class TrenscitionController extends Controller
@@ -39,7 +40,8 @@ class TrenscitionController extends Controller
             'receiver' => 'required',
         ]);
 
-        $user= User::where('username',$request->receiver)->first();
+        $receiver = Str::lower($request->receiver);
+        $user= User::where('username', $receiver)->first();
 
         if (!($user)) {
             throw ValidationException::withMessages([
