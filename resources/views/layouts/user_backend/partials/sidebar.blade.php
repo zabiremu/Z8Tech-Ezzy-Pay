@@ -163,16 +163,16 @@
                     <div class="ps-4  ">Deposit History</div>
                 </a>
 
-                <a href="{{route('admin.report.create')}}" class="list-group-item">
-                    <div class="ps-4  ">Send History</div>
+                <a href="{{route('users.send_history')}}" class="list-group-item">
+                    <div class="ps-4 ">Send History</div>
                 </a>
 
 
-                <a href="{{route('admin.receiver')}}" class="list-group-item">
+                <a href="{{route('users.received_history')}}" class="list-group-item">
                     <div class="ps-4  ">Receive History</div>
                 </a>
 
-                <a href="{{route('admin.convert')}}" class="list-group-item">
+                <a href="{{route('users.converted_history')}}" class="list-group-item">
                     <div class="ps-4  ">Convert History</div>
                 </a>
             </div>
@@ -182,7 +182,7 @@
                 <div class="   manu_font">Profile</div>
             </a>
 
-            <a href="{{route('admin.userPassword.create')}}" id="nav-set" class="list-group-item">
+            <a href="{{route('users.settings')}}" id="nav-set" class="list-group-item">
                 <i class="bi bg-border50 manu_font fa-solid fa-gear"></i>
                 <div class="   manu_font">Setting</div>
             </a>

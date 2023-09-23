@@ -8,7 +8,7 @@
 
                 <h4> Password Update</h4>
 
-                <form class="demo-animation m-0" action="{{ route('admin.userPassword.store') }}" method="POST">
+                <form class="demo-animation m-0" action="{{ route('users.user_change_password') }}" method="POST">
 
                     @csrf
                     <div class="form-custom form-label form-icon mb-3">
@@ -61,12 +61,12 @@
 
                 <h4> TPIN Update</h4>
 
-                <form class="demo-animation m-0" action="{{ route('admin.userPassword.update',Auth::user()->id) }}" method="POST">
+                <form class="demo-animation m-0" action="{{ route('users.user_change_tpin') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-custom form-label form-icon mb-3">
                         <i class="bi font-14"></i>
-                        <input type="text" class="form-control rounded-xs" name="tpin" id="TPIN"
+                        <input type="number" class="form-control rounded-xs" name="tpin" id="TPIN"
                             placeholder="Current TPIN" required />
 
                         <label for="pssword" class="color-theme"> Current TPIN </label>
@@ -78,7 +78,7 @@
 
                     <div class="form-custom form-label form-icon mb-3">
                         <i class="bi font-14"></i>
-                        <input type="text" class="form-control rounded-xs" name="new_tpin" placeholder="New TPIN"
+                        <input type="number" class="form-control rounded-xs" name="new_tpin" placeholder="New TPIN"
                             required />
 
                         <label for="new_tpin" class="color-theme"> New TPIN </label>
@@ -90,7 +90,7 @@
 
                     <div class="form-custom form-label form-icon mb-3">
                         <i class="bi font-14"></i>
-                        <input type="text" class="form-control rounded-xs" name="confirm_tpin" id="confirm_tpin"
+                        <input type="number" class="form-control rounded-xs" name="confirm_tpin" id="confirm_tpin"
                             placeholder="Comfirm New TPIN" required />
 
                         <label for="confirm_tpin" class="colAor-theme"> Comfirm New TPIN </label>

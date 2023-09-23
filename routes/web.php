@@ -20,7 +20,9 @@ use App\Http\Controllers\Backend\SendMoneyController;
 use App\Http\Controllers\Admin\UserPasswordController;
 use App\Http\Controllers\Backend\ProcessingController;
 use App\Http\Controllers\Backend\AddFundReportController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\UsersCommissionController;
+use App\Http\Controllers\UserSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,8 +94,13 @@ Route::middleware('auth')->group(function () {
             Route::post('/get-ajax-user', [UserController::class, 'getAjaxUser'])->name('get.ajax');
             
             Route::post('/send-money', [SendMoneyController::class, 'store'])->name('send.store');
+
             Route::get('/deposit', [PaymentController::class, 'index'])->name('payment.index');
             Route::get('/deposit/history', [PaymentController::class, 'deposithistory'])->name('payment.deposithistory');
+            Route::get('/send/history', [HistoryController::class, 'sendHistory'])->name('send_history');
+            Route::get('/received/history', [HistoryController::class, 'receivedHistory'])->name('received_history');
+            Route::get('/converted/history', [HistoryController::class, 'convertedHistory'])->name('converted_history');
+            
             Route::get('/withdraw', [PaymentController::class, 'withDraw'])->name('payment.withdraw');
             Route::post('/withdraw/ammount', [PaymentController::class, 'withDrawAmmount'])->name('withDraw.ammount');
             Route::post('/deposit-store', [PaymentController::class, 'store'])->name('payment.store');
@@ -106,7 +113,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/ezzy_reward', [PaymentController::class, 'ezzyReward'])->name('convert.ezzy_reward');
             Route::get('/group_bonus', [PaymentController::class, 'groupBonus'])->name('convert.group_bonus');
             Route::get('/ezzy_royality', [PaymentController::class, 'ezzyRoyality'])->name('convert.ezzy_royality');
-            // Route::post('/user-password',[UserPasswordController::class,"userPassword"])->name('password');
+
+
+            Route::get('/settings',[UserSettingsController::class,"userSettings"])->name('settings');
+            Route::post('/user-password',[UserSettingsController::class,"userChangePasswordStore"])->name('user_change_password');
+            Route::put('/user-t-pin',[UserSettingsController::class,"userChangeTPinStore"])->name('user_change_tpin');
+
             Route::get('/commissions/affiliate',[UsersCommissionController::class,'affiliate'])->name('commissions.index');
             Route::get('/commissions/levelIncome',[UsersCommissionController::class,'affiliate'])->name('commissions.levelIncome');
             Route::get('/commissions/ezzyReturn',[UsersCommissionController::class,'ezzyReturn'])->name('commissions.ezzyReturn');

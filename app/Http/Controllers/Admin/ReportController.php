@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\SendMoney;
 use Illuminate\Http\Request;
-use App\Models\SendMoneyForFriends;
 use App\Http\Controllers\Controller;
-use App\Models\Convert;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class ReportController extends Controller
@@ -19,34 +17,6 @@ class ReportController extends Controller
     {
         return view('admin.report.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $sendMoney= SendMoneyForFriends::where('master_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
-        return view('users.transcition.sendRecord',compact('sendMoney'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function receiver()
-    {
-        $sendMoney= SendMoneyForFriends::where('user_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
-        return view('users.transcition.rechiver',compact('sendMoney'));
-    }
-
-      /**
-     * Store a newly created resource in storage.
-     */
-    public function convert()
-    {
-        $sendMoney= Convert::where('user_id', Auth::user()->id)->orderBy('created_at', "DESC")->get();
-        return view('users.transcition.convert',compact('sendMoney'));
-    }
-
 
     /**
      * Display the specified resource.
