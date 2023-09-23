@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 
 class UserPasswordController extends Controller
@@ -17,14 +18,6 @@ class UserPasswordController extends Controller
     public function index()
     {
         return view('admin.password.password');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('users.password.index');
     }
 
     /**
@@ -39,7 +32,7 @@ class UserPasswordController extends Controller
             'confirm_new_password' => 'required|min:8',
         ]);
 
-        $user = Auth::user();
+        $user = User::where('id', Auth::user()->id)->first();
 
         if (!Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -70,34 +63,6 @@ class UserPasswordController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'tpin' => 'required',
-            'new_tpin' => 'required|string|min:4|unique:users,t_pin',
-            'confirm_tpin' => 'required|string|min:4|same:new_tpin',
-        ]);
-
-        $user = Auth::user();
-        if ($request->tpin != $user->t_pin) {
-            throw ValidationException::withMessages([
-                'tpin' => ['The provided current tpin is incorrect.'],
-            ]);
-        }
-
-        $user->update([
-            't_pin' =>$request->new_tpin,
-        ]);
-
-        return redirect()->back('')->with('success', 'TPIN updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
