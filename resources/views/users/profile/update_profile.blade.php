@@ -35,7 +35,7 @@
                     <span class="title_style">First Name</span>
                     <i class="fa-solid fa-user"></i>
                     <input type="text" class="form-control rounded-xs" name="first_name" placeholder="First Name"
-                        value="Neoton"  required/>
+                        value="{{ Auth::user()->first_name }}"  required/>
                     @error('first_name')
                         <span style="color: rgba(173, 2, 2, 0.836)"></span>
                     @enderror
@@ -46,7 +46,7 @@
                     <span class="title_style">Last Name </span>
                     <i class="fa-solid fa-user"></i>
                     <input type="text" class="form-control rounded-xs" name="last_name" placeholder="Last Name"
-                        value="Das" required/>
+                        value="{{ Auth::user()->last_name }}" required/>
                     @error('last_name')
                         <span style="color: rgba(173, 2, 2, 0.836)"></span>
                     @enderror
@@ -58,22 +58,22 @@
                     <span class="title_style">country</span>
                     <i class="fa-solid fa-user"></i>
                     <input type="text" class="form-control rounded-xs" name="country" placeholder="country"
-                        value="" required/>
+                        value="{{ Auth::user()->country }}" required/>
                     @error('country')
                         <span style="color: rgba(173, 2, 2, 0.836)"></span>
                     @enderror
-                    <label for="country" class="color-theme"> country </label>
+                    <label for="country" class="color-theme"> Country </label>
                 </div>
 
                 <div class="form-custom form-label form-icon mb-3 mt_25">
                     <span class="title_style">address</span>
                     <i class="fa-solid fa-user"></i>
                     <input type="text" class="form-control rounded-xs" name="address" placeholder="address"
-                        value=""  required/>
+                        value="{{ Auth::user()->address }}" required/>
                     @error('address')
                         <span style="color: rgba(173, 2, 2, 0.836)"></span>
                     @enderror
-                    <label for="address_1" class="color-theme"> address </label>
+                    <label for="address_1" class="color-theme"> Address </label>
                 </div>
 
                 <div class="form-custom form-label form-icon mb-3 mt_25">

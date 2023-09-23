@@ -18,7 +18,7 @@
     <div class="pt-5 mt-4"></div>
     <div class="card card-style overflow-visible mt-5" style="margin-top:100px !important">
         <div class="mt-5"></div>
-        <img src="{{ Auth::user()->image ?? '' }}" alt="img" width="180" class="mx-auto mt-n5 shadow-l"
+        <img src="/uploads/users/{{ Auth::user()->image }}" alt="img" width="180" class="mx-auto mt-n5 shadow-l"
             style="border-radius: 10px !important;">
         <p class="text-center font-11"></p>
 
@@ -141,7 +141,7 @@
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1 ">
                         @if (Auth::user()->nid1)
-                            <img src="{{Auth::user()->nid1}}" alt="" width="100px">
+                            <img src="/uploads/nid/front/{{ Auth::user()->nid1 }}" alt="" width="100px">
                         @else
                             <span class="text-danger"> Empty</span>
                         @endif
@@ -155,7 +155,7 @@
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1 ">
                         @if (Auth::user()->nid2)
-                            <img src="{{Auth::user()->nid2}}" alt="" width="100px">
+                            <img src="/uploads/nid/back/{{ Auth::user()->nid2 }}" alt="" width="100px">
                         @else
                             <span class="text-danger"> Empty</span>
                         @endif
