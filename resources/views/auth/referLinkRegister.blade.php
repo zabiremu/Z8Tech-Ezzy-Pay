@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -557,75 +556,13 @@
                         <div style="width: 250px;">
                             <div
                                 style="position: relative;width: fit-content; top: -10px;left: 155px;transform: translate(-50%,0%);">
-                                <img src="{{asset('backend/images/logo.png')}}"
+                                <img src="{{ asset('backend/images/logo.png') }}"
                                     style="max-width: 250px;height: 50px;" />
                             </div>
-
-                            <!--
-                            <div class="animation_image">
-                                <img src="https://www.oceanezzy.life/assets/media/app_icon/animation_image.svg" />
-                            </div>
-                            -->
                         </div>
                         <h2 style="text-align: center;">Registration</h2>
                         <form id="form" style="margin-top: 35px;" action="{{ route('register') }}" method="POST">
                             @csrf
-                            <!--
-      <div class="input_field select_option">
-        <select name="country" id="country">
-         <option value="Afghanistan">Afghanistan</option>
-         <option value="Albania">Albania</option>
-         <option value="Argentina">Argentina</option>
-         <option value="Australia">Australia</option>
-         <option value="Austria">Austria</option>
-         <option value="Azerbaijan">Azerbaijan</option>
-         <option value="Bahrain">Bahrain</option>
-         <option value="Bangladesh" selected>Bangladesh</option>
-         <option value="Belgium">Belgium</option>
-         <option value="Bhutan">Bhutan</option>
-         <option value="Bolivia">Bolivia</option>
-         <option value="Brazil">Brazil</option>
-         <option value="Brunei">Brunei</option>
-         <option value="Cambodia">Cambodia</option>
-         <option value="canada">Canada</option>
-         <option value="Chile">Chile</option>
-         <option value="Colombia">Colombia</option>
-         <option value="Costa Rica">Costa Rica</option>
-         <option value="Cyprus">Cyprus</option>
-         <option value="Croatia">Croatia</option>
-         <option value="Ecuador">Ecuador</option>
-         <option value="Finland">Finland</option>
-         <option value="France">France</option>
-         <option value="Germany">Germany</option>
-         <option value="Greece">Greece</option>
-         <option value="Guyana">Guyana</option>
-         <option value="Hungary">Hungary</option>
-         <option value="India">India</option>
-         <option value="Indonesia">Indonesia</option>
-         <option value="Italy">Italy</option>
-         <option value="Japan">Japan</option>
-         <option value="Jordan">Jordan</option>
-         <option value="South Korea">South Korea</option>
-         <option value="Kyrgyzstan">Kyrgyzstan</option>
-         <option value="Lithuania">Lithuania</option>
-         <option value="Maldives">Maldives</option>
-         <option value="Nepal">Nepal</option>
-         <option value="New Zealand">New Zealand</option>
-         <option value="Nigeria">Nigeria</option>
-         <option value="Oman">Oman</option>
-         <option value="Qatar">Qatar</option>
-         <option value="Russia">Russia</option>
-         <option value="Senegal">Senegal</option>
-         <option value="Spain">Spain</option>
-         <option value="United Arab Emirates ">United Arab Emirates </option>
-         <option value="United Kingdom ">United Kingdom </option>
-         <option value="United States of America ">United States of America </option>
-         <option value="Zambia">Zambia</option>
-        </select>
-        <div class="select_arrow"></div>
-       </div>
-      -->
-
                             <div class="input_field">
                                 <span>
                                     <i aria-hidden="true" class="fa fa-user golden-text"></i>
@@ -633,7 +570,8 @@
                                 <input type="text" name="first_name" placeholder="First Name" />
                             </div>
                             @error('first_name')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -643,8 +581,9 @@
                                 <input type="text" name="last_name" placeholder="Last Name" />
                             </div>
 
-							@error('last_name')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('last_name')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -653,10 +592,11 @@
                                 </span>
                                 <input type="text" name="user_name" placeholder="User Name" />
                             </div>
-							@error('user_name')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('user_name')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
-                        
+
 
                             <div class="input_field">
                                 <span>
@@ -665,8 +605,9 @@
                                 <input type="text" name="email" placeholder="Email" />
                             </div>
 
-							@error('email')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('email')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field select_option" style="display: none;">
@@ -675,8 +616,9 @@
                                 </select>
                             </div>
 
-							@error('bank_id')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('bank_id')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -684,11 +626,12 @@
                                     <i aria-hidden="true" class="fa fa-phone golden-text"></i>
                                 </span>
                                 <input type="text" name="phone" placeholder="Phone no must be nagad number"
-                                    min-length"11" max-length"11" />
+                                    min-length="11" max-length="11" />
                             </div>
 
-							@error('phone')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('phone')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -698,8 +641,9 @@
                                 <input type="text" name="password" placeholder="Password" />
                             </div>
 
-							@error('password')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('password')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -709,8 +653,9 @@
                                 <input type="text" name="retype_password" placeholder="Re-type Password" />
                             </div>
 
-							@error('retype_password')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('retype_password')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
@@ -720,19 +665,22 @@
                                 <input type="text" name="tpin" placeholder="T-PIN" />
                             </div>
 
-							@error('tpin')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('tpin')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
                             <div class="input_field">
                                 <span>
                                     <i aria-hidden="true" class="fa fa-user golden-text"></i>
                                 </span>
-                                <input type="text" name="reference_id" placeholder="Sponsor" value="{{$user->username}}" />
+                                <input type="text" name="reference_id" placeholder="Sponsor"
+                                    value="{{ $user->username }}" />
                             </div>
 
-							@error('reference_id')
-                                <span class="d-block" style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
+                            @error('reference_id')
+                                <span class="d-block"
+                                    style="color: rgb(223, 0, 0); margin:0 20px 0 0!important;">{{ $message }}</span>
                             @enderror
 
 
@@ -751,97 +699,11 @@
             </div>
         </div>
     </div>
-
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    {{-- <script>
-		function pageBlock(){
-			$.blockUI({ 
-				message: "processing" ,
-				css: { 
-					border: 'none', 
-					padding: '10px', 
-					backgroundColor: '#000', 
-					'-webkit-border-radius': '10px', 
-					'-moz-border-radius': '10px', 
-					opacity: .3, 
-					color: '#fff' 
-				} 
-			});
-		}
-
-		function pageUnBlock(){
-			$.unblockUI();
-		}
-		
-		function t_alert(type, title, text='') {
-			Swal.fire({
-              icon: type,
-              title: type,
-              html: text,
-            });
-    	}
-	</script>
-
-	<script type="text/javascript">
-
-		
-		$(document).on('click', '#reg_btn', function(e) {
-			e.preventDefault();
-
-			var form = $('#form')[0];
-			var data = new FormData(form);
-
-
-		   $.ajax({
-				type: "POST",
-				enctype: 'multipart/form-data',
-				url: 'https://www.oceanezzy.life/auth/ajax/signup.html',
-				data: data,
-				processData: false,
-				contentType: false,
-				cache: false,
-				timeout: 600000,
-				async: false,
-				dataType: 'json',
-				beforeSend: function() {
-					pageBlock();
-				},
-				complete: function() {
-					pageUnBlock();
-				},
-				success: function (data) {
-					
-					if (data.type == 'error') {
-						t_alert(data.type, '', data.data_msg[0].msg);
-						pageUnBlock();
-					} else if (data.type == 'warning') {
-						pageUnBlock();
-					} else if (data.type == 'success') {
-					    
-					    t_alert(data.type, '', data.data_msg[0].msg);
-
-											   
-							window.location = 'https://www.oceanezzy.life/user/parent_table?p=';
-							pageUnBlock();
-
-											}
-
-					pageUnBlock();
-				},
-				error: function (e) {
-					console.log("ERROR : ", e);
-					pageUnBlock();
-				}
-			});
-		});
-	</script>
-	 --}}
 </body>
 
 </html>

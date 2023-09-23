@@ -224,7 +224,7 @@
             <div class=" py-2">
                 <div class="d-flex text-center" style="padding: 20px 24px 0px;">
                     <div class="me-auto" style="padding-top: 20px;">
-                        <span class="title">My Wallet</span>
+                        <span class="title">My Wallet</span>@
                         <h6 class="font-13 font-500 mb-0 pt-2 total">৳ {{ $wallet->my_wallet ?? 0.0 }}</h6>
                     </div>
                     @if (isset($wallet->is_approved) == 1)
