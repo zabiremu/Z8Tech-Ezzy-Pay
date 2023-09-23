@@ -16,7 +16,7 @@
                             </div>
                         </div>
 
-                        <form class="kt-form kt-form--label-right" id="form" method="POST" action="{{ route('users.edit', ['id'=>$user->id]) }}" enctype="multipart/form-data">
+                        <form class="kt-form kt-form--label-right" id="form" method="POST" action="{{ route('admin.edit', ['id'=>$user->id]) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 

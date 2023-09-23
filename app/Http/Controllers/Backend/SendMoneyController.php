@@ -10,6 +10,7 @@ use App\Models\SendMoneyForFriends;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class SendMoneyController extends Controller
 {
@@ -39,7 +40,8 @@ class SendMoneyController extends Controller
             'tpin' => 'required',
         ]);
         $authuser = User::where('id', Auth::user()->id)->first();
-        if((string)$authuser->username == (string)$request->user_id){
+        $req_user_id = Str::lower($request->user_id);
+        if((string)$authuser->username == (string)$req_user_id){
             return redirect()->back()->with('fail', 'you enter same username.');
         }else{     
             if((int)$authuser->t_pin == (int)$request->tpin){

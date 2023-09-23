@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/payment/approved', [PaymentController::class, 'PaymentApproved'])->name('competed.index');
             Route::get('/withdraw-reject/{id}', [PaymentController::class, 'withDrawReject'])->name('withdraw.reject');
             Route::get('/withdraw-reject', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
+            Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
         });
 
     Route::prefix('/users')->middleware(['users'])
@@ -88,7 +89,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/show/profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
             Route::post('/update/profile', [ProfileController::class, 'updateInfo'])->name('update.information');
             Route::get('/app/users', [UserController::class, 'allUsers'])->name('list');
-            Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
 
             Route::get('/booking-wallet/fund/transfer', [SendMoneyController::class, 'index'])->name('send');
             Route::get('/my-wallet/fund/transfer', [SendMoneyController::class, 'myWalletTransferView'])->name('my_wallet_fund_transfer');
