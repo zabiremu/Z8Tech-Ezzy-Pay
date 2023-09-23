@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\CompleteController;
 use App\Http\Controllers\Admin\TrenscitionController;
 use App\Http\Controllers\Backend\SendMoneyController;
 use App\Http\Controllers\Admin\UserPasswordController;
+use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\Backend\ProcessingController;
 use App\Http\Controllers\Backend\AddFundReportController;
 use App\Http\Controllers\HistoryController;
@@ -36,14 +37,15 @@ use App\Http\Controllers\UserSettingsController;
 */
 
 Route::view('/', 'auth.login');
-
 Auth::routes();
-
-
 Route::get('/registration/{username}', [UserController::class, 'registration'])->name('users.refer.registration');
+
+Route::get('/admin/login', [AdminLoginController::class, 'adminLoginView'])->name('admin_login_view');
+Route::post('/admin/login', [AdminLoginController::class, 'adminLoginCheck'])->name('admin_login_check');
+
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('/admin')
+    Route::prefix('/admin')->middleware(['admin'])
         ->name('admin.')
         ->group(function () {
             Route::resource('/dashboard', DashboardController::class);
@@ -77,7 +79,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/withdraw-reject', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
         });
 
-    Route::prefix('/users')
+    Route::prefix('/users')->middleware(['users'])
         ->name('users.')
         ->group(function () {
             Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');

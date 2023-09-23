@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -41,10 +40,7 @@ class LoginController extends Controller
 
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->is_admin == 1) {
-                return redirect()->route('admin.dashboard.index')
-                    ->with('success','You have Successfully loggedin');
-            } elseif (Auth::user()->is_users == 1) {
+            if (Auth::user()->is_users == 1) {
                 return redirect()->route('users.dashboard')
                     ->with('success','You have Successfully logged in');
             } else {

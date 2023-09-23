@@ -41,72 +41,71 @@ class SendMoneyController extends Controller
         $authuser = User::where('id', Auth::user()->id)->first();
         if((string)$authuser->username == (string)$request->user_id){
             return redirect()->back()->with('fail', 'you enter same username.');
-        }
-
-        if((int)$authuser->t_pin == (int)$request->tpin){
-            $user = User::where('username', $request->user_id)->first();            
-            if (!$user) {
-                throw ValidationException::withMessages([
-                    'user_id' => ['The provided user name is incorrect.'],
-                ]);
-            }
-
-            $friendsWallet= Wallet::where('user_id', $user->id)->first();            
-            if(isset($friendsWallet))
-            {
-                if($request->type == 'Booking Wallet')
-                {
-                    $wallet = Wallet::where('user_id', Auth::user()->id)->first();
-                    if ($wallet->booking_wallet >= $request->send_amount) {
-
-                        $wallet->booking_wallet = (int)$wallet->booking_wallet - (int)$request->send_amount;
-                        $wallet->save();
-                        
-                        $friendsWallet->booking_wallet = (int)$friendsWallet->booking_wallet + (int)$request->send_amount;
-                        $friendsWallet->save();
-                        
-                        $sendMoney = new SendMoneyForFriends();
-                        $sendMoney->type= $request->type;
-                        $sendMoney->user_id= $user->id;
-                        $sendMoney->send_amount= $request->send_amount;
-                        $sendMoney->tpin= $request->tpin;
-                        $sendMoney->master_id= Auth::user()->id;
-                        $sendMoney->save();
-                    }else {
-                        throw ValidationException::withMessages([
-                            'send_amount' => ['Insufficient Funds in Booking Wallet'],
-                        ]);
-                    }                                    
-                }elseif($request->type == 'My Wallet'){
-                    $wallet = Wallet::where('user_id', Auth::user()->id)->first();
-                    if ($wallet->my_wallet >= $request->send_amount) {
-                        $wallet->my_wallet = (int)$wallet->my_wallet - (int)$request->send_amount;
-                        $wallet->save();
-                        
-                        $friendsWallet->my_wallet= $friendsWallet->my_wallet + $request->send_amount;
-                        $friendsWallet->save();
-                        
-                        $sendMoney = new SendMoneyForFriends();
-                        $sendMoney->type= $request->type;
-                        $sendMoney->user_id= $user->id;
-                        $sendMoney->send_amount= $request->send_amount;
-                        $sendMoney->tpin= $request->tpin;
-                        $sendMoney->master_id= Auth::user()->id;
-                        $sendMoney->save();
-                    }else {
-                        throw ValidationException::withMessages([
-                            'errors' => ['Insufficient Funds in Booking Wallet'],
-                        ]);
-                    }
+        }else{     
+            if((int)$authuser->t_pin == (int)$request->tpin){
+                $user = User::where('username', $request->user_id)->first();            
+                if (!$user) {
+                    throw ValidationException::withMessages([
+                        'user_id' => ['The provided user name is incorrect.'],
+                    ]);
                 }
-                    
-            }
 
-            return redirect()->back()->with('success', 'Balance Transfer successfully send.');
-        }else{            
-            return redirect()->back()->with('fail', 'T-PIN does not match.');
-        }       
-        
+                $friendsWallet= Wallet::where('user_id', $user->id)->first();            
+                if(isset($friendsWallet))
+                {
+                    if($request->type == 'Booking Wallet')
+                    {
+                        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+                        if ($wallet->booking_wallet >= $request->send_amount) {
+
+                            $wallet->booking_wallet = (int)$wallet->booking_wallet - (int)$request->send_amount;
+                            $wallet->save();
+                            
+                            $friendsWallet->booking_wallet = (int)$friendsWallet->booking_wallet + (int)$request->send_amount;
+                            $friendsWallet->save();
+                            
+                            $sendMoney = new SendMoneyForFriends();
+                            $sendMoney->type= $request->type;
+                            $sendMoney->user_id= $user->id;
+                            $sendMoney->send_amount= $request->send_amount;
+                            $sendMoney->tpin= $request->tpin;
+                            $sendMoney->master_id= Auth::user()->id;
+                            $sendMoney->save();
+                        }else {
+                            throw ValidationException::withMessages([
+                                'send_amount' => ['Insufficient Funds in Booking Wallet'],
+                            ]);
+                        }                                    
+                    }elseif($request->type == 'My Wallet'){
+                        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+                        if ($wallet->my_wallet >= $request->send_amount) {
+                            $wallet->my_wallet = (int)$wallet->my_wallet - (int)$request->send_amount;
+                            $wallet->save();
+                            
+                            $friendsWallet->my_wallet= $friendsWallet->my_wallet + $request->send_amount;
+                            $friendsWallet->save();
+                            
+                            $sendMoney = new SendMoneyForFriends();
+                            $sendMoney->type= $request->type;
+                            $sendMoney->user_id= $user->id;
+                            $sendMoney->send_amount= $request->send_amount;
+                            $sendMoney->tpin= $request->tpin;
+                            $sendMoney->master_id= Auth::user()->id;
+                            $sendMoney->save();
+                        }else {
+                            throw ValidationException::withMessages([
+                                'errors' => ['Insufficient Funds in Booking Wallet'],
+                            ]);
+                        }
+                    }
+                        
+                }
+
+                return redirect()->back()->with('success', 'Balance Transfer successfully send.');
+            }else{            
+                return redirect()->back()->with('fail', 'T-PIN does not match.');
+            }       
+        }
     }
 
     /**

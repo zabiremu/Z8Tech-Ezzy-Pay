@@ -192,15 +192,15 @@
                     <img src="{{asset('backend/images/logo.png')}}" style="max-width: 160px;" />
                 </div>
 
-                <form method="POST" action="{{ route('login') }}" class="login" id="form">
+                <form method="POST" action="{{ route('admin_login_check') }}" class="login" id="form">
                     @csrf
                     <h2 style="margin-bottom:-10px;font-size: 14px;color:#fffb00;margin-left: 10px;font-weight: bold;">
-                        Username </h2>
+                        Email </h2>
                     <div class="login__field">
                         <i class="login__icon fas fa-user golden-text" id="login_id__icon"></i>
-                        <input type="text" class="login__input input_bg" form="form" name="username" 
-                            value="" tabindex="1" placeholder="Username">
-                        @error('username')
+                        <input type="email" class="login__input input_bg" form="form" name="email" 
+                            value="" tabindex="1" placeholder="email">
+                        @error('email')
                             <span style="color:rgb(180, 0, 0)">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -258,6 +258,7 @@
     <!--<script src="https://www.oceanezzy.life/assets/static/front/js/vendor/jquery-1.12.4.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>
