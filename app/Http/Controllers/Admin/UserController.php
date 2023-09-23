@@ -263,18 +263,19 @@ class UserController extends Controller
            
             if ($wallet) {
                 $master_user_id = User::where('username', $user->sponsor)->first();
-                if (isset($master_user_id)) {
-                    $wallet = Wallet::where('user_id', $master_user_id->id)->first();
-                    if(isset($wallet))
-                    {
-                    $wallet->affiliate_income = 50 + $wallet->affiliate_income;
-                    $wallet->save();
-                    }else{
-                        $wallet= Wallet::where('user_id',2)->first();
-                        $wallet->my_wallet= 50 + $wallet->affiliate_income;
+                if($master_user_id->is_approved == 1){
+                    if (isset($master_user_id)) {
+                        $wallet = Wallet::where('user_id', $master_user_id->id)->first();
+                        if(isset($wallet))
+                        {
+                        $wallet->affiliate_income = 50 + $wallet->affiliate_income;
                         $wallet->save();
+                        }                     
                     }
-                  
+                }else{
+                    $wallet= Wallet::where('user_id',1)->first();
+                    $wallet->my_wallet= 50 + $wallet->affiliate_income;
+                    $wallet->save();
                 }
             }
 
@@ -286,7 +287,6 @@ class UserController extends Controller
                         if (isset($master)) {
                             $levelOneToFifteen = new LevelOneToFifteen();
                             $levelOneToFifteen->level_1 = $ezzyMmeber->user_id;
-                            $levelOneToFifteen->user_id = Auth::user()->id;
                             $levelOneToFifteen->save();
                         }
                         $master = User::where('id', $levelOneToFifteen->level_1)->first();
@@ -427,7 +427,7 @@ class UserController extends Controller
                     if ($sponsor_level_1) {
                         $walletOne = Wallet::where('user_id', $sponsor_level_1->id)->first();
                         if ($walletOne) {
-                            $walletOne->level_bonus = 10 + $walletOne->level_bonus;
+                            $walletOne->level_bonus = 5 + $walletOne->level_bonus;
                             $walletOne->save();
                         }
                     }
@@ -438,7 +438,7 @@ class UserController extends Controller
                     if ($sponsor_level_2) {
                         $walletTwo = Wallet::where('user_id', $sponsor_level_2->id)->first();
                         if ($walletTwo) {
-                            $walletTwo->level_bonus = 10 + $walletTwo->level_bonus;
+                            $walletTwo->level_bonus = 5 + $walletTwo->level_bonus;
                             $walletTwo->save();
                         }
                     }
@@ -449,7 +449,7 @@ class UserController extends Controller
                     if ($sponsor_level_3) {
                         $walletThree = Wallet::where('user_id', $sponsor_level_3->id)->first();
                         if ($walletThree) {
-                            $walletThree->level_bonus = 10 + $walletThree->level_bonus;
+                            $walletThree->level_bonus = 5 + $walletThree->level_bonus;
                             $walletThree->save();
                         }
                     }
@@ -460,7 +460,7 @@ class UserController extends Controller
                     if ($sponsor_level_4) {
                         $walletFour = Wallet::where('user_id', $sponsor_level_4->id)->first();
                         if ($walletFour) {
-                            $walletFour->level_bonus = 10 + $walletFour->level_bonus;
+                            $walletFour->level_bonus = 5 + $walletFour->level_bonus;
                             $walletFour->save();
                         }
                     }
@@ -471,7 +471,7 @@ class UserController extends Controller
                     if ($sponsor_level_5) {
                         $walletFive = Wallet::where('user_id', $sponsor_level_5->id)->first();
                         if ($walletFive) {
-                            $walletFive->level_bonus = 10 + $walletFive->level_bonus;
+                            $walletFive->level_bonus = 5 + $walletFive->level_bonus;
                             $walletFive->save();
                         }
                     }
@@ -482,7 +482,7 @@ class UserController extends Controller
                     if ($sponsor_level_6) {
                         $walletSix = Wallet::where('user_id', $sponsor_level_6->id)->first();
                         if ($walletSix) {
-                            $walletSix->level_bonus = 10 + $walletSix->level_bonus;
+                            $walletSix->level_bonus = 5 + $walletSix->level_bonus;
                             $walletSix->save();
                         }
                     }
@@ -493,7 +493,7 @@ class UserController extends Controller
                     if ($sponsor_level_7) {
                         $walletSeven = Wallet::where('user_id', $sponsor_level_7->id)->first();
                         if ($walletSeven) {
-                            $walletSeven->level_bonus = 10 + $walletSeven->level_bonus;
+                            $walletSeven->level_bonus = 5 + $walletSeven->level_bonus;
                             $walletSeven->save();
                         }
                     }
@@ -504,7 +504,7 @@ class UserController extends Controller
                     if ($sponsor_level_8 !== null) {
                         $walletEight = Wallet::where('user_id', $sponsor_level_8->id)->first();
                         if ($walletEight) {
-                            $walletEight->level_bonus =10 + $walletEight->level_bonus;
+                            $walletEight->level_bonus =5 + $walletEight->level_bonus;
                             $walletEight->save();
                         }
                     }
@@ -515,7 +515,7 @@ class UserController extends Controller
                     if ($sponsor_level_9) {
                         $walletNine = Wallet::where('user_id', $sponsor_level_9->id)->first();
                         if ($walletNine) {
-                            $walletNine->level_bonus =10 + $walletNine->level_bonus;
+                            $walletNine->level_bonus =5 + $walletNine->level_bonus;
                             $walletNine->save();
                         }
                     }
@@ -526,7 +526,7 @@ class UserController extends Controller
                     if ($sponsor_level_10) {
                         $walletTen = Wallet::where('user_id', $sponsor_level_10->id)->first();
                         if ($walletTen) {
-                            $walletTen->level_bonus = 10 + $walletTen->level_bonus;
+                            $walletTen->level_bonus = 5 + $walletTen->level_bonus;
                             $walletTen->save();
                         }
                     }
@@ -537,7 +537,7 @@ class UserController extends Controller
                     if ($sponsor_level_11 !== null) {
                         $walletEleven = Wallet::where('user_id', $sponsor_level_11->id)->first();
                         if ($walletEleven) {
-                            $walletEleven->level_bonus =10 + $walletEleven->level_bonus;
+                            $walletEleven->level_bonus =5 + $walletEleven->level_bonus;
                             $walletEleven->save();
                         }
                     }
@@ -548,7 +548,7 @@ class UserController extends Controller
                     if ($sponsor_level_12) {
                         $walletTwelve = Wallet::where('user_id', $sponsor_level_12->id)->first();
                         if ($walletTwelve) {
-                            $walletTwelve->level_bonus =10 + $walletTwelve->level_bonus;
+                            $walletTwelve->level_bonus =5 + $walletTwelve->level_bonus;
                             $walletTwelve->save();
                         }
                     }
@@ -558,7 +558,7 @@ class UserController extends Controller
                     $sponsor_level_13 = User::where('username', $sponsor_level_12->sponsor)->first();
                     if ($sponsor_level_13) {
                         $walletThirteen = Wallet::where('user_id', $sponsor_level_2->id)->first();
-                        $walletThirteen->level_bonus = 10+ $wallet->level_bonus;
+                        $walletThirteen->level_bonus = 5+ $wallet->level_bonus;
                         $walletThirteen->save();
                     }
                 }
@@ -568,7 +568,7 @@ class UserController extends Controller
                     if ($sponsor_level_14) {
                         $walletFourteen = Wallet::where('user_id', $sponsor_level_14->id)->first();
                         if ($walletFourteen) {
-                            $walletFourteen->level_bonus = 10 + $walletFourteen->level_bonus;
+                            $walletFourteen->level_bonus = 5 + $walletFourteen->level_bonus;
                             $walletFourteen->save();
                         }
                     }
@@ -579,7 +579,7 @@ class UserController extends Controller
                     if ($sponsor_level_15) {
                         $walletFifteen = Wallet::where('user_id', $sponsor_level_15->id)->first();
                         if ($walletFifteen) {
-                            $walletFifteen->level_bonus = 10 + $walletFifteen->level_bonus;
+                            $walletFifteen->level_bonus = 5 + $walletFifteen->level_bonus;
                             $walletFifteen->save();
                         }
                     }
@@ -828,7 +828,7 @@ class UserController extends Controller
                                 }
                             }
 
-                            $ezzyCeo = User::where('id', $ezzyCoe->user_id)->first();
+                            $ezzyCeo = User::where('id', $pendingEzzyCoe->user_id)->first();
                             // dd($ezzyExc);
                             if (isset($ezzyCeo)) {
                                 $sponsorStepSeven = IntialCEO::where('user_id', $ezzyCeo->id)->first();

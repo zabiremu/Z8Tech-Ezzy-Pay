@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\AddFundReportController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\UsersCommissionController;
 use App\Http\Controllers\UserSettingsController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,20 @@ use App\Http\Controllers\UserSettingsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/seed', function () {
+    Artisan::call("migrate:fresh --seed");
+    return "Database Clear and Seeding Success";
+});
+Route::get('/optimize', function () {
+    Artisan::call("optimize:clear");
+    return "Your website successfully optimized";
+});
+Route::get('/linkstorage', function () {
+    Artisan::call("storage:link");
+    return "success";
+});
+
+
 
 Route::view('/', 'auth.login');
 Auth::routes();
@@ -44,7 +59,6 @@ Route::get('/admin/login', [AdminLoginController::class, 'adminLoginView'])->nam
 Route::post('/admin/login', [AdminLoginController::class, 'adminLoginCheck'])->name('admin_login_check');
 
 Route::middleware('auth')->group(function () {
-
     Route::prefix('/admin')->middleware(['admin'])
         ->name('admin.')
         ->group(function () {
@@ -80,7 +94,7 @@ Route::middleware('auth')->group(function () {
             Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
         });
 
-    Route::prefix('/users')->middleware(['users'])
+    Route::prefix('/users')
         ->name('users.')
         ->group(function () {
             Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');

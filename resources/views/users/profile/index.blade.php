@@ -115,14 +115,14 @@
                     <h5 class="pt-1 mb-n1 ">My Rank</h5>
                 </div>
                 <div class="align-self-center ms-auto text-end">
-                    <h4 class="pt-1 mb-n1"> </h4>
+                    <h4 class="pt-1 mb-n1">{{ Auth::user()->rank ?? "No Rank"}}</h4>
                 </div>
             </a>
             <div class="divider my-2 opacity-50"></div>
 
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
-                    <h5 class="pt-1 mb-n1 color-green-dark ">Package</h5>
+                    <h5 class="pt-1 mb-n1 color-green-dark">Package</h5>
                 </div>
                 <div class="align-self-center ms-auto text-end">
                     <h4 class="pt-1 mb-n1 color-green-dark">
@@ -134,7 +134,6 @@
                     </h4>
                 </div>
             </a>
-
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
                     <h5 class="pt-1 mb-n1  ">NID Front Image</h5>
@@ -149,7 +148,6 @@
                     </h4>
                 </div>
             </a>
-
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
                     <h5 class="pt-1 mb-n1  ">NID Back Image</h5>
@@ -164,10 +162,7 @@
                     </h4>
                 </div>
             </a>
-
             <div class="divider my-2 opacity-50"></div>
-
-
             <a href="{{ route('users.update.profile') }}">
                 <button class="btn btn-full rounded-xs text-uppercase font-700 w-100 btn-s mt-4"
                     style="margin-bottom:15px;background: #6236ff;" type="button">Information Update</button>
