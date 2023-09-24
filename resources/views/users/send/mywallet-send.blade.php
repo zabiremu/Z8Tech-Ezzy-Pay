@@ -92,34 +92,5 @@
                 });
             })
         </script>
-
-        {{-- <script>
-            $(document).ready(function() {
-                // Cache the elements
-                var senderWalletSelect = $('#transfer_sender_ac');
-                var receiverIdInput = $('#receiver');
-                var receiverFnameInput = $('#receiver_fname');
-
-                // Initially, check the selected option on page load
-                checkSelectedOption(senderWalletSelect.val());
-
-                // Attach an event listener to the wallet selection dropdown
-                senderWalletSelect.on('change', function() {
-                    var selectedWallet = $(this).val();
-                    checkSelectedOption(selectedWallet);
-                });
-
-                function checkSelectedOption(selectedWallet) {
-                    // Check the selected option and set 'required' attribute accordingly
-                    if (selectedWallet === 'Ezzy Wallet') {
-                        receiverIdInput.prop('required', true);
-                        receiverFnameInput.prop('required', true);
-                    } else {
-                        receiverIdInput.prop('required', false);
-                        receiverFnameInput.prop('required', false);
-                    }
-                }
-            });
-        </script> --}}
     @endpush
 @endsection
