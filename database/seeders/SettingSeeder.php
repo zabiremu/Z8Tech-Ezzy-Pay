@@ -14,10 +14,10 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
-            'marquee_notice'=> 'Well come to OCEAN TOUCH.',
+            'marquee_notice'=> 'WELLCOME TO MFSPAY.',
             'withdraw_time_close'=> '24 hours',
             'withdraw_time_open'=> '23.59',
-            'minimum_deposit'=> '21',
+            'minimum_deposit'=> '50',
             'minimum_transaction'=> '1',
             'minimum_exchange'=> '1',
             'trc20'=> '1',
@@ -34,7 +34,7 @@ class SettingSeeder extends Seeder
             'director'=> '700000',
             'COE'=> '150000',
             'CEO'=> '300000',
-            'registration'=> '1400',
+            'registration'=> '1825',
             'nogodPhoneNumber'=> '01923813381',
         ]);
     }
