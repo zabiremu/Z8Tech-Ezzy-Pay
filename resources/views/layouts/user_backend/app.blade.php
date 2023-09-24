@@ -4,8 +4,6 @@
 @endphp
 <!DOCTYPE HTML>
 <html lang="en">
-
-
 @include('layouts.user_backend.partials.head')
 
 <body class="theme-dark">
@@ -14,8 +12,6 @@
         <!-- Footer Bar -->
         <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
             <div>
-
-
                 <style>
                     .css_marquee {
                         height: 50px;
@@ -83,10 +79,7 @@
 
                 <div class="css_marquee">
                     <span>
-
                         <!--সম্মানিত লিডার বৃন্দ, আপনাদের অনুরোধকে সম্মান জানিয়ে কোম্পানি "আইডি এক্টিভিশন চার্জ ১২০০ টাকা" অফারটিকে সীমিত সময়ের জন্য আগামী ২৫-০৪-২৩ তারিখ পর্যন্ত বহাল রাখার সিদ্ধান্ত গ্রহণ করেছে। ধন্যবাদ।-->
-
-
                        @php
                            $setting= App\Models\Setting::first();
                        @endphp
@@ -106,10 +99,6 @@
                     <!--	<p style="text-transform: uppercase;margin-left: 85px;color: #d2cccc !important;" >WELCOME TO :<i class="title_name" style="color: #fff;"> Fortune01</i></p> -->
                 </div>
                 <div class="align-self-center ms-auto">
-                    <!--	<a href="#" data-bs-toggle="offcanvas" data-bs-target="#menu-notifications" class="icon  color-theme rounded-m shadow-xl ">
-                                <i class="bi bi-bell-fill font-26"></i>
-                                <em class="badge bg-black color-white scale-box" style="border-radius: 50px;margin-left: -3px;">1</em>
-                            </a> -->
                     <a href="{{route('users.profile')}}" class="icon shadow-xl"
                         style=" position: absolute;left: 0px;right: 0;margin: auto;width: 100%;top: 27px;">
                         <img src="{{ asset('backend/images/LOGO-PNG-FILE-.png')}}" class="user_pic" alt="img"
@@ -118,7 +107,7 @@
                         <!--	<h3>EXPRESS WORLD</h3> -->
                     </a>
                     <a href="{{route('users.profile')}}" class="icon shadow-xl" style="margin-right: -10px;">
-                        <img src="{{Auth::user()->image ?? ''}}" class="user_pic" alt="img"
+                        <img src="/uploads/users/{{Auth::user()->image}}" class="user_pic" alt="img"
                             style="height: 32px;width: 32px;border-radius: 10px;margin-top: -10px;">
                     </a>
                 </div>

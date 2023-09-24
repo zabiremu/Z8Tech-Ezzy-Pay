@@ -7,15 +7,13 @@
             <div class="align-self-center me-auto">
                 <a href="#" data-bs-toggle="dropdown" class="icon shadow-bg shadow-bg-s rounded-m"
                     style="margin-left: 0px;">
-                    <img src="{{ Auth::user()->image ?? '' }}" alt="img" width="36" style="border-radius: 10px;">
+                    <img src="/uploads/users/{{Auth::user()->image}}" alt="img" width="36" style="border-radius: 10px;">
                 </a>
             </div>
             <div class="align-self-center ms-auto" style="position: absolute;left: 70px;top: 5px;">
                 <h1 class="font-15" style="margin-bottom: -8px;"> {{Auth::user()->username}} </h1>
 
-
                 <p style="color: #1dcc70;">{{Auth::user()->is_approved == 1 ? 'Paid Member' : ''}}</p>
-
 
             </div>
             <a class="ps-4 shadow-0 me-n2" href="#" data-bs-dismiss="offcanvas">
@@ -38,8 +36,6 @@
                 <div class="d-flex text-center">
                     <div class="me-auto">
                         <a class="icon icon-s rounded-s bg-blu shadow-bg shadow-bg-xs" href="{{ route('users.payment.index') }}">
-                            {{-- <i class="font-16 color-white bi bi-plus" style="font-size: 20px !important;">
-                            </i> --}}
                             <i class="font-16 color-white fa-solid fa-money-bill-transfer" style="font-size: 20px !important;"></i>
                         </a>
                         <h6 class="font-11 font-400 opacity-70 mb-n1 pt-2" style="padding-top: 10px !important;">Deposit
@@ -68,7 +64,7 @@
             @if (Auth::user()->is_approved == 1)
             <a href="{{ route('users.dashboard') }}" id="nav-dash" class="list-group-item">
                 <i class="bg-border50 fa-solid fa-house"></i>
-                <div class="   manu_font">Dashboard</div>
+                <div class="manu_font">Dashboard</div>
             </a>
 
             <a href="#" id="team" data-submenu="team_menu" class="list-group-item">
@@ -89,22 +85,6 @@
             </a>
 
             <div class="list-submenu" id="withdrawal_menu">
-
-                {{-- <a href="https://www.oceanezzy.life/user/withdraw.html" class="list-group-item">
-                    <div class="ps-4  ">Nagad Withdraw</div>
-                </a>
-
-                <a href="#" class="list-group-item">
-                    <div class="ps-4  ">Bank Withdraw</div>
-                </a>
-
-                <a href="#" class="list-group-item">
-                    <div class="ps-4  ">Crypto Withdraw</div>
-                </a>
-
-                <a href="https://www.oceanezzy.life/user/withdraw_datatable" class="list-group-item">
-                    <div class="ps-4  ">Record</div>
-                </a> --}}
             </div>
 
             <a href="{{route('users.send')}}" id="nav-send" class="list-group-item">

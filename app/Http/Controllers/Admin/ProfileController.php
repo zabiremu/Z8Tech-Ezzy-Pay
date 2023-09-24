@@ -84,9 +84,9 @@ class ProfileController extends Controller
             'last_name' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nid1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nid2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
+            'nid1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
+            'nid2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
         ]);
 
         $user= Auth::user();
