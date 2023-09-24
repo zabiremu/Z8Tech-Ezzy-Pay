@@ -212,6 +212,12 @@ class UserController extends Controller
             $days = $start->diffInDays($end);
             $days_left = $current->diffInDays($end);
 
+            if ($days_left == 0) {
+                $project_duration->update([
+                    'status' => 0,
+                ]);
+            }
+
         }else{
             $days = 0;
             $days_left = 0;
@@ -220,667 +226,671 @@ class UserController extends Controller
         return view('users.dashboard', compact('wallet','level1','level2','level3','level4','level5',
             'level6','level7','level8','level9','level10','level11','level12','level13','level14',
             'level15','totalSend','totalReceive','addFund','pendingWithDraw','accpectWithDraw','user',
-            'referLink', 'days', 'days_left'));
+            'referLink','project_duration', 'days', 'days_left'));
     }
 
     public function activate()
     {   $user_id = Auth::user()->id;
         $settings = Setting::first();
-        $wallet = Wallet::where('user_id', $user_id)->first();
-        if ($wallet) {
-            if($wallet->is_approved == 1){
+
+        $project_date_time = ProjectDateTime::where('user_id', $user_id)->first();
+        if($project_date_time){            
+            if($project_date_time->status == 1){
                 return redirect()->route('users.dashboard')->with('errors', 'Your account is already activated');
             }
-
-            $user = User::where('id', $user_id)->first();
-            $wallet->user_id = $user->id;
-            if($wallet->booking_wallet >= $settings->registration) 
-            {
-                $wallet->booking_wallet = $wallet->booking_wallet - $settings->registration;
-                $wallet->is_approved = 1;
-                $wallet->save();
-                // project date time store
-                $project_date_time = ProjectDateTime::where('user_id', $user_id)->first();
-                if($project_date_time){
-                    $project_date_time->update([
-                        'project_date_begin'=>Carbon::now(),
-                        'current_date_time'=>Carbon::now(),
-                        'project_date_end'=>Carbon::now()->addYears(1),
-                        'status'=>1,
-                    ]);
-                }else{
-                    ProjectDateTime::create([
-                        'user_id' => $user_id,
-                        'project_date_begin'=>Carbon::now(),
-                        'current_date_time'=>Carbon::now(),
-                        'project_date_end'=>Carbon::now()->addYears(1),
-                        'status'=>1,
-                    ]);
-                }
-            }else{
-                return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
-            }
-           
+        }else{
+            $wallet = Wallet::where('user_id', $user_id)->first();
             if ($wallet) {
-                $master_user_id = User::where('username', $user->sponsor)->first();
-                if($master_user_id->is_approved == 1){
-                    if (isset($master_user_id)) {
-                        $wallet = Wallet::where('user_id', $master_user_id->id)->first();
-                        if(isset($wallet))
-                        {
-                        $wallet->affiliate_income = 50 + $wallet->affiliate_income;
-                        $wallet->save();
-                        }                     
-                    }
-                }else{
-                    $wallet= Wallet::where('user_id',1)->first();
-                    $wallet->my_wallet= 50 + $wallet->affiliate_income;
+                $user = User::where('id', $user_id)->first();
+                $wallet->user_id = $user->id;
+                if($wallet->booking_wallet >= $settings->registration) 
+                {
+                    $wallet->booking_wallet = $wallet->booking_wallet - $settings->registration;
+                    $wallet->is_approved = 1;
                     $wallet->save();
-                }
-            }
-
-            if ($wallet) {
-                if ($user->sponsor) {
-                    $master = User::where('username', $user->sponsor)->first();
-                    $ezzyMmeber = EzzyMember::where('user_id', $master->id)->first();
-                    if (isset($ezzyMmeber)) {
-                        if (isset($master)) {
-                            $levelOneToFifteen = new LevelOneToFifteen();
-                            $levelOneToFifteen->level_1 = $ezzyMmeber->user_id;
-                            $levelOneToFifteen->save();
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_1)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-
-                                $levelOneToFifteen->level_2 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_2)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_3 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_3)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_4 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_4)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_5 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_5)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_6 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_5)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_6 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_6)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_7 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_7)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_8 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_8)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_9 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_9)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_10 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_10)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_11 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_11)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_12 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_12)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_13 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
-                        $master = User::where('id', $levelOneToFifteen->level_14)->first();
-                        if (isset($master->sponsor)) {
-                            $master = User::where('username', $master->sponsor)->first();
-                            if ($levelOneToFifteen) {
-                                $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
-                                $levelOneToFifteen->level_15 = $master->id;
-                                $levelOneToFifteen->save();
-                            }
-                        }
+                    // project date time store
+                    $project_date_time = ProjectDateTime::where('user_id', $user_id)->first();
+                    if($project_date_time){
+                        $project_date_time->update([
+                            'project_date_begin'=>Carbon::now(),
+                            'current_date_time'=>Carbon::now(),
+                            'project_date_end'=>Carbon::now()->addYear(),
+                            'status'=>1,
+                        ]);
+                    }else{
+                        ProjectDateTime::create([
+                            'user_id' => $user_id,
+                            'project_date_begin'=>Carbon::now(),
+                            'current_date_time'=>Carbon::now(),
+                            'project_date_end'=>Carbon::now()->addYear(),
+                            'status'=>1,
+                        ]);
                     }
+                }else{
+                    return back()->with('errors', 'Insufficient activation balance. minimum balance will' .$settings->registration);
                 }
-            }
-
-            if ($wallet) {
-                $sponsor_level_1 = null;
-                if (Auth::user()->sponsor) {
-                    $sponsor_level_1 = User::where('username', $user->sponsor)->first();
-                    if ($sponsor_level_1) {
-                        $walletOne = Wallet::where('user_id', $sponsor_level_1->id)->first();
-                        if ($walletOne) {
-                            $walletOne->level_bonus = 5 + $walletOne->level_bonus;
-                            $walletOne->save();
-                        }
-                    }
-                }
-                $sponsor_level_2 = null;
-                if ($sponsor_level_1) {
-                    $sponsor_level_2 = User::where('username', $sponsor_level_1->sponsor)->first();
-                    if ($sponsor_level_2) {
-                        $walletTwo = Wallet::where('user_id', $sponsor_level_2->id)->first();
-                        if ($walletTwo) {
-                            $walletTwo->level_bonus = 5 + $walletTwo->level_bonus;
-                            $walletTwo->save();
-                        }
-                    }
-                }
-                $sponsor_level_3 = null;
-                if ($sponsor_level_2) {
-                    $sponsor_level_3 = User::where('username', $sponsor_level_2->sponsor)->first();
-                    if ($sponsor_level_3) {
-                        $walletThree = Wallet::where('user_id', $sponsor_level_3->id)->first();
-                        if ($walletThree) {
-                            $walletThree->level_bonus = 5 + $walletThree->level_bonus;
-                            $walletThree->save();
-                        }
-                    }
-                }
-                $sponsor_level_4 = null;
-                if ($sponsor_level_3) {
-                    $sponsor_level_4 = User::where('username', $sponsor_level_3->sponsor)->first();
-                    if ($sponsor_level_4) {
-                        $walletFour = Wallet::where('user_id', $sponsor_level_4->id)->first();
-                        if ($walletFour) {
-                            $walletFour->level_bonus = 5 + $walletFour->level_bonus;
-                            $walletFour->save();
-                        }
-                    }
-                }
-                $sponsor_level_5 = null;
-                if ($sponsor_level_4) {
-                    $sponsor_level_5 = User::where('username', $sponsor_level_4->sponsor)->first();
-                    if ($sponsor_level_5) {
-                        $walletFive = Wallet::where('user_id', $sponsor_level_5->id)->first();
-                        if ($walletFive) {
-                            $walletFive->level_bonus = 5 + $walletFive->level_bonus;
-                            $walletFive->save();
-                        }
-                    }
-                }
-                $sponsor_level_6 = null;
-                if ($sponsor_level_5) {
-                    $sponsor_level_6 = User::where('username', $sponsor_level_5->sponsor)->first();
-                    if ($sponsor_level_6) {
-                        $walletSix = Wallet::where('user_id', $sponsor_level_6->id)->first();
-                        if ($walletSix) {
-                            $walletSix->level_bonus = 5 + $walletSix->level_bonus;
-                            $walletSix->save();
-                        }
-                    }
-                }
-                $sponsor_level_7 = null;
-                if ($sponsor_level_6) {
-                    $sponsor_level_7 = User::where('username', $sponsor_level_6->sponsor)->first();
-                    if ($sponsor_level_7) {
-                        $walletSeven = Wallet::where('user_id', $sponsor_level_7->id)->first();
-                        if ($walletSeven) {
-                            $walletSeven->level_bonus = 5 + $walletSeven->level_bonus;
-                            $walletSeven->save();
-                        }
-                    }
-                }
-                $sponsor_level_8 = null;
-                if ($sponsor_level_7) {
-                    $sponsor_level_8 = User::where('username', $sponsor_level_7->sponsor)->first();
-                    if ($sponsor_level_8 !== null) {
-                        $walletEight = Wallet::where('user_id', $sponsor_level_8->id)->first();
-                        if ($walletEight) {
-                            $walletEight->level_bonus =5 + $walletEight->level_bonus;
-                            $walletEight->save();
-                        }
-                    }
-                }
-                $sponsor_level_9 = null;
-                if ($sponsor_level_8) {
-                    $sponsor_level_9 = User::where('username', $sponsor_level_8->sponsor)->first();
-                    if ($sponsor_level_9) {
-                        $walletNine = Wallet::where('user_id', $sponsor_level_9->id)->first();
-                        if ($walletNine) {
-                            $walletNine->level_bonus =5 + $walletNine->level_bonus;
-                            $walletNine->save();
-                        }
-                    }
-                }
-                $sponsor_level_10 = null;
-                if ($sponsor_level_9) {
-                    $sponsor_level_10 = User::where('username', $sponsor_level_9->sponsor)->first();
-                    if ($sponsor_level_10) {
-                        $walletTen = Wallet::where('user_id', $sponsor_level_10->id)->first();
-                        if ($walletTen) {
-                            $walletTen->level_bonus = 5 + $walletTen->level_bonus;
-                            $walletTen->save();
-                        }
-                    }
-                }
-                $sponsor_level_11 = null;
-                if ($sponsor_level_10) {
-                    $sponsor_level_11 = User::where('username', $sponsor_level_10->sponsor)->first();
-                    if ($sponsor_level_11 !== null) {
-                        $walletEleven = Wallet::where('user_id', $sponsor_level_11->id)->first();
-                        if ($walletEleven) {
-                            $walletEleven->level_bonus =5 + $walletEleven->level_bonus;
-                            $walletEleven->save();
-                        }
-                    }
-                }
-                $sponsor_level_12 = null;
-                if ($sponsor_level_11) {
-                    $sponsor_level_12 = User::where('username', $sponsor_level_11->sponsor)->first();
-                    if ($sponsor_level_12) {
-                        $walletTwelve = Wallet::where('user_id', $sponsor_level_12->id)->first();
-                        if ($walletTwelve) {
-                            $walletTwelve->level_bonus =5 + $walletTwelve->level_bonus;
-                            $walletTwelve->save();
-                        }
-                    }
-                }
-                $sponsor_level_13 = null;
-                if ($sponsor_level_12) {
-                    $sponsor_level_13 = User::where('username', $sponsor_level_12->sponsor)->first();
-                    if ($sponsor_level_13) {
-                        $walletThirteen = Wallet::where('user_id', $sponsor_level_2->id)->first();
-                        $walletThirteen->level_bonus = 5+ $wallet->level_bonus;
-                        $walletThirteen->save();
-                    }
-                }
-                $sponsor_level_14 = null;
-                if ($sponsor_level_13) {
-                    $sponsor_level_14 = User::where('username', $sponsor_level_13->sponsor)->first();
-                    if ($sponsor_level_14) {
-                        $walletFourteen = Wallet::where('user_id', $sponsor_level_14->id)->first();
-                        if ($walletFourteen) {
-                            $walletFourteen->level_bonus = 5 + $walletFourteen->level_bonus;
-                            $walletFourteen->save();
-                        }
-                    }
-                }
-                $sponsor_level_15 = null;
-                if ($sponsor_level_14) {
-                    $sponsor_level_15 = User::where('username', $sponsor_level_14->sponsor)->first();
-                    if ($sponsor_level_15) {
-                        $walletFifteen = Wallet::where('user_id', $sponsor_level_15->id)->first();
-                        if ($walletFifteen) {
-                            $walletFifteen->level_bonus = 5 + $walletFifteen->level_bonus;
-                            $walletFifteen->save();
-                        }
-                    }
-                }
-            }
-
-            if ($wallet) {
-                if ($user->sponsor) {
-                    $master_sponsor = User::where('username', $user->sponsor)->first();
-                    $sponsorStepOne = InitialStepForRank::where('master_id', $master_sponsor->id)->first();
-                    if (!$sponsorStepOne) {
-                        $sponsorStepOne = new InitialStepForRank();
-                        $sponsorStepOne->master_id = $master_sponsor->id;
-                        $sponsorStepOne->status = $sponsorStepOne->status + 1;
-                        $sponsorStepOne->save();
-                    } else {
-                        $sponsorStepOne->master_id = $master_sponsor->id;
-                        $sponsorStepOne->status = 1 + $sponsorStepOne->status;
-                        $sponsorStepOne->save();
-                    }
-                    $pendingEzzyMember = InitialStepForRank::where('master_id', $master_sponsor->id)->first();
-
-                    // foreach ($pendingEzzyMember as $item) {
-                    if ($pendingEzzyMember->status >= 10) {
-                        $ezzyMember = new EzzyMember();
-                        $ezzyMember->user_id = $pendingEzzyMember->master_id;
-                        $ezzyMember->save();
-
-                        $ezzyReward = new EzzyReward();
-                        $ezzyReward->user_id = $ezzyMember->user_id;
-                        $ezzyReward->ezzyMember = $settings->ezzy_member;
-                        $ezzyReward->save();
-
-                        $userrank= User::where('id',$ezzyMember->user_id)->first();
-                        $userrank->rank= "MFS Member";
-                        $userrank->save();
-
-                        if ($ezzyReward) {
-                            $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                            $wallet->ezzy_reward =  $settings->ezzy_member + $wallet->ezzy_reward;
+               
+                if ($wallet) {
+                    $master_user_id = User::where('username', $user->sponsor)->first();
+                    if($master_user_id->is_approved == 1){
+                        if (isset($master_user_id)) {
+                            $wallet = Wallet::where('user_id', $master_user_id->id)->first();
+                            if(isset($wallet))
+                            {
+                            $wallet->affiliate_income = 50 + $wallet->affiliate_income;
                             $wallet->save();
+                            }                     
                         }
-
-                        $sponsorStepTwo = InitialStepForEzzyLeader::where('user_id', $pendingEzzyMember->master_id)->first();
-                        if (!$sponsorStepTwo) {
-                            $sponsorStepTwo = new InitialStepForEzzyLeader();
-                            $sponsorStepTwo->user_id = $pendingEzzyMember->master_id;
-                            $sponsorStepTwo->status = $sponsorStepTwo->status + 1;
-                            $sponsorStepTwo->save();
+                    }else{
+                        $wallet= Wallet::where('user_id',1)->first();
+                        $wallet->my_wallet= 50 + $wallet->affiliate_income;
+                        $wallet->save();
+                    }
+                }
+    
+                if ($wallet) {
+                    if ($user->sponsor) {
+                        $master = User::where('username', $user->sponsor)->first();
+                        $ezzyMmeber = EzzyMember::where('user_id', $master->id)->first();
+                        if (isset($ezzyMmeber)) {
+                            if (isset($master)) {
+                                $levelOneToFifteen = new LevelOneToFifteen();
+                                $levelOneToFifteen->level_1 = $ezzyMmeber->user_id;
+                                $levelOneToFifteen->save();
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_1)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+    
+                                    $levelOneToFifteen->level_2 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_2)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_3 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_3)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_4 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_4)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_5 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_5)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_6 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_5)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_6 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_6)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_7 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_7)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_8 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_8)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_9 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_9)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_10 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_10)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_11 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_11)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_12 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_12)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_13 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                            $master = User::where('id', $levelOneToFifteen->level_14)->first();
+                            if (isset($master->sponsor)) {
+                                $master = User::where('username', $master->sponsor)->first();
+                                if ($levelOneToFifteen) {
+                                    $levelOneToFifteen = LevelOneToFifteen::where('level_1', $levelOneToFifteen->level_1)->first();
+                                    $levelOneToFifteen->level_15 = $master->id;
+                                    $levelOneToFifteen->save();
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                if ($wallet) {
+                    $sponsor_level_1 = null;
+                    if (Auth::user()->sponsor) {
+                        $sponsor_level_1 = User::where('username', $user->sponsor)->first();
+                        if ($sponsor_level_1) {
+                            $walletOne = Wallet::where('user_id', $sponsor_level_1->id)->first();
+                            if ($walletOne) {
+                                $walletOne->level_bonus = 5 + $walletOne->level_bonus;
+                                $walletOne->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_2 = null;
+                    if ($sponsor_level_1) {
+                        $sponsor_level_2 = User::where('username', $sponsor_level_1->sponsor)->first();
+                        if ($sponsor_level_2) {
+                            $walletTwo = Wallet::where('user_id', $sponsor_level_2->id)->first();
+                            if ($walletTwo) {
+                                $walletTwo->level_bonus = 5 + $walletTwo->level_bonus;
+                                $walletTwo->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_3 = null;
+                    if ($sponsor_level_2) {
+                        $sponsor_level_3 = User::where('username', $sponsor_level_2->sponsor)->first();
+                        if ($sponsor_level_3) {
+                            $walletThree = Wallet::where('user_id', $sponsor_level_3->id)->first();
+                            if ($walletThree) {
+                                $walletThree->level_bonus = 5 + $walletThree->level_bonus;
+                                $walletThree->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_4 = null;
+                    if ($sponsor_level_3) {
+                        $sponsor_level_4 = User::where('username', $sponsor_level_3->sponsor)->first();
+                        if ($sponsor_level_4) {
+                            $walletFour = Wallet::where('user_id', $sponsor_level_4->id)->first();
+                            if ($walletFour) {
+                                $walletFour->level_bonus = 5 + $walletFour->level_bonus;
+                                $walletFour->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_5 = null;
+                    if ($sponsor_level_4) {
+                        $sponsor_level_5 = User::where('username', $sponsor_level_4->sponsor)->first();
+                        if ($sponsor_level_5) {
+                            $walletFive = Wallet::where('user_id', $sponsor_level_5->id)->first();
+                            if ($walletFive) {
+                                $walletFive->level_bonus = 5 + $walletFive->level_bonus;
+                                $walletFive->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_6 = null;
+                    if ($sponsor_level_5) {
+                        $sponsor_level_6 = User::where('username', $sponsor_level_5->sponsor)->first();
+                        if ($sponsor_level_6) {
+                            $walletSix = Wallet::where('user_id', $sponsor_level_6->id)->first();
+                            if ($walletSix) {
+                                $walletSix->level_bonus = 5 + $walletSix->level_bonus;
+                                $walletSix->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_7 = null;
+                    if ($sponsor_level_6) {
+                        $sponsor_level_7 = User::where('username', $sponsor_level_6->sponsor)->first();
+                        if ($sponsor_level_7) {
+                            $walletSeven = Wallet::where('user_id', $sponsor_level_7->id)->first();
+                            if ($walletSeven) {
+                                $walletSeven->level_bonus = 5 + $walletSeven->level_bonus;
+                                $walletSeven->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_8 = null;
+                    if ($sponsor_level_7) {
+                        $sponsor_level_8 = User::where('username', $sponsor_level_7->sponsor)->first();
+                        if ($sponsor_level_8 !== null) {
+                            $walletEight = Wallet::where('user_id', $sponsor_level_8->id)->first();
+                            if ($walletEight) {
+                                $walletEight->level_bonus =5 + $walletEight->level_bonus;
+                                $walletEight->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_9 = null;
+                    if ($sponsor_level_8) {
+                        $sponsor_level_9 = User::where('username', $sponsor_level_8->sponsor)->first();
+                        if ($sponsor_level_9) {
+                            $walletNine = Wallet::where('user_id', $sponsor_level_9->id)->first();
+                            if ($walletNine) {
+                                $walletNine->level_bonus =5 + $walletNine->level_bonus;
+                                $walletNine->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_10 = null;
+                    if ($sponsor_level_9) {
+                        $sponsor_level_10 = User::where('username', $sponsor_level_9->sponsor)->first();
+                        if ($sponsor_level_10) {
+                            $walletTen = Wallet::where('user_id', $sponsor_level_10->id)->first();
+                            if ($walletTen) {
+                                $walletTen->level_bonus = 5 + $walletTen->level_bonus;
+                                $walletTen->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_11 = null;
+                    if ($sponsor_level_10) {
+                        $sponsor_level_11 = User::where('username', $sponsor_level_10->sponsor)->first();
+                        if ($sponsor_level_11 !== null) {
+                            $walletEleven = Wallet::where('user_id', $sponsor_level_11->id)->first();
+                            if ($walletEleven) {
+                                $walletEleven->level_bonus =5 + $walletEleven->level_bonus;
+                                $walletEleven->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_12 = null;
+                    if ($sponsor_level_11) {
+                        $sponsor_level_12 = User::where('username', $sponsor_level_11->sponsor)->first();
+                        if ($sponsor_level_12) {
+                            $walletTwelve = Wallet::where('user_id', $sponsor_level_12->id)->first();
+                            if ($walletTwelve) {
+                                $walletTwelve->level_bonus =5 + $walletTwelve->level_bonus;
+                                $walletTwelve->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_13 = null;
+                    if ($sponsor_level_12) {
+                        $sponsor_level_13 = User::where('username', $sponsor_level_12->sponsor)->first();
+                        if ($sponsor_level_13) {
+                            $walletThirteen = Wallet::where('user_id', $sponsor_level_2->id)->first();
+                            $walletThirteen->level_bonus = 5+ $wallet->level_bonus;
+                            $walletThirteen->save();
+                        }
+                    }
+                    $sponsor_level_14 = null;
+                    if ($sponsor_level_13) {
+                        $sponsor_level_14 = User::where('username', $sponsor_level_13->sponsor)->first();
+                        if ($sponsor_level_14) {
+                            $walletFourteen = Wallet::where('user_id', $sponsor_level_14->id)->first();
+                            if ($walletFourteen) {
+                                $walletFourteen->level_bonus = 5 + $walletFourteen->level_bonus;
+                                $walletFourteen->save();
+                            }
+                        }
+                    }
+                    $sponsor_level_15 = null;
+                    if ($sponsor_level_14) {
+                        $sponsor_level_15 = User::where('username', $sponsor_level_14->sponsor)->first();
+                        if ($sponsor_level_15) {
+                            $walletFifteen = Wallet::where('user_id', $sponsor_level_15->id)->first();
+                            if ($walletFifteen) {
+                                $walletFifteen->level_bonus = 5 + $walletFifteen->level_bonus;
+                                $walletFifteen->save();
+                            }
+                        }
+                    }
+                }
+    
+                if ($wallet) {
+                    if ($user->sponsor) {
+                        $master_sponsor = User::where('username', $user->sponsor)->first();
+                        $sponsorStepOne = InitialStepForRank::where('master_id', $master_sponsor->id)->first();
+                        if (!$sponsorStepOne) {
+                            $sponsorStepOne = new InitialStepForRank();
+                            $sponsorStepOne->master_id = $master_sponsor->id;
+                            $sponsorStepOne->status = $sponsorStepOne->status + 1;
+                            $sponsorStepOne->save();
                         } else {
-                            $sponsorStepTwo->user_id = $pendingEzzyMember->master_id;
-                            $sponsorStepTwo->status = 1 + $sponsorStepTwo->status;
-                            $sponsorStepTwo->save();
+                            $sponsorStepOne->master_id = $master_sponsor->id;
+                            $sponsorStepOne->status = 1 + $sponsorStepOne->status;
+                            $sponsorStepOne->save();
                         }
-
-                        $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();
-
-                        if ($pendingEzzyLeader->status >= 4) {
-                            $ezzLeader = new EzzyLeader();
-                            $ezzLeader->user_id = $pendingEzzyLeader->user_id;
-                            $ezzLeader->save();
-
-                            $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                        $pendingEzzyMember = InitialStepForRank::where('master_id', $master_sponsor->id)->first();
+    
+                        // foreach ($pendingEzzyMember as $item) {
+                        if ($pendingEzzyMember->status >= 10) {
+                            $ezzyMember = new EzzyMember();
+                            $ezzyMember->user_id = $pendingEzzyMember->master_id;
+                            $ezzyMember->save();
+    
+                            $ezzyReward = new EzzyReward();
                             $ezzyReward->user_id = $ezzyMember->user_id;
-                            $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
+                            $ezzyReward->ezzyMember = $settings->ezzy_member;
                             $ezzyReward->save();
-
-                            $userrank= User::where('id',$ezzLeader->user_id)->first();
-                            $userrank->rank= "MFS Leader";
+    
+                            $userrank= User::where('id',$ezzyMember->user_id)->first();
+                            $userrank->rank= "MFS Member";
                             $userrank->save();
-
+    
                             if ($ezzyReward) {
                                 $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                $wallet->ezzy_reward =$settings->ezzy_leader + $wallet->ezzy_reward;
-                                $wallet->group_bonus = 10 + $wallet->group_bonus;
+                                $wallet->ezzy_reward =  $settings->ezzy_member + $wallet->ezzy_reward;
                                 $wallet->save();
                             }
-                        }
-
-                        $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
-                        if ($ezzyLeaderId) {
-
-                            $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
-                            if (!$sponsorStepThree) {
-                                $sponsorStepThree = new InitialStepForEzzyManger();
-                                $sponsorStepThree->user_id = $ezzyLeaderId->id;
-                                $sponsorStepThree->status = $sponsorStepThree->status + 1;
-                                $sponsorStepThree->save();
+    
+                            $sponsorStepTwo = InitialStepForEzzyLeader::where('user_id', $pendingEzzyMember->master_id)->first();
+                            if (!$sponsorStepTwo) {
+                                $sponsorStepTwo = new InitialStepForEzzyLeader();
+                                $sponsorStepTwo->user_id = $pendingEzzyMember->master_id;
+                                $sponsorStepTwo->status = $sponsorStepTwo->status + 1;
+                                $sponsorStepTwo->save();
                             } else {
-                                
-                                $sponsorStepThree->user_id = $ezzyLeaderId->id;
-                                $sponsorStepThree->status = 1 + $sponsorStepThree->status;
-                                $sponsorStepThree->save();
+                                $sponsorStepTwo->user_id = $pendingEzzyMember->master_id;
+                                $sponsorStepTwo->status = 1 + $sponsorStepTwo->status;
+                                $sponsorStepTwo->save();
                             }
-                            
-                            $pendingEzzyManger = InitialStepForEzzyManger::where('user_id', $sponsorStepThree->user_id)->first();
-                            if ($pendingEzzyManger->status >= 7) {
-                                $ezzyManger = new EzzyManager();
-                                $ezzyManger->user_id = $pendingEzzyManger->user_id;
-                                $ezzyManger->save();
-
+    
+                            $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();
+    
+                            if ($pendingEzzyLeader->status >= 4) {
+                                $ezzLeader = new EzzyLeader();
+                                $ezzLeader->user_id = $pendingEzzyLeader->user_id;
+                                $ezzLeader->save();
+    
                                 $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
                                 $ezzyReward->user_id = $ezzyMember->user_id;
-                                $ezzyReward->ezzyManger = $settings->manager + $ezzyReward->ezzyManger;
-
-                                $userrank= User::where('id',$ezzyManger->user_id)->first();
-                                $userrank->rank= "MFS Manager";
-                                $userrank->save();
-                               
+                                $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
                                 $ezzyReward->save();
-
+    
+                                $userrank= User::where('id',$ezzLeader->user_id)->first();
+                                $userrank->rank= "MFS Leader";
+                                $userrank->save();
+    
                                 if ($ezzyReward) {
                                     $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                    $wallet->ezzy_reward = $settings->manager + $wallet->ezzy_reward;
-                                    $wallet->group_bonus = 9+ $wallet->group_bonus;
+                                    $wallet->ezzy_reward =$settings->ezzy_leader + $wallet->ezzy_reward;
+                                    $wallet->group_bonus = 10 + $wallet->group_bonus;
                                     $wallet->save();
                                 }
                             }
-
-                            $ezzyExc = User::where('id', $pendingEzzyManger->user_id)->first();
-                            if ($ezzyExc) {
-                                $sponsorStepFour = InitailStepForEzzyExecutive::where('user_id', $ezzyExc->id)->first();
-                                if (!$sponsorStepFour) {
-                                    //dd(1);
-                                    $sponsorStepFour = new InitailStepForEzzyExecutive();
-                                    $sponsorStepFour->user_id = $ezzyExc->id;
-                                    $sponsorStepFour->status = $sponsorStepFour->status + 1;
-                                    $sponsorStepFour->save();
+    
+                            $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
+                            if ($ezzyLeaderId) {
+    
+                                $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
+                                if (!$sponsorStepThree) {
+                                    $sponsorStepThree = new InitialStepForEzzyManger();
+                                    $sponsorStepThree->user_id = $ezzyLeaderId->id;
+                                    $sponsorStepThree->status = $sponsorStepThree->status + 1;
+                                    $sponsorStepThree->save();
                                 } else {
-                                    // dd(2);
-                                    $sponsorStepFour->user_id = $ezzyExc->id;
-                                    $sponsorStepFour->status = 1 + $sponsorStepThree->status;
-                                    $sponsorStepFour->save();
+                                    
+                                    $sponsorStepThree->user_id = $ezzyLeaderId->id;
+                                    $sponsorStepThree->status = 1 + $sponsorStepThree->status;
+                                    $sponsorStepThree->save();
                                 }
-                                $pendingEzzyManger = InitailStepForEzzyExecutive::where('user_id', $sponsorStepFour->user_id)->first();
-                                if ($pendingEzzyManger->status >= 5) {
-                                    $ezzyManger = new EzzyExecutive();
+                                
+                                $pendingEzzyManger = InitialStepForEzzyManger::where('user_id', $sponsorStepThree->user_id)->first();
+                                if ($pendingEzzyManger->status >= 7) {
+                                    $ezzyManger = new EzzyManager();
                                     $ezzyManger->user_id = $pendingEzzyManger->user_id;
                                     $ezzyManger->save();
-
+    
                                     $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
                                     $ezzyReward->user_id = $ezzyMember->user_id;
-                                    $ezzyReward->ezzyexc = $settings->executive + $ezzyReward->ezzyexc;
-                                  
-                                    $ezzyReward->save();
-
+                                    $ezzyReward->ezzyManger = $settings->manager + $ezzyReward->ezzyManger;
+    
                                     $userrank= User::where('id',$ezzyManger->user_id)->first();
-                                    $userrank->rank= "MFS Executive";
-                                    $userrank->save();
-
-                                    if ($ezzyReward) {
-                                        $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                        $wallet->ezzy_reward = $settings->executive + $wallet->ezzy_reward;
-                                        $wallet->group_bonus = 8 + $wallet->group_bonus;
-                                        $wallet->save();
-                                    }
-                                }
-                            }
-
-                            $ezzyDrec = User::where('id', $pendingEzzyManger->user_id)->first();
-                            // dd($ezzyExc);
-                            if ($ezzyDrec) {
-                                $sponsorStepFive = IntialEzzyDirectory::where('user_id', $ezzyDrec->id)->first();
-                                // dd($sponsorStepFour);
-                                if (!$sponsorStepFive) {
-                                    //dd(1);
-                                    $sponsorStepFive = new IntialEzzyDirectory();
-                                    $sponsorStepFive->user_id = $ezzyDrec->id;
-                                    $sponsorStepFive->status = $sponsorStepFive->status + 1;
-                                    $sponsorStepFive->save();
-                                } else {
-                                    // dd(2);
-                                    $sponsorStepFive->user_id = $ezzyDrec->id;
-                                    $sponsorStepFive->status = 1 + $sponsorStepFive->status;
-                                    $sponsorStepFive->save();
-                                }
-                                //dd(3);
-                                $pendingEzzyDrec = InitailStepForEzzyExecutive::where('user_id', $sponsorStepFive->user_id)->first();
-                                //dd($pendingEzzyManger);
-                                // foreach ($pendingEzzyManger as $item) {
-                                if ($pendingEzzyDrec->status >= 3) {
-                                    $ezzyDrec = new EzzyDirectory();
-                                    $ezzyDrec->user_id = $pendingEzzyDrec->user_id;
-                                    $ezzyDrec->save();
-
-                                    $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
-                                    $ezzyReward->user_id = $ezzyMember->user_id;
-                                    $ezzyReward->ezzyDrec =  $settings->director + $ezzyReward->ezzyDrec;
-
-                                    $userrank= User::where('id',$ezzyDrec->user_id)->first();
-                                    $userrank->rank= "MFS Director";
+                                    $userrank->rank= "MFS Manager";
                                     $userrank->save();
                                    
                                     $ezzyReward->save();
-
+    
                                     if ($ezzyReward) {
                                         $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                        $wallet->ezzy_reward =  $settings->director + $wallet->ezzy_reward;
-                                        $wallet->group_bonus = 7 + $wallet->group_bonus;
+                                        $wallet->ezzy_reward = $settings->manager + $wallet->ezzy_reward;
+                                        $wallet->group_bonus = 9+ $wallet->group_bonus;
                                         $wallet->save();
                                     }
                                 }
-                            }
-
-                            $ezzyCoe = User::where('id', $ezzyDrec->user_id)->first();
-                            // dd($ezzyExc);
-                            if (isset($ezzyCoe)) {
-                                $sponsorStepSix = IntialCOE::where('user_id', $ezzyCoe->id)->first();
-                                // dd($sponsorStepFour);
-                                if (!$sponsorStepSix) {
-                                    //dd(1);
-                                    $sponsorStepSix = new IntialCOE();
-                                    $sponsorStepSix->user_id = $ezzyCoe->id;
-                                    $sponsorStepSix->status = $sponsorStepSix->status + 1;
-                                    $sponsorStepSix->save();
-                                } else {
-                                    // dd(2);
-                                    $sponsorStepSix->user_id = $ezzyCoe->id;
-                                    $sponsorStepSix->status = 1 + $sponsorStepSix->status;
-                                    $sponsorStepSix->save();
-                                }
-                                //dd(3);
-                                $pendingEzzyCoe = IntialCOE::where('user_id', $sponsorStepSix->user_id)->first();
-                                //dd($pendingEzzyManger);
-                                // foreach ($pendingEzzyManger as $item) {
-                                if ($pendingEzzyCoe->status >= 3) {
-                                    $ezzyCoe = new COE();
-                                    $ezzyCoe->user_id = $pendingEzzyCoe->user_id;
-                                    $ezzyCoe->save();
-
-                                    $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
-                                    $ezzyReward->user_id = $ezzyMember->user_id;
-                                    $ezzyReward->coe = $settings->COE + $ezzyReward->coe;
-                                    $ezzyReward->save();
-
-                                    $userrank= User::where('id',$ezzyCoe->user_id)->first();
-                                    $userrank->rank= "MFS COE";
-                                    $userrank->save();
-
-                                    if ($ezzyReward) {
-                                        $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                        $wallet->ezzy_reward = $settings->COE + $wallet->ezzy_reward;
-                                        $wallet->group_bonus = 6+ $wallet->group_bonus;
-                                        $wallet->save();
+    
+                                $ezzyExc = User::where('id', $pendingEzzyManger->user_id)->first();
+                                if ($ezzyExc) {
+                                    $sponsorStepFour = InitailStepForEzzyExecutive::where('user_id', $ezzyExc->id)->first();
+                                    if (!$sponsorStepFour) {
+                                        //dd(1);
+                                        $sponsorStepFour = new InitailStepForEzzyExecutive();
+                                        $sponsorStepFour->user_id = $ezzyExc->id;
+                                        $sponsorStepFour->status = $sponsorStepFour->status + 1;
+                                        $sponsorStepFour->save();
+                                    } else {
+                                        // dd(2);
+                                        $sponsorStepFour->user_id = $ezzyExc->id;
+                                        $sponsorStepFour->status = 1 + $sponsorStepThree->status;
+                                        $sponsorStepFour->save();
+                                    }
+                                    $pendingEzzyManger = InitailStepForEzzyExecutive::where('user_id', $sponsorStepFour->user_id)->first();
+                                    if ($pendingEzzyManger->status >= 5) {
+                                        $ezzyManger = new EzzyExecutive();
+                                        $ezzyManger->user_id = $pendingEzzyManger->user_id;
+                                        $ezzyManger->save();
+    
+                                        $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                                        $ezzyReward->user_id = $ezzyMember->user_id;
+                                        $ezzyReward->ezzyexc = $settings->executive + $ezzyReward->ezzyexc;
+                                      
+                                        $ezzyReward->save();
+    
+                                        $userrank= User::where('id',$ezzyManger->user_id)->first();
+                                        $userrank->rank= "MFS Executive";
+                                        $userrank->save();
+    
+                                        if ($ezzyReward) {
+                                            $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
+                                            $wallet->ezzy_reward = $settings->executive + $wallet->ezzy_reward;
+                                            $wallet->group_bonus = 8 + $wallet->group_bonus;
+                                            $wallet->save();
+                                        }
                                     }
                                 }
-                            }
-
-                            $ezzyCeo = User::where('id', $pendingEzzyCoe->user_id)->first();
-                            // dd($ezzyExc);
-                            if (isset($ezzyCeo)) {
-                                $sponsorStepSeven = IntialCEO::where('user_id', $ezzyCeo->id)->first();
-                                // dd($sponsorStepFour);
-                                if (!$sponsorStepSeven) {
-                                    //dd(1);
-                                    $sponsorStepSeven = new IntialCEO();
-                                    $sponsorStepSeven->user_id = $ezzyCeo->id;
-                                    $sponsorStepSeven->status = $sponsorStepSeven->status + 1;
-                                    $sponsorStepSeven->save();
-                                } else {
-                                    // dd(2);
-                                    $sponsorStepSeven->user_id = $ezzyCeo->id;
-                                    $sponsorStepSeven->status = 1 + $sponsorStepSeven->status;
-                                    $sponsorStepSeven->save();
-                                }
-                                //dd(3);
-                                $pendingEzzyCoe = IntialCEO::where('user_id', $sponsorStepSeven->user_id)->first();
-                                //dd($pendingEzzyManger);
-                                // foreach ($pendingEzzyManger as $item) {
-                                if ( $pendingEzzyCoe !== null && $pendingEzzyCoe->status >= 3) {
-                                    $ezzyCeo = new CEO();
-                                    $ezzyCeo->user_id = $pendingEzzyCoe->user_id;
-                                    $ezzyCeo->save();
-
-                                    $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
-                                    $ezzyReward->user_id = $ezzyMember->user_id;
-                                    $ezzyReward->ceo =$settings->CEO + $ezzyReward->ceo;
-                                  
-                                    $ezzyReward->save();
-
-                                    $userrank= User::where('id',$ezzyCeo->user_id)->first();
-                                    $userrank->rank= "MFS CEO";
-                                    $userrank->save();
-
-                                    if ($ezzyReward) {
-                                        $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                        $wallet->ezzy_reward = $settings->CEO + $wallet->ezzy_reward;
-                                        $wallet->group_bonus = 5+ $wallet->group_bonus;
-                                        $wallet->save();
+    
+                                $ezzyDrec = User::where('id', $pendingEzzyManger->user_id)->first();
+                                // dd($ezzyExc);
+                                if ($ezzyDrec) {
+                                    $sponsorStepFive = IntialEzzyDirectory::where('user_id', $ezzyDrec->id)->first();
+                                    // dd($sponsorStepFour);
+                                    if (!$sponsorStepFive) {
+                                        //dd(1);
+                                        $sponsorStepFive = new IntialEzzyDirectory();
+                                        $sponsorStepFive->user_id = $ezzyDrec->id;
+                                        $sponsorStepFive->status = $sponsorStepFive->status + 1;
+                                        $sponsorStepFive->save();
+                                    } else {
+                                        // dd(2);
+                                        $sponsorStepFive->user_id = $ezzyDrec->id;
+                                        $sponsorStepFive->status = 1 + $sponsorStepFive->status;
+                                        $sponsorStepFive->save();
+                                    }
+                                    //dd(3);
+                                    $pendingEzzyDrec = InitailStepForEzzyExecutive::where('user_id', $sponsorStepFive->user_id)->first();
+                                    //dd($pendingEzzyManger);
+                                    // foreach ($pendingEzzyManger as $item) {
+                                    if ($pendingEzzyDrec->status >= 3) {
+                                        $ezzyDrec = new EzzyDirectory();
+                                        $ezzyDrec->user_id = $pendingEzzyDrec->user_id;
+                                        $ezzyDrec->save();
+    
+                                        $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                                        $ezzyReward->user_id = $ezzyMember->user_id;
+                                        $ezzyReward->ezzyDrec =  $settings->director + $ezzyReward->ezzyDrec;
+    
+                                        $userrank= User::where('id',$ezzyDrec->user_id)->first();
+                                        $userrank->rank= "MFS Director";
+                                        $userrank->save();
+                                       
+                                        $ezzyReward->save();
+    
+                                        if ($ezzyReward) {
+                                            $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
+                                            $wallet->ezzy_reward =  $settings->director + $wallet->ezzy_reward;
+                                            $wallet->group_bonus = 7 + $wallet->group_bonus;
+                                            $wallet->save();
+                                        }
                                     }
                                 }
+    
+                                $ezzyCoe = User::where('id', $ezzyDrec->user_id)->first();
+                                // dd($ezzyExc);
+                                if (isset($ezzyCoe)) {
+                                    $sponsorStepSix = IntialCOE::where('user_id', $ezzyCoe->id)->first();
+                                    // dd($sponsorStepFour);
+                                    if (!$sponsorStepSix) {
+                                        //dd(1);
+                                        $sponsorStepSix = new IntialCOE();
+                                        $sponsorStepSix->user_id = $ezzyCoe->id;
+                                        $sponsorStepSix->status = $sponsorStepSix->status + 1;
+                                        $sponsorStepSix->save();
+                                    } else {
+                                        // dd(2);
+                                        $sponsorStepSix->user_id = $ezzyCoe->id;
+                                        $sponsorStepSix->status = 1 + $sponsorStepSix->status;
+                                        $sponsorStepSix->save();
+                                    }
+                                    //dd(3);
+                                    $pendingEzzyCoe = IntialCOE::where('user_id', $sponsorStepSix->user_id)->first();
+                                    //dd($pendingEzzyManger);
+                                    // foreach ($pendingEzzyManger as $item) {
+                                    if ($pendingEzzyCoe->status >= 3) {
+                                        $ezzyCoe = new COE();
+                                        $ezzyCoe->user_id = $pendingEzzyCoe->user_id;
+                                        $ezzyCoe->save();
+    
+                                        $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                                        $ezzyReward->user_id = $ezzyMember->user_id;
+                                        $ezzyReward->coe = $settings->COE + $ezzyReward->coe;
+                                        $ezzyReward->save();
+    
+                                        $userrank= User::where('id',$ezzyCoe->user_id)->first();
+                                        $userrank->rank= "MFS COE";
+                                        $userrank->save();
+    
+                                        if ($ezzyReward) {
+                                            $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
+                                            $wallet->ezzy_reward = $settings->COE + $wallet->ezzy_reward;
+                                            $wallet->group_bonus = 6+ $wallet->group_bonus;
+                                            $wallet->save();
+                                        }
+                                    }
+                                }
+    
+                                $ezzyCeo = User::where('id', $pendingEzzyCoe->user_id)->first();
+                                // dd($ezzyExc);
+                                if (isset($ezzyCeo)) {
+                                    $sponsorStepSeven = IntialCEO::where('user_id', $ezzyCeo->id)->first();
+                                    // dd($sponsorStepFour);
+                                    if (!$sponsorStepSeven) {
+                                        //dd(1);
+                                        $sponsorStepSeven = new IntialCEO();
+                                        $sponsorStepSeven->user_id = $ezzyCeo->id;
+                                        $sponsorStepSeven->status = $sponsorStepSeven->status + 1;
+                                        $sponsorStepSeven->save();
+                                    } else {
+                                        // dd(2);
+                                        $sponsorStepSeven->user_id = $ezzyCeo->id;
+                                        $sponsorStepSeven->status = 1 + $sponsorStepSeven->status;
+                                        $sponsorStepSeven->save();
+                                    }
+                                    //dd(3);
+                                    $pendingEzzyCoe = IntialCEO::where('user_id', $sponsorStepSeven->user_id)->first();
+                                    //dd($pendingEzzyManger);
+                                    // foreach ($pendingEzzyManger as $item) {
+                                    if ( $pendingEzzyCoe !== null && $pendingEzzyCoe->status >= 3) {
+                                        $ezzyCeo = new CEO();
+                                        $ezzyCeo->user_id = $pendingEzzyCoe->user_id;
+                                        $ezzyCeo->save();
+    
+                                        $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                                        $ezzyReward->user_id = $ezzyMember->user_id;
+                                        $ezzyReward->ceo =$settings->CEO + $ezzyReward->ceo;
+                                      
+                                        $ezzyReward->save();
+    
+                                        $userrank= User::where('id',$ezzyCeo->user_id)->first();
+                                        $userrank->rank= "MFS CEO";
+                                        $userrank->save();
+    
+                                        if ($ezzyReward) {
+                                            $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
+                                            $wallet->ezzy_reward = $settings->CEO + $wallet->ezzy_reward;
+                                            $wallet->group_bonus = 5+ $wallet->group_bonus;
+                                            $wallet->save();
+                                        }
+                                    }
+                                }
+    
                             }
-
                         }
+                        
                     }
-                    
                 }
+            } else {
+                return back()->with('errors', 'Insufficient activation balance. minimum balance will ' .$settings->registration);
             }
-        } else {
-            return back()->with('errors', 'Insufficient activation balance. minimum balance will ' .$settings->registration);
+            return redirect()->route('users.dashboard')->with('success', 'Your account succesfull activated for 365 days.');
         }
-        return redirect()->route('users.dashboard')->with('success', 'Your account succesfull activated for 365 days.');
     }
 }

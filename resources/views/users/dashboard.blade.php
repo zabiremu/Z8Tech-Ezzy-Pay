@@ -227,7 +227,7 @@
                         <span class="title">My Wallet</span>@
                         <h6 class="font-13 font-500 mb-0 pt-2 total">৳ {{ $wallet->my_wallet ?? 0.0 }}</h6>
                     </div>
-                    @if (isset($wallet->is_approved) == 1)
+                    @if (isset($project_duration->status) == 1)
                         <div class="ms-auto scale-box btn" style="position: relative;top: 0px;right: -10px;">
                             <a href="{{ route('users.account.activate') }}" class="icon icon-xxl rounded-m"
                                 style="width: 94px;height: 64px;background: #1dcc70 !important;"><i class="font-18"
@@ -241,8 +241,6 @@
                         </div>
                     @endif
 
-
-
                 </div>
             </div>
             <!-- action -->
@@ -252,8 +250,6 @@
                     <div class="me-auto">
                         <a href="{{route('users.send')}}"
                             class="icon icon-xxl rounded-m shadow-m bg-danger">
-                            {{-- <i
-                                class="font-20 color-white bi bi-arrow-right"></i> --}}
                                 <i class="font-20 color-white fa-solid fa-paper-plane"></i>
                             </a>
                         <h6 class="font-13 opacity-80 font-500 mb-0 pt-2">Send</h6>
@@ -261,8 +257,6 @@
                     <div class="m-auto">
                         <a href="{{route('users.payment.withdraw')}}"
                             class="icon icon-xxl rounded-m shadow-m bg-blue">
-                            {{-- <i
-                                class="font-20 color-white bi bi-arrow-up"></i> --}}
                                 <i class="font-20 color-white fa-solid fa-money-bill-transfer" style="font-size: 20px !important;"></i>
                             </a>
                         <h6 class="font-13 opacity-80 font-500 mb-0 pt-2">Withdraw</h6>
@@ -270,8 +264,6 @@
                     <div class="m-auto">
                         <a href="{{route('admin.convert')}}"
                             class="icon icon-xxl rounded-m shadow-m bg-success">
-                            {{-- <i
-                                class="font-20 color-white bi bi-arrow-left-right"></i> --}}
                                 <i class="font-20 color-white fa-solid fa-money-bill-transfer"></i>
                             </a>
                         <h6 class="font-13 opacity-80 font-500 mb-0 pt-2">Convert</h6>
@@ -963,62 +955,11 @@
     <script type="text/javascript">
         function pageLevelScript() {
 
-            //////////////////////////////////////////// begin page data load ////////////////////////////////////////////
-
             var ticker3 = $('.myTicker3').easyTicker({
                 interval: 700,
                 height: '240',
                 visible: 10
             });
-            ///////////////////////////////////////////// end page data load /////////////////////////////////////////////
-
-
-            /////////////////////////////////////////// begin page method load ///////////////////////////////////////////
-
-
-
-            // $(document).on('click', '.c_exchange_btn', function(e) {
-            //     e.preventDefault();
-
-
-
-            //     $('#c_send_amount').val($(this).data('amount'));
-            //     $('#c_send_wallet_id').val($(this).data('wid'));
-
-
-
-            //     var form = $('#convert_form')[0];
-            //     var data = new FormData(form);
-
-            //     data.append('csrf_code', '170986');
-            //     $.ajax({
-            //         type: "POST",
-            //         enctype: 'multipart/form-data',
-            //         url: 'https://www.oceanezzy.life/user/ajax/user_wallet_exchange_insert',
-            //         data: data,
-            //         processData: false,
-            //         contentType: false,
-            //         cache: false,
-            //         timeout: 600000,
-            //         async: false,
-            //         dataType: 'json',
-            //         beforeSend: function() {},
-            //         complete: function() {},
-            //         success: function(data) {
-            //             if (data.type == 'error') {
-            //                 t_alert('success', '', data.data_msg[0].msg);
-            //             } else if (data.type == 'warning') {
-            //                 t_alert('warning', '', data.data_msg[0].msg);
-            //             } else if (data.type == 'success') {
-            //                 t_alert('success', '', data.data_msg[0].msg);
-            //                 location.reload();
-            //             }
-            //         },
-            //         error: function(e) {
-            //             console.log("ERROR : ", e);
-            //         }
-            //     });
-            // });
 
             $(document).on('click', '#send_submit', function(e) {
                 e.preventDefault();
@@ -1148,89 +1089,6 @@
                     }
                 });
             });
-
-
-
-
-            /*	fetch('https://www.oceanezzy.life/api/api/user_wallet')
-                            .then(response => response.json())
-                            .then(data => {
-                                if ( data == undefined) {} else {
-                                    data.forEach((currentValue, index) => {
-                                        
-                                        var c = 1;
-                                        var selected = '';
-                                        if ( currentValue.is_transfer_sendable == '1' ) {
-                                            if ( c == 1 ) {
-                                                selected = 'selected';
-                                            }
-                                            c++;
-                                            let html = `
-                <option value="${currentValue.id}" ${selected}> ${currentValue.name} </option>
-            `;
-                                            var template = document.createElement('template');
-                                            template.innerHTML = html.trim();
-                                            document.getElementById('tsender_wallet_id').appendChild(template.content.firstChild);
-                                        } 
-
-                                        var c = 1;
-                                        var selected = '';
-                                        if ( currentValue.is_exchange_sendable == '1' ) {
-                                            if ( c == 1 ) {
-                                                selected = 'selected';
-                                            }
-                                            c++;
-                                            let html = `
-                <option value="${currentValue.id}" ${selected}> ${currentValue.name} </option>
-            `;
-                                            var template = document.createElement('template');
-                                            template.innerHTML = html.trim();
-                                            document.getElementById('exchange_wallet_id').appendChild(template.content.firstChild);
-                                        }
-                                        
-                                        var c = 1;
-                                        var selected = '';
-                                        if ( currentValue.is_withdrawable == '1' ) {
-                                            if ( c == 1 ) {
-                                                selected = 'selected';
-                                            }
-                                            c++;
-                                            let html = `
-                <option value="${currentValue.id}" ${selected} > ${currentValue.name} </option>
-            `;
-                                            var template = document.createElement('template');
-                                            template.innerHTML = html.trim();
-                                            document.getElementById('withdraw_wallet_id').appendChild(template.content.firstChild);
-                                        }
-                                    });
-                                }
-                            });
-
-                            fetch('https://www.oceanezzy.life/user/api/bank_list')
-                            .then(response => response.json())
-                            .then(data => {
-                                if ( data == undefined) {} else {
-                                    data.forEach((currentValue, index) => {
-                                        
-                                        var c = 1;
-                                        var selected = '';
-                                        if ( c == 1 ) {
-                                            selected = 'selected';
-                                        }
-                                        c++;
-                                        let html = `
-            <option value="${currentValue.id}" ${selected}> ${currentValue.name} </option>
-        `;
-                                        var template = document.createElement('template');
-                                        template.innerHTML = html.trim();
-                                        document.getElementById('bank_id').appendChild(template.content.firstChild);
-
-                                    });
-                                }
-                            });	*/
-
-
-            //////////////////////////////////////////// end page method load ////////////////////////////////////////////
         }
 
 
