@@ -86,11 +86,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/admin-approved/{id}', [AddFundReportController::class, 'store'])->name('approved');
             Route::get('/admin-reject/{id}', [AddFundReportController::class, 'reject'])->name('reject');
             Route::post('/send-commissions', [CommissionController::class, 'store'])->name('send.commisons');
-            Route::get('/take/withdraw', [PaymentController::class, 'PaymentProccessingwithDraw'])->name('send.pending.withdraw');
-            Route::get('/payment/approved/{id}', [PaymentController::class, 'PaymentApprovedwithDraw'])->name('withdraw.approved');
             Route::get('/payment/approved', [PaymentController::class, 'PaymentApproved'])->name('competed.index');
-            Route::get('/withdraw-reject/{id}', [PaymentController::class, 'withDrawReject'])->name('withdraw.reject');
             Route::get('/withdraw-reject', [PaymentController::class, 'reject'])->name('withdraw.reject.list');
+            
+            Route::get('/withdraw/requests/', [PaymentController::class, 'PaymentProccessingwithDraw'])->name('send.pending.withdraw');
+            Route::get('/withdraw/requests/{id}/edit', [PaymentController::class, 'withDrawRequestEdit'])->name('edit_withdraw');
+            Route::put('/payment/approved/{id}', [PaymentController::class, 'PaymentApprovedwithDraw'])->name('withdraw.approved');
+            
+            Route::get('/withdraw-reject/{id}', [PaymentController::class, 'withDrawReject'])->name('withdraw.reject');
             Route::any('/users/{id}/edit', [UserController::class, 'edit'])->name('edit');
         });
 

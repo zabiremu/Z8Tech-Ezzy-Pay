@@ -28,13 +28,6 @@
 
                         </h3>
                     </div>
-
-                    <!--<div class="kt-portlet__head-toolbar">
-         <div class="kt-portlet__head-wrapper">
-                            <a type="button" class="btn btn-primary mr-1" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=1">active</a>
-                            <a type="button" class="btn btn-primary" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=0">inactive</a>
-         </div>
-        </div>-->
                 </div>
                 <div class="kt-portlet__body">
 
@@ -53,7 +46,8 @@
                                 <th>Phone Number</th>
                                 <th>Tpin</th>
                                 <th>Amount</th>
-                                {{-- <th>Action</th> --}}
+                                <th>Transection PIN</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -68,13 +62,14 @@
                                     <td>{{$item->bank }}</td>
                                     <td>{{$item->a_c }}</td>
                                     <td>{{$item->amount }}</td>
-                                    {{-- <td>
-                                        @if ($item->status == 2)
-                                        <a class="btn btn-sm bg-info rounded-5" href="{{route('admin.withdraw.approved',$item->id)}}">Accpect</a>
-        
-                                        <a class="btn btn-sm bg-danger rounded-5" href="{{route('admin.reject',$item->id)}}">Reject</a>
+                                    <td>{{$item->transection_pin }}</td>
+                                    <td>
+                                        @if ($item->status == 1)
+                                        <span class="text-success">Completed</span>
+                                        @else
+                                        <span class="text-danger">Rejected</span>
                                         @endif
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

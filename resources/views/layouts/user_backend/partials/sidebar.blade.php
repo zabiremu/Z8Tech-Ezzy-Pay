@@ -147,9 +147,12 @@
                     <div class="ps-4 ">Send History</div>
                 </a>
 
-
                 <a href="{{route('users.received_history')}}" class="list-group-item">
                     <div class="ps-4  ">Receive History</div>
+                </a>
+
+                <a href="{{route('users.converted_history')}}" class="list-group-item">
+                    <div class="ps-4  ">Convert History</div>
                 </a>
 
                 <a href="{{route('users.converted_history')}}" class="list-group-item">
