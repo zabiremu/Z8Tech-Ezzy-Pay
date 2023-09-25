@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('daily_bonus_times', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->dateTime('daily_run_begin');
+            $table->dateTime('current_time');
             $table->dateTime('daily_run_end');
+            $table->tinyInteger('status')->default(0);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

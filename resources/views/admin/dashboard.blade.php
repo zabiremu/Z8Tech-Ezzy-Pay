@@ -26,7 +26,6 @@
                                         <a href="#" class="kt-widget__username">
                                             <span class="">{{Auth::user()->first_name}}</span>
                                             <span class="">{{Auth::user()->last_name}}</span>
-                                            <!-- <i class="flaticon2-correct"></i> -->
                                         </a>
                                     </div>
 
@@ -192,26 +191,12 @@
                         <span class="kt-widget1__number kt-font-brand"><span id="dd_total_user_active">{{$totalActiveUser}}</span></span>
                     </div>
 
-                    {{-- <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Today Active User</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span id="dd_today_user_active">{{$totalActiveUser}}</span></span>
-                    </div> --}}
-
                     <div class="kt-widget1__item">
                         <div class="kt-widget1__info">
                             <h3 class="kt-widget1__title"> User Active Wallet</h3>
                         </div>
                         <span class="kt-widget1__number kt-font-brand"><span id="">{{$totalActiveWallet}}</span></span>
                     </div>
-
-                    {{-- <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title"> User Current Wallet</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span id="">809917.5</span></span>
-                    </div> --}}
 
                     <div class="kt-widget1__item">
                         <div class="kt-widget1__info">
@@ -255,13 +240,6 @@
                         <span class="kt-widget1__number kt-font-brand"><span id="">{{$ezzy_return}}</span></span>
                     </div>
 
-                    {{-- <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Total User ROI 150+</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span id="">1837</span></span>
-                    </div> --}}
-
                     <div class="kt-widget1__item">
                         <div class="kt-widget1__info">
                             <h3 class="kt-widget1__title">Add Fund Pending</h3>
@@ -275,29 +253,6 @@
                         </div>
                         <span class="kt-widget1__number kt-font-brand"><span id="dd_add_fund_complete">{{$addFundComplete}}</span></span>
                     </div>
-{{-- 
-                    <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Today Add Fund Pending</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span id="dd_today_add_fund_pending"></span></span>
-                    </div>
-
-                    <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Today Add Fund Complete</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span
-                                id="dd_today_add_fund_complete"></span></span>
-                    </div> --}}
-
-                    {{-- <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Yesterday Add Fund Complete</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span
-                                id="dd_yesterday_add_fund_complete"></span></span>
-                    </div> --}}
 
                     <div class="kt-widget1__item">
                         <div class="kt-widget1__info">
@@ -313,14 +268,6 @@
                         <span class="kt-widget1__number kt-font-brand"><span
                                 id="dd_today_withdraw_complete"></span>{{$WithDrawComplete}}</span>
                     </div>
-{{-- 
-                    <div class="kt-widget1__item">
-                        <div class="kt-widget1__info">
-                            <h3 class="kt-widget1__title">Yesterday Withdraw Complete</h3>
-                        </div>
-                        <span class="kt-widget1__number kt-font-brand"><span
-                                id="dd_yesterday_withdraw_complete"></span></span>
-                    </div> --}}
                 </div>
             </div>
 
@@ -333,8 +280,7 @@
                             <h3 class="kt-widget1__title">daily roi</h3>
                         </div>
                         <span class="kt-widget1__number kt-font-brand"><a
-                                href="{{route('admin.dashboard.create')}}"
-                                target="_blank">run</a></span>
+                                href="{{route('admin.dashboard.create')}}">run</a></span>
                     </div>
 
                     <div class="kt-widget1__item">

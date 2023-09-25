@@ -25,7 +25,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Backend\AddFundReportController;
 use App\Models\Transcition;
-
+use App\Models\DailyBonusTime;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -49,6 +51,43 @@ class DashboardController extends Controller
         $WithDrawPending= WithDraw::where('status',0)->latest()->count();
         $WithDrawComplete= WithDraw::where('status',1)->latest()->count();
         $transcition= Transcition::sum('send_amount');
+
+        $now = Carbon::now()->format('Y:m:d H:i:s');
+        $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
+
+        $daily_bonus_run = DailyBonusTime::latest()->first();
+        $end = Carbon::parse($daily_bonus_run->daily_run_end);
+
+        if($end->isPast()){
+            $daily_bonus_run->update([
+                'status'=> 0,
+            ]);
+        }else{
+            $daily_bonus_run->update([
+                'current_time'=> $now,
+            ]);
+        }
+
+        if(isset($daily_bonus_run)){
+            $start = Carbon::parse($daily_bonus_run->daily_run_begin);
+            $now = Carbon::parse($daily_bonus_run->current_time);
+            $end = Carbon::parse($daily_bonus_run->daily_run_end);
+
+            $time_left = $end->diffForHumans($now);
+
+        }else{
+            $now = Carbon::now()->format('Y:m:d H:i:s');
+            $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
+
+            DailyBonusTime::create([
+                'user_id'=> Auth::user()->id,
+                'daily_run_begin'=> $now,
+                'current_time'=> $now,
+                'daily_run_end'=> $today,
+                'status'=> 0,
+            ]);
+        }   
+
         return view('admin.dashboard',compact('totalUser','totalActiveUser','totalActiveWallet',
                 'totalActivEzzy_reward','totalActivGroup_bonus','level_bonus','ezzy_royality',
                 'affiliate_income','ezzy_return','addFundPending','addFundComplete','WithDrawComplete',
@@ -61,12 +100,29 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        $wallet = Wallet::where('is_approved', 1)->get();
-        foreach ($wallet as $item) {
-            $item->ezzy_return = 10 + $item->ezzy_return;
-            $item->save();
-        }
-        return back()->with('success', 'Successfully Created');
+        $daily_bonus_run = DailyBonusTime::latest()->first();
+
+        $now = Carbon::now()->format('Y:m:d H:i:s');
+        $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
+
+        if($daily_bonus_run->status == 0){
+            DailyBonusTime::create([
+                'user_id'=> Auth::user()->id,
+                'daily_run_begin'=> $now,
+                'current_time'=> $now,
+                'daily_run_end'=> $today,
+                'status'=> 1,
+            ]);
+
+            $wallet = Wallet::where('is_approved', 1)->get();
+            foreach ($wallet as $item) {
+                $item->ezzy_return = 10 + $item->ezzy_return;
+                $item->save();
+            }
+            return back()->with('success', 'ROI Successfully Send');
+        }else{
+            return back()->with('fail', 'Daily ROI already been taken.');
+        }        
     }
 
     /**

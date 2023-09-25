@@ -3,9 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\DailyBonusTime;
 use App\Models\CEO;
 use App\Models\SendMoney;
-use App\Models\IntialRank;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -107,5 +107,9 @@ class User extends Authenticatable
 
     public function project_date_times(){
         return $this->hasOne(ProjectDateTime::class);
+    }
+
+    public function daily_bonus_times(){
+        return $this->hasMany(DailyBonusTime::class);
     }
 }
