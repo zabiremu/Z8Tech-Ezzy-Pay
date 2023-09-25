@@ -122,6 +122,16 @@
 
             <a href="javascript:;" class="d-flex py-1">
                 <div class="align-self-center ps-1">
+                    <h5 class="pt-1 mb-n1 ">T-PIN</h5>
+                </div>
+                <div class="align-self-center ms-auto text-end">
+                    <h4 class="pt-1 mb-n1">{{ Auth::user()->t_pin}}</h4>
+                </div>
+            </a>
+            <div class="divider my-2 opacity-50"></div>
+
+            <a href="javascript:;" class="d-flex py-1">
+                <div class="align-self-center ps-1">
                     <h5 class="pt-1 mb-n1 color-green-dark">Package</h5>
                 </div>
                 <div class="align-self-center ms-auto text-end">

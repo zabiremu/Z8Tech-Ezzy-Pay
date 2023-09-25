@@ -14,11 +14,14 @@ class BonusSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = Carbon::now();
-        $yesterday = $now->yesterday();
+        $now = Carbon::now()->format('Y:m:d H:i:s');
+        $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
         DailyBonusTime::create([
+            'user_id'=> 1,
             'daily_run_begin'=> $now,
-            'daily_run_end'=> $yesterday,
+            'current_time'=> $now,
+            'daily_run_end'=> $today,
+            'status'=> 0,
         ]);
     }
 }
