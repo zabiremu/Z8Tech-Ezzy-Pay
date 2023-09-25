@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-
+        @include('alerts.alert')
         <div class="kt-subheader  kt-grid__item" id="kt_subheader">
             <div class="kt-container  kt-container--fluid ">
                 <div class="kt-subheader__main">
@@ -28,22 +28,12 @@
 
                         </h3>
                     </div>
-
-                    <!--<div class="kt-portlet__head-toolbar">
-         <div class="kt-portlet__head-wrapper">
-                            <a type="button" class="btn btn-primary mr-1" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=1">active</a>
-                            <a type="button" class="btn btn-primary" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=0">inactive</a>
-         </div>
-        </div>-->
                 </div>
                 <div class="kt-portlet__body">
 
                 </div>
 
                 <div class="kt-portlet__body kt-portlet__body--fit">
-
-                    {{-- <div class="kt-datatable" id="ajax_data"></div> --}}
-
                     <x-u-i.data-table>
 
                         <thead>
@@ -70,8 +60,7 @@
                                     <td>{{$item->amount }}</td>
                                     <td>
                                         @if ($item->status == 0)
-                                        <a class="btn btn-sm bg-info rounded-5" href="{{route('admin.withdraw.approved',$item->id)}}">Accpect</a>
-        
+                                        <a class="btn btn-sm bg-info rounded-5" href="{{route('admin.edit_withdraw',$item->id)}}">Edit</a>        
                                         <a class="btn btn-sm bg-danger rounded-5" href="{{route('admin.withdraw.reject',$item->id)}}">Reject</a>
                                         @endif
                                     </td>

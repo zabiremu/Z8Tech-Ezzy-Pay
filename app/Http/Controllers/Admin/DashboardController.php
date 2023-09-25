@@ -54,10 +54,8 @@ class DashboardController extends Controller
 
         $now = Carbon::now()->format('Y:m:d H:i:s');
         $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
-
         $daily_bonus_run = DailyBonusTime::latest()->first();
         $end = Carbon::parse($daily_bonus_run->daily_run_end);
-
         if($end->isPast()){
             $daily_bonus_run->update([
                 'status'=> 0,
@@ -67,18 +65,14 @@ class DashboardController extends Controller
                 'current_time'=> $now,
             ]);
         }
-
         if(isset($daily_bonus_run)){
             $start = Carbon::parse($daily_bonus_run->daily_run_begin);
             $now = Carbon::parse($daily_bonus_run->current_time);
             $end = Carbon::parse($daily_bonus_run->daily_run_end);
-
             $time_left = $end->diffForHumans($now);
-
         }else{
             $now = Carbon::now()->format('Y:m:d H:i:s');
             $today = Carbon::today()->addDay()->format('Y:m:d H:i:s');
-
             DailyBonusTime::create([
                 'user_id'=> Auth::user()->id,
                 'daily_run_begin'=> $now,

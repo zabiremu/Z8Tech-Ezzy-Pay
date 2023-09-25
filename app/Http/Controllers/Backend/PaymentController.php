@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class PaymentController extends Controller
 {
@@ -213,6 +214,16 @@ class PaymentController extends Controller
         return view('users.withdraw.withDraw');
     }
 
+    // withDrawRequestEdit
+    public function withDrawRequestEdit($id)
+    {
+        $withDraw = WithDraw::find($id);
+        if($withDraw){
+            $user = User::where('id', $withDraw->user_id)->first();
+            return view('admin.processing.edit', compact('withDraw', 'user'));
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -225,26 +236,32 @@ class PaymentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function PaymentApprovedwithDraw($id)
+    public function PaymentApprovedwithDraw(Request $request, $id)
     {
-        $withDraw= WithDraw::where('id',$id)->first();
-        $withDraw->status= 1;
-        $withDraw->save();
-       
+        $request->validate([
+            'transection_pin' => 'required',
+        ]);
 
-        $wallet= Wallet::where('user_id',$withDraw->user_id)->first();
-        $wallet->my_wallet= $wallet->my_wallet - $withDraw->amount;
-        $wallet->save();
-        return back()->with('success', 'Withdraw request successfully approved');
+        $withDraw= WithDraw::where('id',$id)->first();
+        $withDraw->transection_pin = $request->transection_pin;
+        $withDraw->status= 1;
+        $withDraw->save();    
+        return redirect()->route('admin.send.pending.withdraw')->with('success', 'Withdraw request successfully approved');
     }
 
     public function withDrawReject($id)
     {
-        $withDraw= WithDraw::where('id',$id)->first();
-        $withDraw->status= 2;
-        $withDraw->save();
+        $withDraw = WithDraw::where('id',$id)->first();
+        if($withDraw){
+            $userwallet = Wallet::where('id', $withDraw->user_id)->first();
+            $userwallet->my_wallet = (int)$userwallet->my_wallet + (int)$withDraw->amount;
+            $userwallet->save();
+
+            $withDraw->status= 2;
+            $withDraw->save();
+        }
        
-        return back()->with('errors', 'Withdraw request successfully Rejected');
+        return redirect()->back()->with('fail', 'Withdraw request successfully Rejected');
     }
 
     /**

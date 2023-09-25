@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('bank')->nullable();
             $table->string('a_c')->nullable();
             $table->string('amount')->nullable();
+            $table->string('transection_pin')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
         });

@@ -28,21 +28,12 @@
 						
 					</h3>
 				</div>
-				
-				<!--<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-wrapper">
-                        <a type="button" class="btn btn-primary mr-1" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=1">active</a>
-                        <a type="button" class="btn btn-primary" href="https://www.oceanezzy.life/admin/user_datatable?is_paid=0">inactive</a>
-					</div>
-				</div>-->
 			</div>
 			<div class="kt-portlet__body">
 				
 			</div>
 			
 			<div class="kt-portlet__body kt-portlet__body--fit">
-
-				{{-- <div class="kt-datatable" id="ajax_data"></div> --}}
 
 				<x-u-i.data-table>
 
