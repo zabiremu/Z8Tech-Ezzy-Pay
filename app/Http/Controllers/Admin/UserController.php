@@ -232,6 +232,7 @@ class UserController extends Controller
             'referLink','project_duration', 'days', 'days_left'));
     }
 
+    
     public function activate()
     {   $user_id = Auth::user()->id;
         $settings = Setting::first();
@@ -636,7 +637,7 @@ class UserController extends Controller
     
                             if ($ezzyReward) {
                                 $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
-                                $wallet->ezzy_reward =  $settings->ezzy_member + $wallet->ezzy_reward;
+                                $wallet->ezzy_reward = $settings->ezzy_member + $wallet->ezzy_reward;
                                 $wallet->save();
                             }
     
@@ -677,8 +678,7 @@ class UserController extends Controller
                             }
     
                             $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
-                            if ($ezzyLeaderId) {
-    
+                            if ($ezzyLeaderId) {    
                                 $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
                                 if (!$sponsorStepThree) {
                                     $sponsorStepThree = new InitialStepForEzzyManger();
@@ -756,8 +756,7 @@ class UserController extends Controller
                                     }
                                 }
     
-                                $ezzyDrec = User::where('id', $pendingEzzyManger->user_id)->first();
-                                // dd($ezzyExc);
+                                $ezzyDrec = User::where('id', $pendingEzzyManger->user_id)->first();                                
                                 if ($ezzyDrec) {
                                     $sponsorStepFive = IntialEzzyDirectory::where('user_id', $ezzyDrec->id)->first();
                                     // dd($sponsorStepFour);
@@ -844,9 +843,15 @@ class UserController extends Controller
                                         }
                                     }
                                 }
-    
-                                $ezzyCeo = User::where('id', $pendingEzzyCoe->user_id)->first();
-                                // dd($ezzyExc);
+
+                                if($ezzyCoe!=null)
+                                {
+                                    $ezzyCeo = User::where('id', $ezzyCoe->user_id)->first();
+                                }
+                                else{
+                                    $ezzyCeo=null;
+                                }
+
                                 if (isset($ezzyCeo)) {
                                     $sponsorStepSeven = IntialCEO::where('user_id', $ezzyCeo->id)->first();
                                     // dd($sponsorStepFour);

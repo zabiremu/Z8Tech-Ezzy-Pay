@@ -36,14 +36,15 @@ class UserSeeder extends Seeder
             'send_amount' => '2000',
             'tranx_id' => '123456789',
             'type' => 'Nagad',
-            'status' => '1',
+            'status' => '0',
         ]);
 
-        // User 1
+        // Pay User
         User::create([
             'first_name' => 'mfs',
             'last_name' => 'pay',
             'username' => 'mfspay',
+            "phone_no" => "01833080706",
             'email' => 'mfspay@gmail.com',
             'sponsor' => 'superadmin',
             't_pin' => '1234',
@@ -58,7 +59,7 @@ class UserSeeder extends Seeder
             'send_amount' => '2000',
             'tranx_id' => '123456789',
             'type' => 'Nagad',
-            'status' => '1',
+            'status' => '0',
         ]);
         Wallet::create([
             'user_id' => '1',
@@ -77,6 +78,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '1',
             'username'=> 'user1',
+            "phone_no" => "01833080706",
             'email'=> 'user1@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -97,6 +99,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '1',
             'username'=> 'user2',
+            "phone_no" => "01833080706",
             'email'=> 'user2@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -113,9 +116,10 @@ class UserSeeder extends Seeder
 
         // User 3
         User::create([
-            'first_name'=> 'user3',
+            'first_name'=> 'user',
             'last_name'=> '3',
             'username'=> 'user3',
+            "phone_no" => "01833080706",
             'email'=> 'user3@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -135,6 +139,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '4',
             'username'=> 'user4',
+            "phone_no" => "01833080706",
             'email'=> 'user4@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -155,6 +160,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '5',
             'username'=> 'user5',
+            "phone_no" => "01833080706",
             'email'=> 'user5@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -175,6 +181,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '6',
             'username'=> 'user6',
+            "phone_no" => "01833080706",
             'email'=> 'user6@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -194,6 +201,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '7',
             'username'=> 'user7',
+            "phone_no" => "01833080706",
             'email'=> 'user7@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -213,6 +221,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '8',
             'username'=> 'user8',
+            "phone_no" => "01833080706",
             'email'=> 'user8@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -232,6 +241,7 @@ class UserSeeder extends Seeder
             'first_name'=> 'user',
             'last_name'=> '9',
             'username'=> 'user9',
+            "phone_no" => "01833080706",
             'email'=> 'user9@gmail.com',
             'sponsor'=> 'mfspay',
             't_pin' => '1234',
@@ -247,22 +257,24 @@ class UserSeeder extends Seeder
         ]);
 
         // User 10
-        // User::create([
-        //     'first_name'=> 'raihan',
-        //     'last_name'=> 'emu',
-        //     'username'=> 'raihan-emu-1',
-        //     'email'=> 'raihan2@gmail.com',
-        //     'sponsor'=> 'mfspay',
-        //     'password'=> Hash::make('password'),
-        //     'is_users'=> 1,
-        // ]);
-        // SendMoney::create([
-        //     'user_id'=> '12',
-        //     'user_number'=> '01833086035',
-        //     'send_amount'=> '2000',
-        //     'tranx_id'=> '123456789',
-        //      'type'=> 'Nagad',
-        // ]);
+        User::create([
+            'first_name'=> 'User',
+            'last_name'=> '10',
+            'username'=> 'user10',
+            "phone_no" => "01833080706", 
+            'email'=> 'user10@gmail.com',
+            't_pin' => '1234',
+            'sponsor'=> 'mfspay',
+            'password'=> Hash::make('password'),
+            'is_users'=> 1,
+        ]);
+        SendMoney::create([
+            'user_id'=> '12',
+            'user_number'=> '01833086035',
+            'send_amount'=> '2000',
+            'tranx_id'=> '123456789',
+            'type'=> 'Nagad',
+        ]);
 
         // User::create([
         //     'first_name'=> 'tofail',
