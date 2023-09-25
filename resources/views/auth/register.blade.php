@@ -631,7 +631,7 @@
                                 <span>
                                     <i aria-hidden="true" class="fa fa-lock golden-text"></i>
                                 </span>
-                                <input type="text" name="password" placeholder="Password" />
+                                <input type="password" name="password" placeholder="Password" />
                             </div>
 
                             @error('password')
@@ -643,7 +643,7 @@
                                 <span>
                                     <i aria-hidden="true" class="fa fa-lock golden-text"></i>
                                 </span>
-                                <input type="text" name="retype_password" placeholder="Re-type Password" />
+                                <input type="password" name="retype_password" placeholder="Re-type Password" />
                             </div>
 
                             @error('retype_password')
