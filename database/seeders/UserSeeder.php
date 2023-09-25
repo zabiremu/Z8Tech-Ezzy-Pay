@@ -41,11 +41,11 @@ class UserSeeder extends Seeder
 
         // User 1
         User::create([
-            'first_name' => 'Jhon',
-            'last_name' => 'doe',
-            'username' => 'jhon-doe',
-            'email' => 'user@gmail.com',
-            'sponsor' => 'super-admin',
+            'first_name' => 'mfs',
+            'last_name' => 'pay',
+            'username' => 'mfspay',
+            'email' => 'mfspay@gmail.com',
+            'sponsor' => 'superadmin',
             't_pin' => '1234',
             'password' => Hash::make('password'),
             'is_users' => 1,
@@ -74,11 +74,11 @@ class UserSeeder extends Seeder
 
         // User 1
         User::create([
-            'first_name'=> 'zabir',
-            'last_name'=> 'raihan',
+            'first_name'=> 'user',
+            'last_name'=> '1',
             'username'=> 'user1',
-            'email'=> 'zabir@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user1@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -89,16 +89,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 2
         User::create([
-            'first_name'=> 'emu',
+            'first_name'=> 'user',
             'last_name'=> '1',
             'username'=> 'user2',
-            'email'=> 'emu@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user2@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -108,16 +108,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 3
         User::create([
-            'first_name'=> 'raihan',
-            'last_name'=> 'emu',
+            'first_name'=> 'user3',
+            'last_name'=> '3',
             'username'=> 'user3',
-            'email'=> 'raihan@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user3@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -127,16 +127,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 4
         User::create([
-            'first_name'=> 'etu',
-            'last_name'=> 'emu',
+            'first_name'=> 'user',
+            'last_name'=> '4',
             'username'=> 'user4',
-            'email'=> 'etu@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user4@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -147,16 +147,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 5
         User::create([
-            'first_name'=> 'rakib',
-            'last_name'=> 'raihan',
+            'first_name'=> 'user',
+            'last_name'=> '5',
             'username'=> 'user5',
-            'email'=> 'rakib@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user5@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -167,16 +167,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 6
         User::create([
-            'first_name'=> 'shawkat',
-            'last_name'=> 'hossain',
+            'first_name'=> 'user',
+            'last_name'=> '6',
             'username'=> 'user6',
-            'email'=> 'shawkat@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user6@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -186,16 +186,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 7
         User::create([
-            'first_name'=> 'fahmid',
-            'last_name'=> 'mz',
+            'first_name'=> 'user',
+            'last_name'=> '7',
             'username'=> 'user7',
-            'email'=> 'fahmid@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user7@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -205,16 +205,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 8
         User::create([
-            'first_name'=> 'fahim',
-            'last_name'=> 'mz',
+            'first_name'=> 'user',
+            'last_name'=> '8',
             'username'=> 'user8',
-            'email'=> 'fahim@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user8@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -224,16 +224,16 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User9
         User::create([
-            'first_name'=> 'fahim',
-            'last_name'=> 'emu',
+            'first_name'=> 'user',
+            'last_name'=> '9',
             'username'=> 'user9',
-            'email'=> 'fahimemu@gmail.com',
-            'sponsor'=> 'jhon-doe',
+            'email'=> 'user9@gmail.com',
+            'sponsor'=> 'mfspay',
             't_pin' => '1234',
             'password'=> Hash::make('password'),
             'is_users'=> 1,
@@ -243,7 +243,7 @@ class UserSeeder extends Seeder
             'user_number'=> '01833086035',
             'send_amount'=> '2000',
             'tranx_id'=> '123456789',
-            'type'=> 'Nogod',
+            'type'=> 'Nagad',
         ]);
 
         // User 10
@@ -252,7 +252,7 @@ class UserSeeder extends Seeder
         //     'last_name'=> 'emu',
         //     'username'=> 'raihan-emu-1',
         //     'email'=> 'raihan2@gmail.com',
-        //     'sponsor'=> 'jhon-doe',
+        //     'sponsor'=> 'mfspay',
         //     'password'=> Hash::make('password'),
         //     'is_users'=> 1,
         // ]);
@@ -261,7 +261,7 @@ class UserSeeder extends Seeder
         //     'user_number'=> '01833086035',
         //     'send_amount'=> '2000',
         //     'tranx_id'=> '123456789',
-        //      'type'=> 'Nogod',
+        //      'type'=> 'Nagad',
         // ]);
 
         // User::create([

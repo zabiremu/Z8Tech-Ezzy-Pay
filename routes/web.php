@@ -137,7 +137,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/user-t-pin',[UserSettingsController::class,"userChangeTPinStore"])->name('user_change_tpin');
 
             Route::get('/commissions/affiliate',[UsersCommissionController::class,'affiliate'])->name('commissions.index');
-            Route::get('/commissions/levelIncome',[UsersCommissionController::class,'affiliate'])->name('commissions.levelIncome');
+            Route::get('/commissions/levelIncome',[UsersCommissionController::class,'levelIncome'])->name('commissions.levelIncome');
             Route::get('/commissions/ezzyReturn',[UsersCommissionController::class,'ezzyReturn'])->name('commissions.ezzyReturn');
             Route::get('/commissions/ezzyReward',[UsersCommissionController::class,'ezzyReward'])->name('commissions.ezzyReward');
             Route::get('/commissions/ezzy-royality',[UsersCommissionController::class,'ezzyRoyality'])->name('commissions.ezzy_royality');
