@@ -116,6 +116,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/send/history', [HistoryController::class, 'sendHistory'])->name('send_history');
             Route::get('/received/history', [HistoryController::class, 'receivedHistory'])->name('received_history');
             Route::get('/converted/history', [HistoryController::class, 'convertedHistory'])->name('converted_history');
+            Route::get('/received/from-admin', [HistoryController::class, 'receiveFromAdmin'])->name('receiveFromAdmin');
             
             Route::get('/withdraw', [PaymentController::class, 'withDraw'])->name('payment.withdraw');
             Route::post('/withdraw/ammount', [PaymentController::class, 'withDrawAmmount'])->name('withDraw.ammount');
