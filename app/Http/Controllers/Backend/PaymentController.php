@@ -32,6 +32,7 @@ class PaymentController extends Controller
             $convert->to= 'Ezzy Wallet';
             $convert->Amount= $wallet->booking_wallet;
             $convert->save();
+            
             $wallet->my_wallet =  $wallet->my_wallet + $wallet->booking_wallet;
             $wallet->booking_wallet = $wallet->booking_wallet - $wallet->booking_wallet;
             $wallet->save();
