@@ -31,7 +31,7 @@
                 <div class="form-custom form-label form-icon mb-3">
                     <i class="bi font-14"></i>
                     <input type="number" class="form-control rounded-xs" name="phone_number" id="transfer_send_amount"
-                        placeholder=" Phone number " required  value="{{$user->phone_no}}" />
+                        placeholder=" Phone number " required  value="{{Auth::user()->phone_no}}" />
                     <label for="transfer_send_amount" class="color-theme"> Phone number </label>
                     @error('phone_number')
                         <span class="text-danger">{{ $message }}</span>
