@@ -655,21 +655,35 @@ class UserController extends Controller
                                 $sponsorStepTwo->save();
                             }
 
-                            $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();    
-                            if ($pendingEzzyLeader->status == 9) {
-                                $ezzLeader = new EzzyLeader();
-                                $ezzLeader->user_id = $pendingEzzyLeader->user_id;
-                                $ezzLeader->save();
-    
-                                $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
-                                $ezzyReward->user_id = $ezzyMember->user_id;
-                                $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
-                                $ezzyReward->save();
-    
-                                $userrank= User::where('id',$ezzLeader->user_id)->first();
-                                $userrank->rank= "MFS Leader";
-                                $userrank->save();
+                            $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();
+                            
+                            $master_user = User::where('id', $pendingEzzyLeader->user_id)->first();
+                            $member_user = User::where('sponsor', $master_user->username)->where('rank', "MFS Member")->count();                         
+                            
+                            if($master_user == 4){
+                                $member_user = User::where('sponsor', $master_user->username)->get(); 
+                                $child_member_user = User::where('sponsor', $member_user->username)->get();
+                                foreach ($member_user as $item) {
+                                    $child_m_member_user = User::where('sponsor', $item->username)->get();
+                                    if ($child_m_member_user->rank == "MFS Member") {
+                                        if($child_member_user == 5){
+                                            $ezzLeader = new EzzyLeader();
+                                            $ezzLeader->user_id = $pendingEzzyLeader->user_id;
+                                            $ezzLeader->save();   
+        
+                                            $userrank= User::where('id',$ezzLeader->user_id)->first();
+                                            $userrank->rank= "MFS Leader";
+                                            $userrank->save();
+
+                                            $ezzyReward = EzzyReward::where('user_id', $master_user->id)->first();
+                                            $ezzyReward->user_id = $master_user->id;
+                                            $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
+                                            $ezzyReward->save();
+                                        }
+                                    }                                    
+                                }                                 
                             }
+
                             if ($pendingEzzyLeader->status >= 9) {
                                 $wallet = Wallet::where('user_id', $ezzyMember->user_id)->first();
                                 $wallet->ezzy_reward =(int)$settings->ezzy_leader + (int)$wallet->ezzy_reward;
@@ -677,8 +691,8 @@ class UserController extends Controller
                                 $wallet->save();
                             }
     
-                            $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
 
+                            $ezzyLeaderId = User::where('id', $pendingEzzyLeader->user_id)->first();
                             if ($ezzyLeaderId) {    
                                 $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
                                 if (!$sponsorStepThree) {
