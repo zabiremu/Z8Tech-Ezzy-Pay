@@ -49,8 +49,6 @@ Route::get('/linkstorage', function () {
     return "success";
 });
 
-
-
 Route::view('/', 'auth.login');
 Auth::routes();
 Route::get('/registration/{username}', [UserController::class, 'registration'])->name('users.refer.registration');

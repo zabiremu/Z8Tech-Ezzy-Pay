@@ -700,30 +700,47 @@ class UserController extends Controller
                             }
 
                             $pendingEzzyLeader = InitialStepForEzzyLeader::where('user_id', $sponsorStepTwo->user_id)->first();
-
                             $master_user = User::where('id', $pendingEzzyLeader->user_id)->first();
-                            //dd($master_user);
                             $parentEzzyMemberID = User::where('username', $master_user->sponsor)->first();
-
                             $parentEzzyMember = User::where('username', $parentEzzyMemberID->sponsor)->first();
-                            // dd($parentEzzyMember);
 
-                            $member_user = User::where('sponsor', $parentEzzyMember->username)
-                                ->where('rank', 'MFS Member')
-                                ->count();
-                            $member_username = User::where('sponsor', $parentEzzyMember->username)
-                                ->where('rank', 'MFS Member')
-                                ->get();
-                            //dd($member_username);
+                            if($parentEzzyMember!=null)
+                            {
+                                $member_user = User::where('sponsor', $parentEzzyMember->username)->where('rank', 'MFS Member')->count();
+                            }
+                            else{
+                                $member_user=null;
+                            }
+
+                            if($member_user!=null)
+                            {
+                                $member_username = User::where('sponsor', $parentEzzyMember->username)->where('rank', 'MFS Member')->get();
+                            }
+                            else{
+                                $member_username=null;
+                            }
 
                             if ($member_user >= 4) {
                                 $mfsMemberCount = 0;
                                 foreach ($member_username as $item) {
-                                    $child_member_user = User::where('sponsor', $item->username)
-                                        ->where('rank', 'MFS Member')
-                                        ->count();
-                                    if ($child_member_user > 0) {
-                                        $mfsMemberCount = $child_member_user + $mfsMemberCount;
+                                    $child_member_user = User::where('sponsor', $item->username)->where('rank', 'MFS Member')->get();
+
+                                    $total_child_member_user = User::where('sponsor', $item->username)->where('rank', 'MFS Member')->count();
+                                    
+                                    if ($total_child_member_user > 0) {
+                                        $mfsMemberCount = $total_child_member_user + $mfsMemberCount;
+                                    }
+
+                                    if($child_member_user!=Null){
+                                        foreach($child_member_user as $m_item){
+                                            $deep_child_member_user = User::where('sponsor', $m_item->username)->where('rank', 'MFS Member')->count();
+                                            
+                                            if ($deep_child_member_user > 0) {
+                                                $mfsMemberCount = $deep_child_member_user + $mfsMemberCount;
+                                            }
+                                        }
+                                    }else{
+                                        $child_member_user=Null;
                                     }
                                 }
                                 if ($mfsMemberCount == 5) {
@@ -731,17 +748,19 @@ class UserController extends Controller
                                     $ezzLeader->user_id = $parentEzzyMember->id;
                                     $ezzLeader->save();
 
-                                    $userrank = User::where('id', $ezzLeader->user_id)->first();
-                                    $userrank->rank = 'MFS Leader';
-                                    $userrank->save();
+                                    $userrank = User::where('id', $parentEzzyMember->user_id)->first();
+                                    if($userrank->rank == 'MFS Member'){                                        
+                                        $ezzyReward = EzzyReward::where('user_id', $parentEzzyMember->id)->first();
+                                        $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
+                                        $ezzyReward->save();
+    
+                                        $wallet = Wallet::where('user_id', $parentEzzyMember->id)->first();
+                                        $wallet->ezzy_reward = (int) $settings->ezzy_member + (int) $wallet->ezzy_reward;
+                                        $wallet->save();
 
-                                    $ezzyReward = EzzyReward::where('user_id', $parentEzzyMember->id)->first();
-                                    $ezzyReward->ezzLeader = $settings->ezzy_leader + $ezzyReward->ezzLeader;
-                                    $ezzyReward->save();
-
-                                    $wallet = Wallet::where('user_id', $parentEzzyMember->id)->first();
-                                    $wallet->ezzy_reward = (int) $settings->ezzy_member + (int) $wallet->ezzy_reward;
-                                    $wallet->save();
+                                        $userrank->rank = 'MFS Leader';
+                                        $userrank->save();
+                                    }
                                 }
 
                                 if ($mfsMemberCount >= 5) {
@@ -751,8 +770,15 @@ class UserController extends Controller
                                 }
                             }
 
-                            $ezzyLeaderId = User::where('id', $parentEzzyMember->id)->first();
-                            //dd($ezzyLeaderId);
+                            
+                            if($parentEzzyMember!=null)
+                            {
+                                $ezzyLeaderId = User::where('id', $parentEzzyMember->id)->first();
+                            }
+                            else{
+                                $ezzyLeaderId=null;
+                            }
+                            
                             if ($ezzyLeaderId) {
                                 $sponsorStepThree = InitialStepForEzzyManger::where('user_id', $ezzyLeaderId->id)->first();
                                 if (!$sponsorStepThree) {
@@ -768,14 +794,20 @@ class UserController extends Controller
 
                                 $pendingEzzyManger = InitialStepForEzzyManger::where('user_id', $sponsorStepThree->user_id)->first();
 
-
-                                $ParentEzzyLeader = User::where('sponsor', $ezzyLeaderId->username)
+                                if($ezzyLeaderId!=null)
+                                {
+                                    $ParentEzzyLeader = User::where('sponsor', $ezzyLeaderId->username)
                                     ->where('rank', 'MFS Leader')
                                     ->get();
 
-                                $ParentEzzyLeaderCount = User::where('sponsor', $ezzyLeaderId->username)
+                                    $ParentEzzyLeaderCount = User::where('sponsor', $ezzyLeaderId->username)
                                     ->where('rank', 'MFS Leader')
                                     ->count();
+                                }
+                                else{
+                                    $ParentEzzyLeader=null;
+                                    $ParentEzzyLeaderCount=0;
+                                }                                                            
 
                                 if ($ParentEzzyLeaderCount >= 3) {
                                     $mfsLeaderCount = 0;
@@ -787,24 +819,26 @@ class UserController extends Controller
                                             $mfsLeaderCount = $child_leader_user + $mfsLeaderCount;
                                         }
                                     }
-                                    // dd($mfsLeaderCount);
-                                    if ($mfsLeaderCount >= 4) {
+                                    if ($mfsLeaderCount == 4) {
                                         $ezzyManger = new EzzyManager();
                                         $ezzyManger->user_id = $ezzyLeaderId->id;
                                         $ezzyManger->save();
 
-                                        $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
-                                        $ezzyReward->user_id = $ezzyLeaderId->id;
-                                        $ezzyReward->ezzyManger = $settings->manager + $ezzyReward->ezzyManger;
-                                        $ezzyReward->save();
-
                                         $userrank = User::where('id', $ezzyManger->user_id)->first();
-                                        $userrank->rank = 'MFS Manager';
-                                        $userrank->save();
+                                        if($userrank->rank == 'MFS Leader'){                                            
+                                            $ezzyReward = EzzyReward::where('user_id', $ezzyMember->user_id)->first();
+                                            $ezzyReward->user_id = $ezzyLeaderId->id;
+                                            $ezzyReward->ezzyManger = $settings->manager + $ezzyReward->ezzyManger;
+                                            $ezzyReward->save();
+    
+                                            $userrank->rank = 'MFS Manager';
+                                            $userrank->save();
+    
+                                            $wallet = Wallet::where('user_id', $ezzyLeaderId->id)->first();
+                                            $wallet->ezzy_reward = (int) $settings->manager + (int) $wallet->ezzy_reward;
+                                            $wallet->save();
+                                        }
 
-                                        $wallet = Wallet::where('user_id', $ezzyLeaderId->id)->first();
-                                        $wallet->ezzy_reward = (int) $settings->manager + (int) $wallet->ezzy_reward;
-                                        $wallet->save();
                                     }
     
                                     if ($mfsLeaderCount >= 4) {
@@ -815,9 +849,14 @@ class UserController extends Controller
                                 }
                                 // ekon
 
+                                if($ezzyLeaderId!=null)
+                                {
+                                    $ezzyExc = User::where('id', $ezzyLeaderId->id)->first();
+                                }
+                                else{
+                                    $ezzyExc=null;
+                                }
 
-                                $ezzyExc = User::where('id', $ezzyLeaderId->id)->first();
-                                //dd($ezzyExc);
                                 if ($ezzyExc) {
                                     $sponsorStepFour = InitailStepForEzzyExecutive::where('user_id', $ezzyExc->id)->first();
                                     if (!$sponsorStepFour) {
@@ -832,14 +871,20 @@ class UserController extends Controller
                                     }
                                     $pendingEzzyExc = InitailStepForEzzyExecutive::where('user_id', $ezzyExc->id)->first();
 
-                                    $ParentEzzyExcCount = User::where('sponsor', $ezzyExc->username)
-                                        ->where('rank', 'MFS Manager')
-                                        ->count();
-                                    $ParentEzzyExc = User::where('sponsor', $ezzyExc->username)
-                                        ->where('rank', 'MFS Manager')
-                                        ->get();
-                                    //dd($ParentEzzyExc);
-
+                                    if($ezzyExc!=null)
+                                    {
+                                        $ParentEzzyExcCount = User::where('sponsor', $ezzyExc->username)
+                                            ->where('rank', 'MFS Manager')
+                                            ->count();
+                                        $ParentEzzyExc = User::where('sponsor', $ezzyExc->username)
+                                            ->where('rank', 'MFS Manager')
+                                            ->get();
+                                    }
+                                    else{
+                                        $ParentEzzyExcCount=0;
+                                        $ParentEzzyExc = null;
+                                    }
+                                    
                                     if ($ParentEzzyExcCount >= 3) {
                                         $mfsExecutiveCount = 0;
                                         foreach ($ParentEzzyExc as $item) {
@@ -856,18 +901,20 @@ class UserController extends Controller
                                             $ezzyManger->user_id = $ezzyExc->id;
                                             $ezzyManger->save();
 
-                                            $ezzyReward = EzzyReward::where('user_id', $ezzyExc->id)->first();
-                                            $ezzyReward->user_id = $ezzyExc->id;
-                                            $ezzyReward->ezzyexc = $settings->executive + $ezzyReward->ezzyexc;
-                                            $ezzyReward->save();
-
                                             $userrank = User::where('id', $ezzyManger->user_id)->first();
-                                            $userrank->rank = 'MFS Executive';
-                                            $userrank->save();
-
-                                            $wallet = Wallet::where('user_id', $ezzyExc->id)->first();
-                                            $wallet->ezzy_reward = (int) $settings->executive + (int) $wallet->ezzy_reward;
-                                            $wallet->save();
+                                            if($userrank->rank == 'MFS Manager'){
+                                                $ezzyReward = EzzyReward::where('user_id', $ezzyExc->id)->first();
+                                                $ezzyReward->user_id = $ezzyExc->id;
+                                                $ezzyReward->ezzyexc = $settings->executive + $ezzyReward->ezzyexc;
+                                                $ezzyReward->save();
+    
+                                                $userrank->rank = 'MFS Executive';
+                                                $userrank->save();
+    
+                                                $wallet = Wallet::where('user_id', $ezzyExc->id)->first();
+                                                $wallet->ezzy_reward = (int) $settings->executive + (int) $wallet->ezzy_reward;
+                                                $wallet->save();
+                                            }
                                         }
         
                                         if ($mfsExecutiveCount >= 2) {
@@ -875,13 +922,17 @@ class UserController extends Controller
                                             $wallet->group_bonus = 8 + $wallet->group_bonus;
                                             $wallet->save();
                                         }
-                                    }
-
-    
+                                    }    
                                 }
 
-                                $ezzyDrec = User::where('id', $ezzyExc->id)->first();
-                                //dd($ezzyDrec);
+                                if($ezzyExc!=null)
+                                {
+                                    $ezzyDrec = User::where('id', $ezzyExc->id)->first();
+                                }
+                                else{
+                                    $ezzyDrec=null;
+                                }
+                                
                                 if ($ezzyDrec) {
                                     $sponsorStepFive = IntialEzzyDirectory::where('user_id', $ezzyDrec->id)->first();
                                     if (!$sponsorStepFive) {
@@ -896,13 +947,20 @@ class UserController extends Controller
                                     }
                                     $pendingEzzyDrec = InitailStepForEzzyExecutive::where('user_id', $ezzyDrec->id)->first();
 
-                                    $ParentEzzyDrecCount = User::where('sponsor', $ezzyDrec->username)
-                                        ->where('rank', 'MFS Executive')
-                                        ->count();
-                                    $ParentEzzyDrec = User::where('sponsor', $ezzyDrec->username)
-                                        ->where('rank', 'MFS Executive')
-                                        ->get();
-
+                                    if($ezzyDrec!=null)
+                                    {
+                                        $ParentEzzyDrecCount = User::where('sponsor', $ezzyDrec->username)
+                                            ->where('rank', 'MFS Executive')
+                                            ->count();
+                                        $ParentEzzyDrec = User::where('sponsor', $ezzyDrec->username)
+                                            ->where('rank', 'MFS Executive')
+                                            ->get();
+                                    }
+                                    else{
+                                        $ParentEzzyDrecCount=0;
+                                        $ParentEzzyDrec=null;
+                                    }
+                                    
                                     if ($ParentEzzyDrecCount == 3) {
                                         $mfsDrecCount = 0;
                                         foreach ($ParentEzzyDrec as $item) {
@@ -913,24 +971,26 @@ class UserController extends Controller
                                                 $mfsDrecCount = $child_drec_user + $mfsDrecCount;
                                             }
                                         }
-                                        // dd($mfsExecutiveCount);
                                         if ($mfsDrecCount == 0) {
                                             $ezzyManger = new EzzyDirectory();
                                             $ezzyManger->user_id = $ezzyDrec->id;
                                             $ezzyManger->save();
 
-                                            $ezzyReward = EzzyReward::where('user_id', $ezzyDrec->id)->first();
-                                            $ezzyReward->user_id = $ezzyDrec->id;
-                                            $ezzyReward->ezzyDrec = $settings->director + $ezzyReward->ezzyDrec;
-                                            $ezzyReward->save();
-
                                             $userrank = User::where('id', $ezzyManger->user_id)->first();
-                                            $userrank->rank = 'MFS Director';
-                                            $userrank->save();
+                                            if($userrank->rank == 'MFS Executive'){
+                                                $ezzyReward = EzzyReward::where('user_id', $ezzyDrec->id)->first();
+                                                $ezzyReward->user_id = $ezzyDrec->id;
+                                                $ezzyReward->ezzyDrec = $settings->director + $ezzyReward->ezzyDrec;
+                                                $ezzyReward->save();
+    
+                                                $userrank->rank = 'MFS Director';
+                                                $userrank->save();
+    
+                                                $wallet = Wallet::where('user_id', $ezzyDrec->id)->first();
+                                                $wallet->ezzy_reward = (int) $settings->director + (int) $wallet->ezzy_reward;
+                                                $wallet->save();
+                                            }
 
-                                            $wallet = Wallet::where('user_id', $ezzyDrec->id)->first();
-                                            $wallet->ezzy_reward = (int) $settings->director + (int) $wallet->ezzy_reward;
-                                            $wallet->save();
                                         }
         
                                         if ($mfsDrecCount >= 0) {
@@ -942,7 +1002,14 @@ class UserController extends Controller
 
                                 }
 
-                                $ezzyCoe = User::where('id', $ezzyDrec->id)->first();
+                                if($ezzyDrec!=null)
+                                {
+                                    $ezzyCoe = User::where('id', $ezzyDrec->id)->first();
+                                }
+                                else{
+                                    $ezzyCoe=null;
+                                }
+
                                 if (isset($ezzyCoe)) {
                                     $sponsorStepSix = IntialCOE::where('user_id', $ezzyCoe->id)->first();
                                     if (!$sponsorStepSix) {
@@ -957,12 +1024,19 @@ class UserController extends Controller
                                     }
                                     $pendingEzzyCoe = IntialCOE::where('user_id', $ezzyCoe->id)->first();
 
-                                    $ParentEzzyCoeCount = User::where('sponsor', $ezzyCoe->username)
-                                        ->where('rank', 'MFS Director')
-                                        ->count();
-                                    $ParentEzzyCoe = User::where('sponsor', $ezzyCoe->username)
-                                        ->where('rank', 'MFS Director')
-                                        ->get();
+                                    if($ezzyCoe!=null)
+                                    {
+                                        $ParentEzzyCoeCount = User::where('sponsor', $ezzyCoe->username)
+                                            ->where('rank', 'MFS Director')
+                                            ->count();
+                                        $ParentEzzyCoe = User::where('sponsor', $ezzyCoe->username)
+                                            ->where('rank', 'MFS Director')
+                                            ->get();
+                                    }
+                                    else{
+                                        $ParentEzzyCoeCount=0;
+                                        $ParentEzzyCoe=null;
+                                    }                                    
 
                                     if ($ParentEzzyCoeCount == 3) {
                                         $mfsCoeCount = 0;
@@ -974,24 +1048,25 @@ class UserController extends Controller
                                                 $mfsCoeCount = $child_coe_user + $mfsCoeCount;
                                             }
                                         }
-                                        // dd($mfsExecutiveCount);
                                         if ($mfsCoeCount == 0) {
                                             $ezzyManger = new COE();
                                             $ezzyManger->user_id = $ezzyCoe->id;
                                             $ezzyManger->save();
 
-                                            $ezzyReward = EzzyReward::where('user_id', $ezzyCoe->id)->first();
-                                            $ezzyReward->user_id = $ezzyCoe->id;
-                                            $ezzyReward->coe = $settings->COE + $ezzyReward->coe;
-                                            $ezzyReward->save();
+                                            $userrank = User::where('id', $ezzyManger->user_id)->first();                                            
+                                            if($userrank->rank == 'MFS Director'){
+                                                $ezzyReward = EzzyReward::where('user_id', $ezzyCoe->id)->first();
+                                                $ezzyReward->user_id = $ezzyCoe->id;
+                                                $ezzyReward->coe = $settings->COE + $ezzyReward->coe;
+                                                $ezzyReward->save();
 
-                                            $userrank = User::where('id', $ezzyManger->user_id)->first();
-                                            $userrank->rank = 'MFS COE';
-                                            $userrank->save();
-
-                                            $wallet = Wallet::where('user_id', $ezzyCoe->id)->first();
-                                            $wallet->ezzy_reward = (int) $settings->COE + (int) $wallet->ezzy_reward;
-                                            $wallet->save();
+                                                $userrank->rank = 'MFS COE';
+                                                $userrank->save();
+    
+                                                $wallet = Wallet::where('user_id', $ezzyCoe->id)->first();
+                                                $wallet->ezzy_reward = (int) $settings->COE + (int) $wallet->ezzy_reward;
+                                                $wallet->save();
+                                            }
                                         }
         
                                         if ($mfsCoeCount >= 0) {
@@ -1002,7 +1077,14 @@ class UserController extends Controller
                                     }
                                 }
 
-                                $ezzyCeo = User::where('id', $ezzyCoe->id)->first();
+                                if($ezzyCoe!=null)
+                                {
+                                    $ezzyCeo = User::where('id', $ezzyCoe->id)->first();
+                                }
+                                else{
+                                    $ezzyCeo=null;
+                                }
+
                                 if (isset($ezzyCoe)) {
                                     $sponsorStepSix = IntialCOE::where('user_id', $ezzyCoe->id)->first();
                                     if (!$sponsorStepSix) {
@@ -1017,12 +1099,19 @@ class UserController extends Controller
                                     }
                                     $pendingEzzyCoe = IntialCOE::where('user_id', $ezzyCeo->id)->first();
 
-                                    $ParentEzzyCeoCount = User::where('sponsor', $ezzyCeo->username)
-                                        ->where('rank', 'MFS COE')
-                                        ->count();
-                                    $ParentEzzyCeo = User::where('sponsor', $ezzyCeo->username)
-                                        ->where('rank', 'MFS COE')
-                                        ->get();
+                                    if($ezzyCeo!=null)
+                                    {
+                                        $ParentEzzyCeoCount = User::where('sponsor', $ezzyCeo->username)
+                                            ->where('rank', 'MFS COE')
+                                            ->count();
+                                        $ParentEzzyCeo = User::where('sponsor', $ezzyCeo->username)
+                                            ->where('rank', 'MFS COE')
+                                            ->get();
+                                    }
+                                    else{
+                                        $ParentEzzyCeoCount=0;
+                                        $ParentEzzyCeo=null;
+                                    }
 
                                     if ($ParentEzzyCeoCount == 3) {
                                         $mfsCeoCount = 0;
@@ -1039,18 +1128,21 @@ class UserController extends Controller
                                             $ezzyManger->user_id = $ezzyCeo->id;
                                             $ezzyManger->save();
 
-                                            $ezzyReward = EzzyReward::where('user_id', $ezzyCeo->id)->first();
-                                            $ezzyReward->user_id = $ezzyCeo->id;
-                                            $ezzyReward->ceo = $settings->CEO + $ezzyReward->ceo;
-                                            $ezzyReward->save();
-
                                             $userrank = User::where('id', $ezzyManger->user_id)->first();
-                                            $userrank->rank = 'MFS CEO';
-                                            $userrank->save();
 
-                                            $wallet = Wallet::where('user_id', $ezzyCeo->id)->first();
-                                            $wallet->ezzy_reward = (int) $settings->CEO + (int) $wallet->ezzy_reward;
-                                            $wallet->save();
+                                            if($userrank->rank == 'MFS COE'){
+                                                $ezzyReward = EzzyReward::where('user_id', $ezzyCeo->id)->first();
+                                                $ezzyReward->user_id = $ezzyCeo->id;
+                                                $ezzyReward->ceo = $settings->CEO + $ezzyReward->ceo;
+                                                $ezzyReward->save();
+
+                                                $wallet = Wallet::where('user_id', $ezzyCeo->id)->first();
+                                                $wallet->ezzy_reward = (int) $settings->CEO + (int) $wallet->ezzy_reward;
+                                                $wallet->save();
+
+                                                $userrank->rank = 'MFS CEO';
+                                                $userrank->save();    
+                                            }
                                         }
         
                                         if ($mfsCeoCount >= 0) {
